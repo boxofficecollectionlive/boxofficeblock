@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-12T07:22:08.689Z",
+  "lastUpdated": "2026-11-12T07:41:38.248Z",
   "marketStatus": {
     "status": "OPEN",
     "volatility": "EXTREME_BULLISH",
@@ -9,7 +9,7 @@
     "topGainer": "RAMAYANA (2026)",
     "marketDominance": "76.4% (Ramayana)",
     "autoRefreshIntervalSec": 30,
-    "lastSync": "12:51:57 pm"
+    "lastSync": "01:11:37 pm"
   },
   "tickerFeed": [
     {
@@ -352,7 +352,7 @@
       "sentiment": "BEARISH",
       "orderBlock": "Screen Compression",
       "verdict": "Heavy Drop",
-      "dayNet": "₹1.45 Cr",
+      "dayNet": "₹54.00 Cr*",
       "totalNet": "₹12.85 Cr",
       "worldwide": "₹15.20 Cr",
       "baseNetNum": 12.85,
@@ -577,7 +577,7 @@
     }
   ],
   "verificationReport": {
-    "lastVerifiedIST": "2026-11-12 12:51:57 pm IST",
+    "lastVerifiedIST": "2026-11-12 01:11:37 pm IST",
     "schedule": "Twice Daily (12:00 PM IST & 09:30 PM IST)",
     "sourcesChecked": [
       {
@@ -585,19 +585,19 @@
         "domain": "sacnilk.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 185
+        "headlineCount": 183
       },
       {
         "name": "Bollywood Hungama",
         "domain": "bollywoodhungama.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 161
+        "headlineCount": 157
       },
       {
         "name": "Box Office India",
         "domain": "boxofficeindia.com",
-        "directStatus": 0,
+        "directStatus": 403,
         "rssStatus": 200,
         "headlineCount": 11
       },
@@ -606,17 +606,17 @@
         "domain": "koimoi.com",
         "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 130
+        "headlineCount": 127
       },
       {
         "name": "Pinkvilla",
         "domain": "pinkvilla.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 124
+        "headlineCount": 126
       }
     ],
-    "totalSignalsCollected": 611,
+    "totalSignalsCollected": 604,
     "verifiedUpdates": [
       {
         "movie": "Ramayana (2026)",
@@ -642,10 +642,10 @@
           "Sacnilk",
           "Koimoi"
         ],
-        "consensusApplied": false,
+        "consensusApplied": true,
         "sampleHeadlines": [
-          "Pinkvilla: Scene India Box Office Collections: Suriya starrer collects Rs 13 crore on 1st Tuesday,...",
-          "Pinkvilla: Scene India Box Office Collections: Suriya's cop comedy drama collects Rs 24 crore on 1..."
+          "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1st Wednesday, to close first week at Rs 125 crore mark",
+          "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1..."
         ]
       },
       {
@@ -657,8 +657,8 @@
         ],
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 7 Updated 36 min ago · November 12, 2026 at 12:06 PM IST",
-          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 6 Updated 12 hrs ago · November 12, 2026 at 12:06 AM IST"
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 7 Updated 6 min ago · November 12, 2026 at 1:03 PM IST",
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 6 Updated 13 hrs ago · November 12, 2026 at 12:06 AM IST"
         ]
       },
       {
@@ -672,7 +672,7 @@
         "consensusApplied": false,
         "sampleHeadlines": [
           "Pinkvilla: Aadarsha Kutumbam House No. 47 (AK 47) India Box Office Collections: Venkatesh starrer ...",
-          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 14 Updated 36 min ago · November 12, 2026 at 12:06 PM IST"
+          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 14 Updated 6 min ago · November 12, 2026 at 1:03 PM IST"
         ]
       },
       {
@@ -698,7 +698,7 @@
         "consensusApplied": false,
         "sampleHeadlines": [
           "Pinkvilla: Jailer 2 Box Office Collections: Rajinikanth starrer collects Rs 39 crore in Week 3, gr...",
-          "Sacnilk: Jailer 2 Box Office Collection Day 29 Updated 36 min ago · November 12, 2026 at 12:06 PM IST"
+          "Sacnilk: Jailer 2 Box Office Collection Day 29 Updated 6 min ago · November 12, 2026 at 1:03 PM IST"
         ]
       },
       {
