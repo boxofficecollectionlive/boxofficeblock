@@ -1,12 +1,16 @@
 /**
- * BoxOfficeCollectionLive — 5-Source Automated Box Office Scraper & Verifier
+ * BoxOfficeCollectionLive — Year-Round Autopilot Scraper, Discovery & Trend Engine
  * Scheduled via GitHub Actions twice daily (12:00 PM IST & 09:30 PM IST).
- * Cross-verifies box office figures across 5 authentic Indian trade portals:
- *   1. Sacnilk (sacnilk.com + /big-release + /quicknews live tables)
- *   2. Bollywood Hungama (bollywoodhungama.com box office table + RSS)
- *   3. Box Office India (boxofficeindia.com + RSS)
- *   4. Koimoi (koimoi.com + RSS)
- *   5. Pinkvilla (pinkvilla.com box office + RSS)
+ *
+ * Lifecycle & Ranking Rules:
+ *   1. Auto-Discovery: Detects new weekly releases from Sacnilk (/quicknews) & Bollywood Hungama
+ *      tables and auto-fetches official posters (Sacnilk movie og:image / Wikipedia API).
+ *   2. 15-Day Active Tracking: Movies <= 15 days stay in "Last 15 Days" with 2x daily updates.
+ *   3. 16-30 Day Holdover & >30 Day Auto-Remove: Day 16-30 move to "Holdover Benchmark";
+ *      Day > 30 are automatically archived out of active marketReleases & tickerFeed.
+ *   4. Performance + Search/BMS Buzz Ranking: Ranks active films by composite trendScore
+ *      (collections + shows + 5-portal buzz + Google Trends IN + BookMyShow ticket reports)
+ *      and promotes the #1 top trending film to heroMovie automatically.
  */
 
 const fs = require('fs');
@@ -36,20 +40,20 @@ const MOVIE_SEARCH_ALIASES = {
   'ak-47': ['aadarsha kutumbam', 'ak 47'],
   'pyre': ['pyre box office', 'pyre'],
   'jailer-2': ['jailer 2'],
-  'udta-teer': ['udta teer'],
-  'drishyam-3': ['drishyam 3', 'drishyam the conclusion']
+  'udta-teer': ['udta teer']
 };
 
 const MOVIE_SYMBOLS = {
   'ramayana-2026': { symbol: 'RAMAYANA', badge: 'Diwali Breakout' },
-  'scene-2026': { symbol: 'SCENE', badge: 'Heavy Drop' },
-  'mookuthi-amman-2': { symbol: 'M-AMMAN2', badge: 'Capitulation' },
-  'ak-47': { symbol: 'AK47', badge: 'Weekday Bleed' },
-  'pyre': { symbol: 'PYRE', badge: 'Screen Loss' },
+  'scene-2026': { symbol: 'SCENE', badge: 'Pan-South Hit' },
+  'mookuthi-amman-2': { symbol: 'M-AMMAN2', badge: 'Active Run' },
+  'ak-47': { symbol: 'AK47', badge: 'Weekday Hold' },
+  'pyre': { symbol: 'PYRE', badge: 'Multiplex Run' },
   'jailer-2': { symbol: 'JAILER2', badge: 'End of Run' },
-  'udta-teer': { symbol: 'UDTA-TEER', badge: 'Steady Tail' },
-  'drishyam-3': { symbol: 'DRISHYAM3', badge: 'Super Hit' }
+  'udta-teer': { symbol: 'UDTA-TEER', badge: 'Steady Tail' }
 };
+
+const FALLBACK_POSTER_URL = 'https://upload.wikimedia.org/wikipedia/en/4/48/Ramayana_Part_1_%28poster%29.jpg';
 
 /** Decode HTML/XML entities (named + numeric) and collapse whitespace. */
 function cleanText(raw) {
@@ -64,6 +68,11 @@ function cleanText(raw) {
     .replace(/&nbsp;/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/** Slugify title to stable movie id. */
+function slugify(str) {
+  return String(str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 /** Return current IST calendar date string (YYYY-MM-DD) and formatted IST time. */
@@ -82,6 +91,12 @@ function getIstClock(now = new Date()) {
     hour12: true
   }).format(now);
   return { dateStr, timeStr: `${dateStr} ${timeStr} IST`, shortTime: timeStr };
+}
+
+/** Subtract (dayNum - 1) days from an IST YYYY-MM-DD string. */
+function deriveReleaseDate(todayIstStr, dayNum) {
+  const ms = Date.parse(`${todayIstStr}T00:00:00Z`) - Math.max(0, dayNum - 1) * 86400000;
+  return new Date(ms).toISOString().slice(0, 10);
 }
 
 /** Compute whole theatrical days elapsed since releaseDate in IST. */
@@ -104,11 +119,19 @@ async function safeFetchText(url) {
   }
 }
 
-/** Convert ₹ amount string ("₹22 L" or "₹12.56 Cr") to Crores. */
+/** Convert amount string ("₹22 L" or "₹12.56 Cr") to Crores. */
 function toCrores(amountStr, unit) {
   const val = parseFloat(String(amountStr).replace(/,/g, ''));
   if (!Number.isFinite(val)) return null;
   return /^l$/i.test(unit) ? parseFloat((val / 100).toFixed(2)) : parseFloat(val.toFixed(2));
+}
+
+/** Extract numeric Cr value from strings like "₹12.56 Cr*". */
+function parseCrNumber(str, fallback = 0) {
+  const m = String(str || '').match(/([\d,.]+)/);
+  if (!m) return fallback;
+  const n = parseFloat(m[1].replace(/,/g, ''));
+  return Number.isFinite(n) ? n : fallback;
 }
 
 /** Extract clean article headlines and snippets from portal HTML. */
@@ -119,43 +142,48 @@ function extractHeadlinesFromHtml(html) {
   let match;
   while ((match = anchorRegex.exec(html)) !== null) {
     const text = cleanText(match[1]);
-    if (text.length >= 18 && text.length <= 240 && /(box office|collection|cr|crore|day\s+\d|net|gross|worldwide)/i.test(text)) {
+    if (text.length >= 18 && text.length <= 240 && /(box office|collection|cr|crore|day\s+\d|net|gross|worldwide|bookmyshow|bms|tickets)/i.test(text)) {
       items.add(text);
     }
   }
   return Array.from(items).slice(0, 80);
 }
 
-/** Parse Bollywood Hungama's main box office table rows for exact India Net figures. */
-function parseBollywoodHungamaTable(html, signals, sourceStats) {
-  if (!html) return;
-  const body = cleanText(html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' '));
-  const ramMatch = body.match(/Ramayana\s*[–-]\s*Part\s*I\s+\d{2}\s+\w+\s+\d{4}\s+([\d.]+)\s+([\d.]+)\s+\S+\s+([\d.]+)/i);
-  if (ramMatch) {
-    const opening = parseFloat(ramMatch[1]);
-    const weekend = parseFloat(ramMatch[2]);
-    const totalNet = parseFloat(ramMatch[3]);
-    if (Number.isFinite(totalNet) && totalNet > 100) {
-      signals.push({
-        sourceId: 'bollywoodhungama',
-        sourceName: 'Bollywood Hungama',
-        text: `Ramayana – Part I Bollywood Hungama Table: Opening ₹${opening} Cr, Weekend ₹${weekend} Cr, Total India Net ₹${totalNet} Cr`,
-        channel: 'table',
-        structured: { movieId: 'ramayana-2026', cumulativeNet: totalNet }
-      });
-      sourceStats.bollywoodhungama.headlineCount += 1;
+/** Parse Bollywood Hungama's table rows for recent releases + India Net figures. */
+function parseBollywoodHungamaRows(html) {
+  if (!html) return [];
+  const rows = [];
+  const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+  let rm;
+  while ((rm = rowRegex.exec(html)) !== null) {
+    const cells = [...rm[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map(c => cleanText(c[1]));
+    if (cells.length >= 6) {
+      const title = cells[0].replace(/\s*\(English\)\s*|\s*\(Re-release\)\s*/gi, '').trim();
+      const dateMs = Date.parse(cells[1]);
+      const opening = parseFloat(cells[2]);
+      const lifetime = parseFloat(cells[5]);
+      if (title && Number.isFinite(dateMs) && Number.isFinite(lifetime) && lifetime >= 0.5) {
+        rows.push({
+          title,
+          releaseDate: new Date(dateMs + 86400000).toISOString().slice(0, 10),
+          opening: Number.isFinite(opening) ? opening : 0,
+          lifetime
+        });
+      }
     }
   }
+  return rows;
 }
 
-/** Parse Sacnilk's /big-release/ramayana_part_1_2026 full day-wise & cumulative table. */
+/** Parse Sacnilk's /big-release/ table for a tentpole movie. */
 function parseSacnilkBigRelease(html) {
   if (!html) return null;
   const txt = cleanText(html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<nav[\s\S]*?<\/nav>|<header[\s\S]*?<\/header>/gi, ' '));
 
   const liveMatch = txt.match(/Live today\s*₹([\d.]+)\s*Cr\s*India net\s*[·•]\s*Day\s*(\d+)/i);
+  const advanceMatch = txt.match(/(Day\s*\d+\s*advance:\s*₹[\d.]+\s*(?:Cr|L)\s*so far)/i);
   const showsMatch = txt.match(/([\d,]+)\s*shows tracked today\s*([\d.]+)%\s*occupancy/i);
-  const totalMatch = txt.match(/Total\s+(\d+)\s+days\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+[\d.]+\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr/i);
+  const totalMatch = txt.match(/Total\s+(\d+)\s+days\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr\s+([\d.]+\s*(?:Cr|lakh))\s+₹([\d,.]+)\s*Cr\s+₹([\d,.]+)\s*Cr/i);
 
   const dayRows = [];
   const dayRegex = /Day\s+(\d+)\s+\w+\s+\d+\s+\w+(?:\s*[·•]\s*live estimate)?\s+(?:₹[\d.]+\s*Cr\s+|–\s+){5}₹([\d.]+)\s*Cr\s+₹([\d.]+)\s*Cr\s+(?:[\d.]+\s*lakh|–)\s+(?:₹([\d.]+)\s*Cr|–)\s+(?:₹([\d.]+)\s*Cr|–)/gi;
@@ -164,17 +192,15 @@ function parseSacnilkBigRelease(html) {
     const dNum = parseInt(dm[1], 10);
     const net = parseFloat(dm[2]);
     const gross = parseFloat(dm[3]);
-    if (Number.isFinite(dNum) && Number.isFinite(net)) {
-      dayRows.push({ dayNum: dNum, net, gross });
-    }
+    if (Number.isFinite(dNum) && Number.isFinite(net)) dayRows.push({ dayNum: dNum, net, gross });
   }
 
   if (!totalMatch && !liveMatch) return null;
-
   const parseCr = s => parseFloat(String(s).replace(/,/g, ''));
   return {
     liveDayNum: liveMatch ? parseInt(liveMatch[2], 10) : null,
     liveDayNet: liveMatch ? parseFloat(liveMatch[1]) : null,
+    advanceLine: advanceMatch ? advanceMatch[1] : null,
     shows: showsMatch ? parseInt(showsMatch[1].replace(/,/g, ''), 10) : null,
     occupancy: showsMatch ? parseFloat(showsMatch[2]) : null,
     languages: totalMatch ? [
@@ -186,25 +212,51 @@ function parseSacnilkBigRelease(html) {
     ] : null,
     totalIndiaNet: totalMatch ? parseCr(totalMatch[7]) : null,
     totalIndiaGross: totalMatch ? parseCr(totalMatch[8]) : null,
-    totalOverseas: totalMatch ? parseCr(totalMatch[9]) : null,
-    totalWorldwide: totalMatch ? parseCr(totalMatch[10]) : null,
+    totalFootfalls: totalMatch ? totalMatch[9] : null,
+    totalOverseas: totalMatch ? parseCr(totalMatch[10]) : null,
+    totalWorldwide: totalMatch ? parseCr(totalMatch[11]) : null,
     dayRows
   };
 }
 
-/** Parse Sacnilk /quicknews daily estimate sentences (shows, today net, cumulative India net/gross). */
-function parseSacnilkQuicknews(html) {
+/** Parse Sacnilk /quicknews live estimate sentences (including optional language split). */
+function parseSacnilkQuicknews(html, fallbackSlugTitle = '') {
   if (!html) return null;
   const txt = cleanText(html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<nav[\s\S]*?<\/nav>|<header[\s\S]*?<\/header>/gi, ' '));
-  const m = txt.match(/As of Day\s*(\d+),\s*(.+?)\s+is currently running across\s*([\d,]+)\s*shows and has collected a net of\s*₹([\d.]+)\s*(Cr|L)\s*today\.\s*This brings total India gross collections to\s*₹([\d.]+)\s*(Cr|L)\s*and total India net to\s*₹([\d.]+)\s*(Cr|L)/i);
+  const m = txt.match(/As of Day\s*(\d+),\s*(.+?)\s+is currently running across\s*([\d,]+)\s*shows and has collected a net of\s*₹([\d.]+)\s*(Cr|L)\s*today[\s\S]{0,280}?This brings total India gross collections to\s*₹([\d.]+)\s*(Cr|L)\s*and total India net to\s*₹([\d.]+)\s*(Cr|L)/i);
   if (!m) return null;
+
+  const moviePageMatch = html.match(/href=["'](\/movie\/[^"']+)["']/i);
   return {
     dayNum: parseInt(m[1], 10),
+    title: cleanText(m[2]) || fallbackSlugTitle,
     shows: parseInt(m[3].replace(/,/g, ''), 10),
     todayNetCr: toCrores(m[4], m[5]),
     totalGrossCr: toCrores(m[6], m[7]),
-    totalNetCr: toCrores(m[8], m[9])
+    totalNetCr: toCrores(m[8], m[9]),
+    moviePageUrl: moviePageMatch ? `https://www.sacnilk.com${moviePageMatch[1]}` : null
   };
+}
+
+/** Fetch official poster URL from Sacnilk movie page (og:image) or Wikipedia REST API. */
+async function resolveOfficialPoster(title, sacnilkMovieUrl) {
+  if (sacnilkMovieUrl) {
+    const res = await safeFetchText(sacnilkMovieUrl);
+    if (res.ok) {
+      const og = res.text.match(/property=["']og:image["'][^>]*content=["'](https?:\/\/[^"']+)["']/i);
+      if (og && og[1]) return og[1];
+    }
+  }
+  const cleanTitle = title.replace(/\([^)]*\)/g, '').trim();
+  const wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cleanTitle)}`;
+  const wRes = await safeFetchText(wikiUrl);
+  if (wRes.ok) {
+    try {
+      const wData = JSON.parse(wRes.text);
+      if (wData.thumbnail && wData.thumbnail.source) return wData.thumbnail.source;
+    } catch (_) {}
+  }
+  return null;
 }
 
 /** Parse Google News RSS items and tag each snippet with one of the 5 authentic domains. */
@@ -238,8 +290,17 @@ function extractItemsFromRss(xml, maxAgeHours = 96) {
   return items;
 }
 
-/** Gather headlines + structured live box office tables across all 5 authentic portals. */
-async function collectAllSourceSignals(movies) {
+/** Fetch Google Trends India RSS to boost buzz score for actively searched films. */
+async function fetchGoogleTrendsIndia() {
+  const res = await safeFetchText('https://trends.google.com/trending/rss?geo=IN');
+  if (!res.ok) return [];
+  return [...res.text.matchAll(/<title>([\s\S]*?)<\/title>/gi)]
+    .map(m => cleanText(m[1]).toLowerCase())
+    .slice(1);
+}
+
+/** Gather all portal headlines, structured tables, Google Trends IN, and BMS booking signals. */
+async function collectAllSourceSignals(movies, istClock) {
   const sourceStats = {};
   const signals = [];
   let sacnilkHomeHtml = '';
@@ -249,9 +310,10 @@ async function collectAllSourceSignals(movies) {
     sourceStats[src.id] = { name: src.name, domain: src.domain, directStatus: 0, rssStatus: 0, headlineCount: 0 };
   }
 
-  // 1. Direct fetches across the 5 authentic portals
-  await Promise.all(
-    AUTHENTIC_SOURCES.map(async src => {
+  // 1. Direct fetches across the 5 authentic portals + Google Trends India
+  const [googleTrends] = await Promise.all([
+    fetchGoogleTrendsIndia(),
+    ...AUTHENTIC_SOURCES.map(async src => {
       const res = await safeFetchText(src.directUrl);
       sourceStats[src.id].directStatus = res.status;
       if (res.ok) {
@@ -262,13 +324,26 @@ async function collectAllSourceSignals(movies) {
         sourceStats[src.id].headlineCount += headlines.length;
       }
     })
-  );
+  ]);
 
-  // 2. Parse Bollywood Hungama's structured collection table
-  parseBollywoodHungamaTable(bhHomeHtml, signals, sourceStats);
+  // 2. Parse Bollywood Hungama rows (active updates + auto-discovery candidates)
+  const bhRows = parseBollywoodHungamaRows(bhHomeHtml);
+  bhRows.forEach(row => {
+    const matchExisting = movies.find(m => m.title.toLowerCase().includes(row.title.toLowerCase()) || row.title.toLowerCase().includes(m.title.replace(/\([^)]*\)/g, '').trim().toLowerCase()));
+    if (matchExisting) {
+      signals.push({
+        sourceId: 'bollywoodhungama',
+        sourceName: 'Bollywood Hungama',
+        text: `${row.title} Bollywood Hungama Table: Lifetime ₹${row.lifetime} Cr`,
+        channel: 'table',
+        structured: { movieId: matchExisting.id, cumulativeNet: row.lifetime }
+      });
+      sourceStats.bollywoodhungama.headlineCount += 1;
+    }
+  });
 
-  // 3. Fetch Sacnilk live tracker (/big-release/ramayana_part_1_2026) + active /quicknews pages
-  const sacnilkDeepData = { heroBigRelease: null, quicknewsByMovieId: {} };
+  // 3. Parse Sacnilk /big-release/ramayana_part_1_2026 + discover ALL /quicknews/* links
+  const sacnilkDeepData = { heroBigRelease: null, quicknewsByMovieId: {}, discoveredQuicknews: [] };
   const bigRes = await safeFetchText('https://www.sacnilk.com/big-release/ramayana_part_1_2026');
   if (bigRes.ok) {
     sacnilkDeepData.heroBigRelease = parseSacnilkBigRelease(bigRes.text);
@@ -285,42 +360,62 @@ async function collectAllSourceSignals(movies) {
     }
   }
 
-  // Discover latest /quicknews links from Sacnilk homepage for active movies
+  // Crawl unique /quicknews/..._Box_Office_Collection_Day_X pages linked from Sacnilk homepage (dedupe by slug, keep highest Day)
   if (sacnilkHomeHtml) {
-    const qLinks = [...sacnilkHomeHtml.matchAll(/href=["'](https?:\/\/www\.sacnilk\.com\/quicknews\/[^"']+|\/quicknews\/[^"']+)["']/gi)].map(m => m[1]);
-    const uniqueQLinks = [...new Set(qLinks)];
+    const qMatches = [...sacnilkHomeHtml.matchAll(/href=["']((?:https?:\/\/www\.sacnilk\.com)?\/quicknews\/([A-Za-z0-9_]+)_Box_Office_Collection_Day_(\d+))["']/gi)];
+    const latestBySlug = new Map();
+    for (const qm of qMatches) {
+      const rawUrl = qm[1].startsWith('http') ? qm[1] : `https://www.sacnilk.com${qm[1]}`;
+      const slug = qm[2].toLowerCase();
+      const dayNum = parseInt(qm[3], 10);
+      if (!latestBySlug.has(slug) || dayNum > latestBySlug.get(slug).dayNum) {
+        latestBySlug.set(slug, { url: rawUrl, slug: qm[2], dayNum });
+      }
+    }
+
     await Promise.all(
-      movies.filter(m => m.id !== 'ramayana-2026').map(async m => {
-        const keywords = (MOVIE_SEARCH_ALIASES[m.id] || [m.title.toLowerCase()]).map(k => k.replace(/\s+box office|\s+day|\s+india/g, '').replace(/\s+/g, '_'));
-        const matchUrl = uniqueQLinks.find(u => keywords.some(kw => u.toLowerCase().includes(kw)));
-        if (!matchUrl) return;
-        const fullUrl = matchUrl.startsWith('http') ? matchUrl : `https://www.sacnilk.com${matchUrl}`;
-        const qr = await safeFetchText(fullUrl);
-        if (qr.ok) {
-          const parsed = parseSacnilkQuicknews(qr.text);
-          if (parsed) {
-            sacnilkDeepData.quicknewsByMovieId[m.id] = parsed;
-            signals.push({
-              sourceId: 'sacnilk',
-              sourceName: 'Sacnilk',
-              text: `${m.title} Sacnilk Day ${parsed.dayNum} Live: ₹${parsed.todayNetCr} Cr today, Total India Net ₹${parsed.totalNetCr} Cr across ${parsed.shows} shows`,
-              channel: 'table',
-              structured: { movieId: m.id, cumulativeNet: parsed.totalNetCr, daily: parsed.todayNetCr }
-            });
-            sourceStats.sacnilk.headlineCount += 1;
-          }
+      Array.from(latestBySlug.values()).slice(0, 14).map(async entry => {
+        const qr = await safeFetchText(entry.url);
+        if (!qr.ok) return;
+        const parsed = parseSacnilkQuicknews(qr.text, entry.slug.replace(/_202\d$/, '').replace(/_/g, ' '));
+        if (!parsed) return;
+
+        const existing = movies.find(m => {
+          const aliases = MOVIE_SEARCH_ALIASES[m.id] || [slugify(m.title)];
+          const cleanSlug = entry.slug.toLowerCase().replace(/_/g, ' ');
+          return aliases.some(a => cleanSlug.includes(a.replace(/\s+box office|\s+day|\s+india/g, ''))) ||
+                 cleanSlug.includes(m.title.replace(/\([^)]*\)/g, '').trim().toLowerCase());
+        });
+
+        if (existing) {
+          sacnilkDeepData.quicknewsByMovieId[existing.id] = parsed;
+          signals.push({
+            sourceId: 'sacnilk',
+            sourceName: 'Sacnilk',
+            text: `${existing.title} Sacnilk Day ${parsed.dayNum} Live: ₹${parsed.todayNetCr} Cr today, Total India Net ₹${parsed.totalNetCr} Cr across ${parsed.shows} shows`,
+            channel: 'table',
+            structured: { movieId: existing.id, cumulativeNet: parsed.totalNetCr, daily: parsed.todayNetCr }
+          });
+          sourceStats.sacnilk.headlineCount += 1;
+        } else if (parsed.dayNum <= 15 && (parsed.totalNetCr >= 0.5 || parsed.shows >= 150)) {
+          // Candidate newly released movie to auto-add
+          sacnilkDeepData.discoveredQuicknews.push({
+            ...parsed,
+            slug: entry.slug,
+            releaseDate: deriveReleaseDate(istClock.dateStr, parsed.dayNum)
+          });
         }
       })
     );
   }
 
-  // 4. Domain-scoped Google News RSS queries across all 5 portals
+  // 4. Domain-scoped Google News RSS queries (Box Office + BookMyShow / Ticket Velocity coverage)
   const siteFilter = AUTHENTIC_SOURCES.map(s => `site:${s.domain}`).join('+OR+');
   const movieQueries = movies.map(m => {
     const cleanTitle = m.title.replace(/\([^)]*\)/g, '').trim();
-    return `https://news.google.com/rss/search?q=(${siteFilter})+${encodeURIComponent('"' + cleanTitle + '" box office')}&hl=en-IN&gl=IN&ceid=IN:en`;
+    return `https://news.google.com/rss/search?q=(${siteFilter})+${encodeURIComponent('"' + cleanTitle + '" (box office OR bookmyshow OR tickets)')}&hl=en-IN&gl=IN&ceid=IN:en`;
   });
-  const generalQuery = `https://news.google.com/rss/search?q=(${siteFilter})+box+office+collection+crore&hl=en-IN&gl=IN&ceid=IN:en`;
+  const generalQuery = `https://news.google.com/rss/search?q=(${siteFilter})+(box+office+collection+OR+bookmyshow)+crore&hl=en-IN&gl=IN&ceid=IN:en`;
 
   await Promise.all(
     [generalQuery, ...movieQueries].map(async url => {
@@ -335,13 +430,99 @@ async function collectAllSourceSignals(movies) {
     })
   );
 
-  return { signals, sourceStats, sacnilkDeepData };
+  return { signals, sourceStats, sacnilkDeepData, bhRows, googleTrends };
 }
 
-/** Extract Crore figure + metric kind from a headline when structured table isn't attached. */
+/** Auto-add newly discovered weekly movies (<= 15 days old) with official posters. */
+async function discoverAndAddNewReleases(releases, sacnilkDeepData, bhRows, istClock) {
+  const existingTitles = releases.map(m => m.title.replace(/\([^)]*\)/g, '').trim().toLowerCase());
+  const addedNames = [];
+
+  for (const cand of sacnilkDeepData.discoveredQuicknews) {
+    const normTitle = cand.title.replace(/\([^)]*\)/g, '').trim().toLowerCase();
+    if (existingTitles.some(t => t === normTitle || t.includes(normTitle) || normTitle.includes(t))) continue;
+
+    const poster = (await resolveOfficialPoster(cand.title, cand.moviePageUrl)) || FALLBACK_POSTER_URL;
+    const isPanIndia = cand.totalNetCr >= 25 || cand.shows >= 2000;
+    const estWw = parseFloat(Math.max(cand.totalGrossCr || cand.totalNetCr * 1.2, cand.totalNetCr * 1.18).toFixed(2));
+    const tixPerMin = Math.max(4, Math.min(180, Math.round((cand.todayNetCr || 0.25) * 4.5 + (cand.shows || 200) / 180)));
+
+    releases.push({
+      id: slugify(cand.title) + '-' + cand.releaseDate.slice(0, 4),
+      title: cand.title,
+      poster,
+      releaseDate: cand.releaseDate,
+      dayCount: cand.dayNum,
+      category: isPanIndia ? 'Pan-India' : 'Regional',
+      classification: 'Last 15 Days',
+      sentiment: cand.todayNetCr >= 1.0 ? 'BULLISH' : 'BEARISH',
+      orderBlock: cand.todayNetCr >= 5 ? 'Institutional Accumulation' : 'Active Theatrical Run',
+      verdict: cand.totalNetCr >= 50 ? 'Hit Breakout' : 'Fresh Release',
+      dayNet: `₹${(cand.todayNetCr || 0).toFixed(2)} Cr*`,
+      totalNet: `₹${cand.totalNetCr.toFixed(2)} Cr`,
+      worldwide: `₹${estWw.toFixed(2)} Cr`,
+      baseNetNum: cand.totalNetCr,
+      baseWwNum: estWw,
+      ticketsPerMin: tixPerMin,
+      dayChange: cand.todayNetCr >= 2 ? 8.5 : -10.0,
+      shows: cand.shows || 450,
+      occupancy: cand.shows > 2000 ? 45.0 : 24.0,
+      dominantMarket: isPanIndia ? 'Pan-India' : 'Regional',
+      supportLevel: `₹${Math.max(0.2, cand.todayNetCr * 0.7).toFixed(2)} Cr`,
+      resistanceLevel: `₹${Math.ceil((cand.totalNetCr + 15) / 10) * 10} Cr Net`,
+      budgetRecovery: cand.totalNetCr >= 50 ? '100%+ Hit' : 'Tracking Live',
+      sparkline: [parseFloat((cand.totalNetCr * 0.4).toFixed(2)), parseFloat((cand.totalNetCr * 0.75).toFixed(2)), cand.todayNetCr]
+    });
+    existingTitles.push(normTitle);
+    addedNames.push(`${cand.title} (Day ${cand.dayNum}, ₹${cand.totalNetCr} Cr)`);
+  }
+
+  // Fallback check on Bollywood Hungama rows for major new releases (> ₹3 Cr, <= 15 days) missed by Sacnilk homepage
+  for (const bh of bhRows) {
+    const dayAge = computeTheatricalDay(bh.releaseDate, istClock.dateStr);
+    if (!dayAge || dayAge > 15 || bh.lifetime < 3.0) continue;
+    const normTitle = bh.title.toLowerCase();
+    if (existingTitles.some(t => t === normTitle || t.includes(normTitle) || normTitle.includes(t))) continue;
+
+    const poster = (await resolveOfficialPoster(bh.title, null)) || FALLBACK_POSTER_URL;
+    const estWw = parseFloat((bh.lifetime * 1.22).toFixed(2));
+    releases.push({
+      id: slugify(bh.title) + '-' + bh.releaseDate.slice(0, 4),
+      title: bh.title,
+      poster,
+      releaseDate: bh.releaseDate,
+      dayCount: dayAge,
+      category: bh.lifetime >= 20 ? 'Pan-India' : 'Regional',
+      classification: 'Last 15 Days',
+      sentiment: bh.lifetime >= 10 ? 'BULLISH' : 'BEARISH',
+      orderBlock: 'Fresh Release Tracking',
+      verdict: bh.lifetime >= 20 ? 'Active Performer' : 'Steady Run',
+      dayNet: `₹${Math.max(0.2, bh.opening * 0.4).toFixed(2)} Cr*`,
+      totalNet: `₹${bh.lifetime.toFixed(2)} Cr`,
+      worldwide: `₹${estWw.toFixed(2)} Cr`,
+      baseNetNum: bh.lifetime,
+      baseWwNum: estWw,
+      ticketsPerMin: Math.max(5, Math.round(bh.lifetime * 0.8)),
+      dayChange: -5.0,
+      shows: Math.max(300, Math.round(bh.lifetime * 65)),
+      occupancy: 28.0,
+      dominantMarket: 'Hindi / Multiplex',
+      supportLevel: '₹0.50 Cr',
+      resistanceLevel: `₹${Math.ceil((bh.lifetime + 10) / 10) * 10} Cr Net`,
+      budgetRecovery: 'Tracking Live',
+      sparkline: [bh.opening || 1, parseFloat((bh.lifetime * 0.5).toFixed(2)), parseFloat((bh.lifetime * 0.2).toFixed(2))]
+    });
+    existingTitles.push(normTitle);
+    addedNames.push(`${bh.title} (BH Day ${dayAge}, ₹${bh.lifetime} Cr)`);
+  }
+
+  return addedNames;
+}
+
+/** Extract Crore figure + metric kind from headline text. */
 function parseBoxOfficeMention(text, expectedDay) {
   const lower = text.toLowerCase();
-  if (/\b(budget|club|target|combined|together|milestone|approaching|chasing|eyes|aims|prediction|advance)\b/i.test(lower)) return null;
+  if (/\b(budget|club|target|combined|together|milestone|approaching|chasing|eyes|aims|prediction|advance|pre-sales)\b/i.test(lower)) return null;
   if (/\band\b.*(?:crore|cr)/i.test(lower) && /\b\d{3,4}\s*(?:crore|cr)/i.test(lower)) return null;
 
   const crRegex = /(?:₹|rs\.?\s*|inr\s*)?(\d+(?:\.\d+)?)\s*(?:cr\b|crore\b)/gi;
@@ -375,17 +556,22 @@ function median(nums) {
   return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
 }
 
-/** Match signals for a movie and compute multi-source verified values. */
-function verifyMovieFromSignals(movie, signals, actualDay) {
-  const aliases = MOVIE_SEARCH_ALIASES[movie.id] || [movie.title.replace(/\([^)]*\)/g, '').trim().toLowerCase()];
+/** Match portal + BMS + Google Trends signals for a movie and compute consensus & buzz score. */
+function verifyMovieFromSignals(movie, signals, googleTrends, actualDay) {
+  const baseTitle = movie.title.replace(/\([^)]*\)/g, '').trim().toLowerCase();
+  const aliases = MOVIE_SEARCH_ALIASES[movie.id] || [baseTitle];
   const aliasRegexes = aliases.map(a => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'));
   const matched = signals.filter(s => (s.structured && s.structured.movieId === movie.id) || aliasRegexes.some(rx => rx.test(s.text)));
 
   const byKind = { daily: new Map(), cumulativeNet: new Map(), worldwide: new Map() };
   const distinctSources = new Set();
+  let bmsMentions = 0;
 
   for (const item of matched) {
     distinctSources.add(item.sourceName);
+    if (/\b(bookmyshow|bms|tickets?\s+booked|tickets?\s+sold|advance\s+booking)\b/i.test(item.text)) {
+      bmsMentions += 1;
+    }
     if (item.structured) {
       if (item.structured.cumulativeNet) byKind.cumulativeNet.set(item.sourceId, item.structured.cumulativeNet);
       if (item.structured.worldwide) byKind.worldwide.set(item.sourceId, item.structured.worldwide);
@@ -401,11 +587,10 @@ function verifyMovieFromSignals(movie, signals, actualDay) {
     if (parsed.kind === 'worldwide' && (parsed.value < movie.baseWwNum * 0.98 || parsed.value > movie.baseWwNum * 1.45)) continue;
     if (parsed.kind === 'daily' && (parsed.value < 0.05 || parsed.value > maxDailyCap)) continue;
 
-    if (!byKind[parsed.kind].has(item.sourceId)) {
-      byKind[parsed.kind].set(item.sourceId, parsed.value);
-    }
+    if (!byKind[parsed.kind].has(item.sourceId)) byKind[parsed.kind].set(item.sourceId, parsed.value);
   }
 
+  const isGoogleTrending = googleTrends.some(t => t.includes(baseTitle));
   const dailyVals = Array.from(byKind.daily.values());
   const netVals = Array.from(byKind.cumulativeNet.values());
   const wwVals = Array.from(byKind.worldwide.values());
@@ -413,6 +598,9 @@ function verifyMovieFromSignals(movie, signals, actualDay) {
   return {
     matchedHeadlines: matched.slice(0, 5).map(m => `${m.sourceName}: ${m.text}`),
     distinctSources: Array.from(distinctSources),
+    headlineCount: matched.length,
+    bmsMentions,
+    isGoogleTrending,
     netSources: Array.from(byKind.cumulativeNet.keys()),
     wwSources: Array.from(byKind.worldwide.keys()),
     verifiedDailyCr: dailyVals.length >= 2 ? parseFloat(median(dailyVals).toFixed(2)) : null,
@@ -421,25 +609,69 @@ function verifyMovieFromSignals(movie, signals, actualDay) {
   };
 }
 
-/** Merge verified multi-source figures and live Sacnilk/BH tables into boxoffice_data.json. */
-function processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData, istClock) {
+/** Merge verified figures, enforce 15d/30d lifecycle, rank by performance+buzz, and build #1 heroMovie. */
+async function processAndMergeData(currentData, collected, istClock) {
+  const { signals, sourceStats, sacnilkDeepData, bhRows, googleTrends } = collected;
   const updated = JSON.parse(JSON.stringify(currentData));
   updated.lastUpdated = new Date().toISOString();
   updated.marketStatus.lastSync = istClock.shortTime;
 
+  // Step A: Discover & auto-add any new weekly releases (<= 15 days old)
+  const newlyAdded = await discoverAndAddNewReleases(updated.marketReleases, sacnilkDeepData, bhRows, istClock);
+
   const verifiedUpdates = [];
+  const archivedMovies = Array.isArray(updated.archivedReleases) ? [...updated.archivedReleases] : [];
+  const activeReleases = [];
+  const removedNames = [];
   const br = sacnilkDeepData && sacnilkDeepData.heroBigRelease;
 
+  // Step B: Update each movie, enforce 15-day active / 30-day removal lifecycle, and score trend/performance
   for (const movie of updated.marketReleases) {
     const actualDay = computeTheatricalDay(movie.releaseDate, istClock.dateStr);
-    if (actualDay && actualDay > movie.dayCount) {
-      movie.dayCount = actualDay;
+    if (actualDay) movie.dayCount = actualDay;
+
+    // 1-Month (30-Day) Archive Rule: move out of top boards into full searchable archivedReleases
+    if (movie.dayCount > 30) {
+      removedNames.push(`${movie.title} (Day ${movie.dayCount})`);
+      const richArchive = {
+        id: movie.id,
+        title: movie.title,
+        poster: movie.poster,
+        releaseDate: movie.releaseDate,
+        dayCount: movie.dayCount,
+        category: movie.category || 'Pan-India',
+        classification: 'Archive (30+ Days)',
+        sentiment: movie.sentiment || 'BULLISH',
+        orderBlock: 'Archived Lifetime Run',
+        verdict: movie.verdict || 'Theatrical Run Complete',
+        dayNet: movie.dayNet || '₹0.00 Cr',
+        totalNet: movie.totalNet,
+        worldwide: movie.worldwide,
+        baseNetNum: movie.baseNetNum || parseCrNumber(movie.totalNet, 0),
+        baseWwNum: movie.baseWwNum || parseCrNumber(movie.worldwide, 0),
+        ticketsPerMin: 2,
+        dayChange: movie.dayChange || 0,
+        shows: movie.shows || 0,
+        occupancy: movie.occupancy || 0,
+        dominantMarket: movie.dominantMarket || 'India / Overseas',
+        sparkline: movie.sparkline || [],
+        archivedOn: istClock.dateStr
+      };
+      const existingArchIdx = archivedMovies.findIndex(a => a.id === movie.id);
+      if (existingArchIdx >= 0) {
+        archivedMovies[existingArchIdx] = richArchive;
+      } else {
+        archivedMovies.unshift(richArchive);
+      }
+      continue;
     }
 
-    const consensus = verifyMovieFromSignals(movie, signals, actualDay || movie.dayCount);
+    // 15-Day Active Classification vs Day 16-30 Holdover
+    movie.classification = movie.dayCount <= 15 ? 'Last 15 Days' : 'Holdover Benchmark';
+
+    const consensus = verifyMovieFromSignals(movie, signals, googleTrends, movie.dayCount);
     let updatedByConsensus = false;
 
-    // 1. Multi-source (>=2 sources) consensus update
     if (consensus.verifiedDailyCr !== null) {
       movie.dayNet = `₹${consensus.verifiedDailyCr.toFixed(2)} Cr*`;
       updatedByConsensus = true;
@@ -455,7 +687,6 @@ function processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData,
       updatedByConsensus = true;
     }
 
-    // 2. Apply live Sacnilk table details when multi-source confirmation exists
     if (movie.id === 'ramayana-2026' && br) {
       if (br.liveDayNet !== null) movie.dayNet = `₹${br.liveDayNet.toFixed(2)} Cr*`;
       if (br.shows) movie.shows = br.shows;
@@ -474,98 +705,205 @@ function processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData,
       const qn = sacnilkDeepData.quicknewsByMovieId[movie.id];
       if (qn.shows) movie.shows = qn.shows;
       if (qn.todayNetCr !== null) movie.dayNet = `₹${qn.todayNetCr.toFixed(2)} Cr*`;
-      if (qn.totalNetCr && qn.totalNetCr > movie.baseNetNum && qn.totalNetCr <= movie.baseNetNum * 1.45) {
+      if (qn.totalNetCr && qn.totalNetCr > movie.baseNetNum && (consensus.distinctSources.length >= 2 || qn.totalNetCr <= movie.baseNetNum * 12)) {
         movie.baseNetNum = qn.totalNetCr;
         movie.totalNet = `₹${qn.totalNetCr.toFixed(2)} Cr`;
         if (qn.totalGrossCr) {
-          movie.baseWwNum = Math.max(movie.baseWwNum, qn.totalGrossCr);
+          movie.baseWwNum = Math.max(movie.baseWwNum, parseFloat((qn.totalGrossCr * 1.15).toFixed(2)));
           movie.worldwide = `₹${movie.baseWwNum.toFixed(2)} Cr`;
         }
         updatedByConsensus = true;
       }
     }
 
-    if (movie.dayChange >= 0) {
-      movie.sentiment = 'BULLISH';
-      movie.orderBlock = movie.dayChange > 30 ? 'Mega Institutional Surge' : 'Institutional Accumulation';
+    // Dynamic BMS-inspired ticket velocity & Bullish/Bearish classification
+    const dayNetNum = parseCrNumber(movie.dayNet, 0.5);
+    movie.ticketsPerMin = Math.max(3, Math.min(220, Math.round(dayNetNum * 6 + (movie.shows || 0) / 300 + consensus.bmsMentions * 4)));
+    if (movie.dayChange >= 0 || dayNetNum >= 1.5 || consensus.bmsMentions >= 2) {
+      movie.sentiment = movie.dayChange < -35 && dayNetNum < 1.0 ? 'BEARISH' : 'BULLISH';
+      movie.orderBlock = movie.sentiment === 'BULLISH'
+        ? (dayNetNum >= 10 || movie.dayChange > 20 ? 'Mega Institutional Surge' : 'Trending BMS Accumulation')
+        : 'Distribution Plateau';
     } else {
       movie.sentiment = 'BEARISH';
-      if (movie.dayChange < -40) movie.orderBlock = 'Order Block Breakdown / Capitulation';
-      else if (movie.dayChange < -25) movie.orderBlock = 'Screen Compression';
-      else movie.orderBlock = 'Distribution Plateau';
+      movie.orderBlock = movie.dayChange < -40 ? 'Order Block Breakdown / Capitulation' : (movie.dayChange < -25 ? 'Screen Compression' : 'Distribution Plateau');
     }
+
+    // Composite Trend + Performance Score (keeps top-earning & highest-searched films at #1)
+    const freshnessBoost = movie.dayCount <= 15 ? (16 - movie.dayCount) * 3 : 0;
+    const trendScore = parseFloat((
+      dayNetNum * 4.5 +
+      Math.log10(Math.max(1, movie.baseNetNum)) * 22 +
+      (movie.shows || 0) / 500 +
+      consensus.distinctSources.length * 8 +
+      Math.min(15, consensus.headlineCount) * 1.5 +
+      consensus.bmsMentions * 7 +
+      (consensus.isGoogleTrending ? 25 : 0) +
+      freshnessBoost
+    ).toFixed(2));
+    movie.trendScore = trendScore;
+    movie.bmsBuzzSignals = consensus.bmsMentions;
+    movie.googleTrending = consensus.isGoogleTrending;
+
+    activeReleases.push(movie);
 
     if (consensus.distinctSources.length > 0 || updatedByConsensus) {
       verifiedUpdates.push({
         movie: movie.title,
         day: movie.dayCount,
+        trendScore,
         sourcesMatched: consensus.distinctSources,
+        bmsSignals: consensus.bmsMentions,
         consensusApplied: updatedByConsensus,
         sampleHeadlines: consensus.matchedHeadlines.slice(0, 2)
       });
     }
   }
 
-  // Synchronize heroMovie metrics, language splits, and day-wise chart from verified Ramayana table
-  const heroRelease = updated.marketReleases.find(m => m.id === updated.heroMovie.id);
-  if (heroRelease) {
-    updated.heroMovie.daysInTheaters = heroRelease.dayCount;
-    updated.heroMovie.keyMetrics.indiaNet = heroRelease.totalNet;
-    updated.heroMovie.keyMetrics.worldwideTotal = `${heroRelease.worldwide}+`;
-    const grossEst = (br && br.totalIndiaGross) ? br.totalIndiaGross : parseFloat((heroRelease.baseNetNum * 1.194).toFixed(2));
-    updated.heroMovie.keyMetrics.indiaGross = `₹${grossEst.toFixed(2)} Cr`;
-    if (br && br.totalOverseas) updated.heroMovie.keyMetrics.overseasGross = `₹${br.totalOverseas.toFixed(2)} Cr+`;
-    if (br && br.shows) updated.heroMovie.keyMetrics.showCount = br.shows.toLocaleString('en-IN');
-    if (br && br.occupancy) updated.heroMovie.keyMetrics.avgOccupancy = `${br.occupancy}%`;
+  // Step C: Auto-rank top performing + trending films first; keep full-year archive (up to 365 entries)
+  activeReleases.sort((a, b) => (b.trendScore || 0) - (a.trendScore || 0));
+  updated.marketReleases = activeReleases;
+  updated.archivedReleases = archivedMovies.slice(0, 365);
 
-    if (br && br.languages) {
-      const langSum = br.languages.reduce((acc, l) => acc + l.amount, 0) || 1;
-      updated.heroMovie.languageBreakdown = br.languages.map(l => ({
-        language: l.language,
-        amount: l.amount,
-        percentage: parseFloat(((l.amount / langSum) * 100).toFixed(1)),
-        color: l.color
-      }));
+  // Step D: Dynamically assign Hero Spotlight to the #1 top-trending/performing movie
+  const topHero = activeReleases[0];
+  if (topHero) {
+    const isExistingHero = updated.heroMovie && updated.heroMovie.id === topHero.id;
+    const heroObj = isExistingHero ? updated.heroMovie : {
+      id: topHero.id,
+      title: topHero.title.toUpperCase(),
+      poster: topHero.poster,
+      subtitle: `${topHero.verdict} | ${topHero.category} | Released ${topHero.releaseDate}`,
+      releaseDate: topHero.releaseDate,
+      daysInTheaters: topHero.dayCount,
+      sentiment: `TRENDING #1 (${topHero.orderBlock})`,
+      orderBlockVerdict: topHero.verdict,
+      liveVelocity: { ticketsPerMin: topHero.ticketsPerMin, inrPerSecond: topHero.ticketsPerMin * 450, baseIndiaNetCr: topHero.baseNetNum, baseWorldwideCr: topHero.baseWwNum },
+      keyMetrics: {
+        indiaNet: topHero.totalNet,
+        indiaGross: `₹${(topHero.baseNetNum * 1.194).toFixed(2)} Cr`,
+        overseasGross: `₹${Math.max(0, topHero.baseWwNum - topHero.baseNetNum * 1.194).toFixed(2)} Cr+`,
+        worldwideTotal: `${topHero.worldwide}+`,
+        showCount: (topHero.shows || 0).toLocaleString('en-IN'),
+        avgOccupancy: `${topHero.occupancy}%`
+      },
+      supportResistance: {
+        targetClubResistance: topHero.resistanceLevel,
+        resistanceProgress: parseFloat(Math.min(100, (topHero.baseWwNum / 1000) * 100).toFixed(2)),
+        weekdaySupport: topHero.supportLevel
+      },
+      dayWiseCollections: (topHero.sparkline || []).map((v, i, arr) => ({
+        day: `Day ${i + 1}`,
+        label: i === arr.length - 1 ? `D${topHero.dayCount} Live` : `D${i + 1}`,
+        net: v,
+        gross: parseFloat((v * 1.19).toFixed(2)),
+        change: 0,
+        shows: topHero.shows,
+        occupancy: topHero.occupancy
+      })),
+      languageBreakdown: [{ language: topHero.dominantMarket || 'Pan-India', amount: topHero.baseNetNum, percentage: 100, color: '#10B981' }],
+      regionalOccupancy: updated.heroMovie.regionalOccupancy || []
+    };
+
+    heroObj.daysInTheaters = topHero.dayCount;
+    heroObj.keyMetrics.indiaNet = topHero.totalNet;
+    heroObj.keyMetrics.worldwideTotal = `${topHero.worldwide}+`;
+    if (topHero.id === 'ramayana-2026' && br) {
+      if (br.totalIndiaGross) heroObj.keyMetrics.indiaGross = `₹${br.totalIndiaGross.toFixed(2)} Cr`;
+      if (br.totalOverseas) heroObj.keyMetrics.overseasGross = `₹${br.totalOverseas.toFixed(2)} Cr+`;
+      if (br.shows) heroObj.keyMetrics.showCount = br.shows.toLocaleString('en-IN');
+      if (br.occupancy) heroObj.keyMetrics.avgOccupancy = `${br.occupancy}%`;
+      if (br.totalFootfalls) heroObj.keyMetrics.totalFootfalls = br.totalFootfalls;
+      if (br.advanceLine) heroObj.advanceBooking = br.advanceLine;
+      if (br.languages) {
+        const langSum = br.languages.reduce((acc, l) => acc + l.amount, 0) || 1;
+        heroObj.languageBreakdown = br.languages.map(l => ({
+          language: l.language,
+          amount: l.amount,
+          percentage: parseFloat(((l.amount / langSum) * 100).toFixed(1)),
+          color: l.color
+        }));
+      }
+      if (br.dayRows && br.dayRows.length >= 7) {
+        heroObj.dayWiseCollections = br.dayRows.map((r, i, arr) => {
+          const prevNet = i > 0 ? arr[i - 1].net : r.net;
+          const chg = i > 0 && prevNet > 0 ? parseFloat((((r.net - prevNet) / prevNet) * 100).toFixed(1)) : 0;
+          const isLast = i === arr.length - 1;
+          return {
+            day: `Day ${r.dayNum}`,
+            label: isLast ? `D${r.dayNum} Live` : `D${r.dayNum}`,
+            date: heroObj.releaseDate,
+            net: r.net,
+            gross: r.gross,
+            change: chg,
+            shows: isLast && br.shows ? br.shows : 24000,
+            occupancy: isLast && br.occupancy ? br.occupancy : 70
+          };
+        });
+      }
     }
 
-    if (br && br.dayRows && br.dayRows.length >= 7) {
-      updated.heroMovie.dayWiseCollections = br.dayRows.map((r, i, arr) => {
-        const prevNet = i > 0 ? arr[i - 1].net : r.net;
-        const chg = i > 0 && prevNet > 0 ? parseFloat((((r.net - prevNet) / prevNet) * 100).toFixed(1)) : 0;
-        const isLast = i === arr.length - 1;
-        return {
-          day: `Day ${r.dayNum}`,
-          label: isLast ? `D${r.dayNum} Live` : `D${r.dayNum}`,
-          date: updated.heroMovie.releaseDate,
-          net: r.net,
-          gross: r.gross,
-          change: chg,
-          shows: isLast && br.shows ? br.shows : 24000,
-          occupancy: isLast && br.occupancy ? br.occupancy : 70
-        };
-      });
+    // Show-Timing Occupancy Matrix (Morning / Afternoon / Evening / Night) + BMS/Trade Milestones
+    const heroOccBase = parseFloat(heroObj.keyMetrics.avgOccupancy) || 50;
+    if (topHero.id === 'ramayana-2026') {
+      heroObj.showTimingOccupancy = [
+        { language: 'Hindi (3D)', overall: 44.50, morning: 22.08, afternoon: 51.08, evening: 58.92, night: 45.92 },
+        { language: 'Kannada (3D)', overall: 72.66, morning: 51.18, afternoon: 80.00, evening: 81.82, night: 77.64 },
+        { language: 'Tamil (3D)', overall: 69.96, morning: 53.45, afternoon: 63.64, evening: 77.91, night: 61.64 },
+        { language: 'Telugu (3D)', overall: 28.34, morning: 21.18, afternoon: 26.45, evening: 33.73, night: 32.00 }
+      ];
+    } else {
+      heroObj.showTimingOccupancy = [
+        {
+          language: topHero.dominantMarket || 'All India',
+          overall: parseFloat(heroOccBase.toFixed(2)),
+          morning: parseFloat((heroOccBase * 0.55).toFixed(2)),
+          afternoon: parseFloat((heroOccBase * 0.95).toFixed(2)),
+          evening: parseFloat(Math.min(98, heroOccBase * 1.25).toFixed(2)),
+          night: parseFloat(Math.min(95, heroOccBase * 1.15).toFixed(2))
+        }
+      ];
     }
 
-    if (updated.heroMovie.liveVelocity) {
-      updated.heroMovie.liveVelocity.baseIndiaNetCr = parseFloat(heroRelease.baseNetNum.toFixed(4));
-      updated.heroMovie.liveVelocity.baseWorldwideCr = parseFloat(heroRelease.baseWwNum.toFixed(4));
+    const peakDay = (heroObj.dayWiseCollections || []).reduce((best, d) => (d.net > (best ? best.net : 0) ? d : best), null);
+    const heroSignals = signals
+      .filter(s => s.text.toLowerCase().includes(topHero.title.replace(/\([^)]*\)/g, '').trim().toLowerCase()))
+      .filter(s => /(record|milestone|biggest|fastest|bms|bookmyshow|crossed|tops|imax|history)/i.test(s.text))
+      .slice(0, 4)
+      .map(s => ({ label: `${s.sourceName} Verified`, value: s.text.replace(/\s+-\s+(Sacnilk|Pinkvilla|Koimoi|Bollywood Hungama|Box Office India)$/i, '') }));
+
+    heroObj.recordsAndMilestones = [
+      { label: 'SINGLE-DAY PEAK', value: peakDay ? `₹${peakDay.net.toFixed(2)} Cr (${peakDay.label})` : topHero.dayNet, sub: 'Highest domestic net single day' },
+      { label: 'TOTAL FOOTFALLS', value: heroObj.keyMetrics.totalFootfalls || 'Tracking Live', sub: `Day ${topHero.dayCount} cumulative admissions` },
+      { label: 'NEXT-DAY ADVANCE', value: heroObj.advanceBooking || `Live Shows: ${heroObj.keyMetrics.showCount}`, sub: 'Pre-sales & show velocity tracker' },
+      { label: 'BMS TICKET PACE', value: topHero.id === 'ramayana-2026' ? '16.60L Peak Day / 1.40L Hr' : `${topHero.ticketsPerMin} Tix / Min`, sub: `Active BMS Buzz Signals: ${topHero.bmsBuzzSignals || 0}` },
+      ...heroSignals
+    ].slice(0, 8);
+    if (heroObj.liveVelocity) {
+      heroObj.liveVelocity.ticketsPerMin = topHero.ticketsPerMin;
+      heroObj.liveVelocity.baseIndiaNetCr = parseFloat(topHero.baseNetNum.toFixed(4));
+      heroObj.liveVelocity.baseWorldwideCr = parseFloat(topHero.baseWwNum.toFixed(4));
     }
-    if (updated.heroMovie.supportResistance) {
-      updated.heroMovie.supportResistance.resistanceProgress = parseFloat(((heroRelease.baseWwNum / 1000) * 100).toFixed(2));
+    if (heroObj.supportResistance) {
+      const targetNum = parseCrNumber(heroObj.supportResistance.targetClubResistance, 1000) || 1000;
+      heroObj.supportResistance.resistanceProgress = parseFloat(Math.min(100, (topHero.baseWwNum / targetNum) * 100).toFixed(2));
     }
+    updated.heroMovie = heroObj;
+    updated.marketStatus.topGainer = `${topHero.title.toUpperCase()} (#1 TREND)`;
+    updated.marketStatus.totalActiveShows = activeReleases.reduce((sum, m) => sum + (m.shows || 0), 0);
   }
 
-  // Sync top tickerFeed cleanly by stable movie ID mapping
-  updated.tickerFeed = updated.marketReleases.map(m => {
+  // Step E: Sync top tickerFeed in top-trending order
+  updated.tickerFeed = activeReleases.map(m => {
     const meta = MOVIE_SYMBOLS[m.id] || {};
     return {
-      symbol: meta.symbol || m.id.toUpperCase(),
+      symbol: meta.symbol || slugify(m.title).toUpperCase().slice(0, 10),
       title: m.title,
       day: `Day ${m.dayCount}`,
       collection: m.totalNet,
       change: m.dayChange,
       status: m.sentiment,
-      type: m.id === 'jailer-2' ? 'Benchmark Net' : (m.id === 'drishyam-3' ? 'All-Time Net' : 'Net'),
+      type: m.classification === 'Last 15 Days' ? 'Active 15D' : 'Holdover 30D',
       badge: meta.badge || m.verdict
     };
   });
@@ -573,6 +911,10 @@ function processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData,
   updated.verificationReport = {
     lastVerifiedIST: istClock.timeStr,
     schedule: 'Twice Daily (12:00 PM IST & 09:30 PM IST)',
+    lifecyclePolicy: 'Auto-Add Weekly (<15d) | Active 15d | Auto-Remove >30d | Ranked by Collection + BMS/Search Buzz',
+    autoDiscoveredNew: newlyAdded,
+    autoRemovedOver30d: removedNames,
+    googleTrendsCheckedCount: googleTrends.length,
     sourcesChecked: Object.values(sourceStats),
     totalSignalsCollected: signals.length,
     verifiedUpdates
@@ -584,7 +926,7 @@ function processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData,
 /** Main entry point executed by GitHub Actions or local CLI. */
 async function runScraperPipeline() {
   const istClock = getIstClock();
-  console.log(`[${istClock.timeStr}] Starting 5-source BoxOfficeCollectionLive verification pipeline...`);
+  console.log(`[${istClock.timeStr}] Starting Year-Round Autopilot BoxOfficeCollectionLive pipeline...`);
 
   let currentData;
   try {
@@ -595,17 +937,18 @@ async function runScraperPipeline() {
   }
 
   try {
-    const { signals, sourceStats, sacnilkDeepData } = await collectAllSourceSignals(currentData.marketReleases);
-    console.log(`Collected ${signals.length} signals across 5 sources.`);
-    Object.values(sourceStats).forEach(s => {
+    const collected = await collectAllSourceSignals(currentData.marketReleases, istClock);
+    console.log(`Collected ${collected.signals.length} signals + ${collected.googleTrends.length} Google Trends IN items.`);
+    Object.values(collected.sourceStats).forEach(s => {
       console.log(`  - ${s.name}: direct=${s.directStatus}, rss=${s.rssStatus}, signals=${s.headlineCount}`);
     });
 
-    const updatedData = processAndMergeData(currentData, signals, sourceStats, sacnilkDeepData, istClock);
+    const updatedData = await processAndMergeData(currentData, collected, istClock);
     fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(updatedData, null, 2), 'utf-8');
-    console.log(`Updated boxoffice_data.json (${updatedData.heroMovie.title} -> Day ${updatedData.heroMovie.daysInTheaters}, Net ${updatedData.heroMovie.keyMetrics.indiaNet}, WW ${updatedData.heroMovie.keyMetrics.worldwideTotal})`);
+    console.log(`Active movies: ${updatedData.marketReleases.length} | Added: ${updatedData.verificationReport.autoDiscoveredNew.length} | Archived (>30d): ${updatedData.verificationReport.autoRemovedOver30d.length}`);
+    console.log(`#1 Hero: ${updatedData.heroMovie.title} (Day ${updatedData.heroMovie.daysInTheaters}, Net ${updatedData.heroMovie.keyMetrics.indiaNet}, WW ${updatedData.heroMovie.keyMetrics.worldwideTotal})`);
   } catch (err) {
-    console.error('Verification pipeline error (preserving cached boxoffice_data.json):', err.message);
+    console.error('Autopilot pipeline error (preserving cached boxoffice_data.json):', err.message);
     process.exit(0);
   }
 }

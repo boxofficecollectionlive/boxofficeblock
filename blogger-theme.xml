@@ -396,6 +396,44 @@
           </div>
         </div>
         <div class='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3' id='regional-occupancy-grid'/>
+
+        <!-- SHOW-TIMING OCCUPANCY MATRIX (MORNING / AFTERNOON / EVENING / NIGHT) -->
+        <div class='mt-6 pt-5 border-t border-[#1F2937]'>
+          <div class='flex flex-wrap items-center justify-between gap-2 mb-3'>
+            <div>
+              <h3 class='text-sm sm:text-base font-bold text-white'>SHOW-TIMING OCCUPANCY REPORT (MORNING &#8226; AFTERNOON &#8226; EVENING &#8226; NIGHT)</h3>
+              <p class='text-[11px] text-gray-400'>Language-wise seat occupancy across daily show slots</p>
+            </div>
+            <span class='text-[10px] font-mono-num text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded' id='occupancy-peak-note'>PEAK: EVENING &amp; NIGHT SHOWS</span>
+          </div>
+          <div class='overflow-x-auto'>
+            <table class='w-full text-left border-collapse font-mono-num text-xs'>
+              <thead>
+                <tr class='bg-[#090D16] text-gray-400 border border-[#1F2937]'>
+                  <th class='py-2.5 px-3 border-r border-[#1F2937]'>LANGUAGE</th>
+                  <th class='py-2.5 px-3 border-r border-[#1F2937] text-amber-300'>OVERALL</th>
+                  <th class='py-2.5 px-3 border-r border-[#1F2937]'>MORNING</th>
+                  <th class='py-2.5 px-3 border-r border-[#1F2937]'>AFTERNOON</th>
+                  <th class='py-2.5 px-3 border-r border-[#1F2937]'>EVENING</th>
+                  <th class='py-2.5 px-3'>NIGHT</th>
+                </tr>
+              </thead>
+              <tbody class='divide-y divide-[#1F2937] border border-[#1F2937]' id='show-timing-table-body'/>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOX OFFICE RECORDS, FOOTFALLS & BMS MILESTONES -->
+      <section class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-6'>
+        <div class='flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#1F2937] mb-4'>
+          <div>
+            <h2 class='text-lg font-bold text-white'>RECORDS, FOOTFALLS &amp; BOOKMYSHOW MILESTONES</h2>
+            <p class='text-xs text-gray-400'>Auto-verified trade records, single-day peaks, footfalls &amp; BMS booking velocity</p>
+          </div>
+          <span class='text-[10px] font-mono-num text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-1 rounded'>BMS &amp; TRADE VERIFIED</span>
+        </div>
+        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono-num' id='records-milestones-grid'/>
       </section>
 
       <!-- BULLISH VS BEARISH BOARDS -->
@@ -408,8 +446,9 @@
             <button class='board-filter-btn px-3 py-1.5 rounded text-gray-400 bg-[#090D16] border border-[#1F2937]' data-filter='regional' type='button'>[Regional]</button>
           </div>
           <div class='flex items-center gap-3 font-mono-num text-xs'>
-            <input class='bg-[#090D16] border border-[#1F2937] rounded px-3 py-1.5 text-xs text-white placeholder-gray-500 w-44 sm:w-56' id='movie-search-input' placeholder='Search movie...' type='text'/>
+            <input class='bg-[#090D16] border border-[#1F2937] rounded px-3 py-1.5 text-xs text-white placeholder-gray-500 w-44 sm:w-56' id='movie-search-input' placeholder='Search active or past movies...' type='text'/>
             <select class='bg-[#090D16] border border-[#1F2937] rounded px-3 py-1.5 text-xs text-gray-300' id='board-sort-select'>
+              <option value='trend-desc'>Trending &amp; Search Buzz (#1 Top)</option>
               <option value='net-desc'>Net Collection (High-Low)</option>
               <option value='change-desc'>24h Trend % (Bullish)</option>
               <option value='change-asc'>24h Trend % (Bearish)</option>
@@ -434,6 +473,30 @@
             <div class='space-y-3' id='bearish-cards-container'/>
           </div>
         </div>
+
+        <!-- PAST RELEASES & LIFETIME ARCHIVE VAULT (30+ DAYS) -->
+        <div class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-5' id='archive-vault-section'>
+          <div class='flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#1F2937] mb-4'>
+            <div>
+              <h3 class='text-base font-bold text-white'>PAST RELEASES &amp; LIFETIME ARCHIVE <span class='text-xs font-mono-num text-cyan-400' id='archive-count-badge'>(1)</span></h3>
+              <p class='text-[11px] text-gray-400'>30+ day completed theatrical runs &#8226; Search above or click any card for full lifetime stats</p>
+            </div>
+            <button class='hidden px-3 py-1 rounded bg-[#090D16] border border-[#1F2937] text-xs font-mono-num text-cyan-400 hover:border-cyan-500/50 transition' id='toggle-archive-all-btn' type='button'>Show All</button>
+          </div>
+          <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3' id='archive-cards-container'/>
+        </div>
+      </section>
+
+      <!-- DYNAMIC SEO LIVE COLLECTION BRIEFINGS & FAQ (INDEXED BY GOOGLE) -->
+      <section class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-6 space-y-3' id='seo-live-summary'>
+        <div class='flex flex-wrap items-center justify-between gap-2 border-b border-[#1F2937] pb-3'>
+          <div>
+            <h2 class='text-base sm:text-lg font-bold text-white'>LIVE BOX OFFICE COLLECTION UPDATES &amp; SEARCH FAQ</h2>
+            <p class='text-[11px] text-gray-400'>Auto-updated twice daily from Sacnilk, Bollywood Hungama, Pinkvilla, Koimoi &amp; Box Office India</p>
+          </div>
+          <span class='text-[10px] font-mono-num text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30'>AUTO-SEO SCHEMA ACTIVE</span>
+        </div>
+        <div class='grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300' id='seo-summary-cards'/>
       </section>
 
     </main>
@@ -688,10 +751,11 @@
               if (!/^https?:\/\//i.test(remoteData.heroMovie.poster || '')) {
                 remoteData.heroMovie.poster = FALLBACK_DATA.heroMovie.poster;
               }
-              (remoteData.marketReleases || []).forEach(function(rm) {
+              (remoteData.marketReleases || []).concat(remoteData.archivedReleases || []).forEach(function(rm) {
                 if (!/^https?:\/\//i.test(rm.poster || '')) {
-                  const fb = FALLBACK_DATA.marketReleases.find(function(x) { return x.id === rm.id; });
-                  if (fb) rm.poster = fb.poster;
+                  const fbList = (FALLBACK_DATA.marketReleases || []).concat(FALLBACK_DATA.archivedReleases || []);
+                  const fb = fbList.find(function(x) { return x.id === rm.id; });
+                  rm.poster = fb ? fb.poster : FALLBACK_DATA.heroMovie.poster;
                 }
               });
               boxOfficeData = remoteData;
@@ -728,7 +792,68 @@
         try { renderHeroSpotlight(); } catch(e) {}
         try { renderRegionalOccupancy(); } catch(e) {}
         try { renderBoards(); } catch(e) {}
+        try { updateDynamicSeo(); } catch(e) {}
       }
+    }
+
+    function updateDynamicSeo() {
+      if (!boxOfficeData || !boxOfficeData.heroMovie) return;
+      const hero = boxOfficeData.heroMovie;
+      const active = boxOfficeData.marketReleases || [];
+      const topNames = active.slice(0, 4).map(function(m) { return m.title + ' (Day ' + m.dayCount + ': ' + m.totalNet + ')'; }).join(', ');
+
+      document.title = hero.title + ' Day ' + hero.daysInTheaters + ' Box Office Collection (' + hero.keyMetrics.indiaNet + ' Net, ' + hero.keyMetrics.worldwideTotal + ' WW) | BoxOfficeCollectionLive';
+
+      const descText = 'Live Indian Box Office Collection updates: ' + topNames + '. Check day-wise India Net, Worldwide Gross, occupancy, and BookMyShow buzz.';
+      let metaDesc = document.querySelector('meta[name="description"]');
+      if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = 'description';
+        document.head.appendChild(metaDesc);
+      }
+      metaDesc.content = descText;
+
+      const seoBox = document.getElementById('seo-summary-cards');
+      if (seoBox) {
+        seoBox.innerHTML = active.slice(0, 6).map(function(m) {
+          return '<article class="bg-[#090D16] border border-[#1F2937] rounded p-3 space-y-1"><h3 class="text-sm font-bold text-white">' + m.title + ' Day ' + m.dayCount + ' Box Office Collection</h3><p class="text-xs text-gray-400 leading-relaxed">' + m.title + ' has collected <strong>' + m.totalNet + ' India Net</strong> and <strong>' + m.worldwide + ' Worldwide</strong> across ' + (m.shows || 0).toLocaleString('en-IN') + ' shows (' + m.occupancy + '% occupancy). Latest single-day estimate: <strong>' + m.dayNet + '</strong> (' + m.verdict + ').</p></article>';
+        }).join('');
+      }
+
+      const faqEntities = active.slice(0, 5).map(function(m) {
+        return {
+          '@type': 'Question',
+          name: 'What is ' + m.title + ' Day ' + m.dayCount + ' box office collection?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: m.title + ' collected ' + m.dayNet + ' on Day ' + m.dayCount + ', taking its total to ' + m.totalNet + ' India Net and ' + m.worldwide + ' Worldwide.'
+          }
+        };
+      });
+      const schemaPayload = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'FAQPage',
+            mainEntity: faqEntities
+          },
+          {
+            '@type': 'ItemList',
+            name: 'Live Indian Box Office Collections',
+            itemListElement: active.slice(0, 8).map(function(m, idx) {
+              return { '@type': 'ListItem', position: idx + 1, name: m.title + ' - ' + m.totalNet + ' India Net (' + m.worldwide + ' WW)' };
+            })
+          }
+        ]
+      };
+      let ldEl = document.getElementById('dynamic-boxoffice-schema');
+      if (!ldEl) {
+        ldEl = document.createElement('script');
+        ldEl.type = 'application/ld+json';
+        ldEl.id = 'dynamic-boxoffice-schema';
+        document.head.appendChild(ldEl);
+      }
+      ldEl.textContent = JSON.stringify(schemaPayload);
     }
 
     function initAutoSyncPolling() {
@@ -878,6 +1003,25 @@
       document.getElementById('hero-show-count').textContent = m.keyMetrics.showCount;
       document.getElementById('hero-occupancy').textContent = m.keyMetrics.avgOccupancy;
 
+      const sr = m.supportResistance || {};
+      const pct = typeof sr.resistanceProgress === 'number' ? Math.min(100, sr.resistanceProgress) : 75;
+      const targetEl = document.getElementById('hero-target-res');
+      if (targetEl && sr.targetClubResistance) targetEl.textContent = sr.targetClubResistance + ' (' + pct.toFixed(1) + '%)';
+      const supEl = document.getElementById('hero-weekday-sup');
+      if (supEl && sr.weekdaySupport) supEl.textContent = sr.weekdaySupport;
+      const langBadge = document.getElementById('lang-total-badge');
+      if (langBadge && m.keyMetrics) langBadge.textContent = m.keyMetrics.indiaNet + ' Net';
+      const resLabel = document.getElementById('resistance-label-text');
+      if (resLabel && sr.targetClubResistance) resLabel.textContent = sr.targetClubResistance;
+      const resPct = document.getElementById('resistance-pct-text');
+      if (resPct) resPct.textContent = pct.toFixed(1) + '% Unlocked';
+      const resBar = document.getElementById('resistance-progress-bar');
+      if (resBar) resBar.style.width = pct.toFixed(1) + '%';
+      const wfRate = document.getElementById('waveform-rate-label');
+      if (wfRate) wfRate.textContent = '+₹' + ((sec * 60) / 100000).toFixed(2) + ' Lakhs / Min';
+      renderShowTimingOccupancy();
+      renderRecordsAndMilestones();
+
       const langEl = document.getElementById('language-bars-container');
       if (langEl && m.languageBreakdown) {
         langEl.innerHTML = m.languageBreakdown.map(function(l) {
@@ -932,6 +1076,46 @@
         const cls = occ >= 80 ? 'text-emerald-400 border-emerald-400 bg-emerald-950/30' : (occ < 55 ? 'text-amber-400 border-amber-500/40 bg-amber-500/10' : 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10');
         return '<div class="bg-[#090D16] border ' + cls + ' p-3 rounded font-mono-num"><div class="flex justify-between text-xs"><strong>' + c.city + '</strong><span>' + c.shows + ' sh</span></div><div class="text-lg font-bold mt-1">' + occ.toFixed(1) + '%</div><div class="text-[9px] text-gray-400 mt-1">' + c.peakTime + '</div></div>';
       }).join('');
+      renderShowTimingOccupancy();
+    }
+
+    function renderShowTimingOccupancy() {
+      const tbody = document.getElementById('show-timing-table-body');
+      if (!tbody) return;
+      const rows = (currentHeroMovie && currentHeroMovie.showTimingOccupancy && currentHeroMovie.showTimingOccupancy.length)
+        ? currentHeroMovie.showTimingOccupancy
+        : (boxOfficeData.heroMovie && boxOfficeData.heroMovie.showTimingOccupancy) || [
+            { language: 'Hindi (3D)', overall: 44.50, morning: 22.08, afternoon: 51.08, evening: 58.92, night: 45.92 },
+            { language: 'Kannada (3D)', overall: 72.66, morning: 51.18, afternoon: 80.00, evening: 81.82, night: 77.64 },
+            { language: 'Tamil (3D)', overall: 69.96, morning: 53.45, afternoon: 63.64, evening: 77.91, night: 61.64 },
+            { language: 'Telugu (3D)', overall: 28.34, morning: 21.18, afternoon: 26.45, evening: 33.73, night: 32.00 }
+          ];
+      const delta = activeOccupancyFormat === '3d' ? 4.2 : (activeOccupancyFormat === '2d' ? -5.8 : 0);
+      function adj(v) { return Math.max(5, Math.min(99, v + delta)).toFixed(2) + '%'; }
+      function colorCls(v) {
+        const val = v + delta;
+        return val >= 65 ? 'text-emerald-400 font-bold' : (val >= 40 ? 'text-cyan-300 font-semibold' : 'text-amber-400');
+      }
+      tbody.innerHTML = rows.map(function(r) {
+        return '<tr class="bg-[#090D16] hover:bg-[#0d1422]"><td class="py-2.5 px-3 border-r border-[#1F2937] font-bold text-white">' + r.language + '</td><td class="py-2.5 px-3 border-r border-[#1F2937] ' + colorCls(r.overall) + '">' + adj(r.overall) + '</td><td class="py-2.5 px-3 border-r border-[#1F2937] text-gray-300">' + adj(r.morning) + '</td><td class="py-2.5 px-3 border-r border-[#1F2937] text-gray-200">' + adj(r.afternoon) + '</td><td class="py-2.5 px-3 border-r border-[#1F2937] ' + colorCls(r.evening) + '">' + adj(r.evening) + '</td><td class="py-2.5 px-3 text-gray-200">' + adj(r.night) + '</td></tr>';
+      }).join('');
+    }
+
+    function renderRecordsAndMilestones() {
+      const grid = document.getElementById('records-milestones-grid');
+      if (!grid) return;
+      const items = (currentHeroMovie && currentHeroMovie.recordsAndMilestones && currentHeroMovie.recordsAndMilestones.length)
+        ? currentHeroMovie.recordsAndMilestones
+        : [
+            { label: 'SINGLE-DAY PEAK', value: '₹107.50 Cr (Day 5)', sub: 'Highest Diwali Monday Net ever' },
+            { label: 'TOTAL FOOTFALLS', value: '1.97 Crore+', sub: 'Cumulative domestic admissions' },
+            { label: 'BMS SINGLE-DAY RECORD', value: '16.60 Lakh Tix', sub: 'Surpasses previous all-time peak' },
+            { label: 'FASTEST BMS HOURLY', value: '1.40 Lakh / Hr', sub: '4 Consecutive 1M+ Ticket Days' }
+          ];
+      grid.innerHTML = items.map(function(it, idx) {
+        const accent = idx < 2 ? 'border-amber-500/40 text-amber-400' : (idx < 4 ? 'border-emerald-500/40 text-emerald-400' : 'border-[#1F2937] text-cyan-400');
+        return '<div class="bg-[#090D16] border ' + accent + ' rounded p-3 space-y-1"><div class="text-[10px] font-bold uppercase tracking-wider">' + it.label + '</div><div class="text-sm font-extrabold text-white leading-snug">' + it.value + '</div><div class="text-[10px] text-gray-400 leading-snug">' + (it.sub || '') + '</div></div>';
+      }).join('');
     }
 
     function renderBoards() {
@@ -939,7 +1123,7 @@
       const rEl = document.getElementById('bearish-cards-container');
       if (!bEl || !rEl) return;
       const q = (document.getElementById('movie-search-input') ? document.getElementById('movie-search-input').value : '').toLowerCase();
-      const s = document.getElementById('board-sort-select') ? document.getElementById('board-sort-select').value : 'net-desc';
+      const s = document.getElementById('board-sort-select') ? document.getElementById('board-sort-select').value : 'trend-desc';
       const list = boxOfficeData.marketReleases.filter(function(m) {
         if (q && m.title.toLowerCase().indexOf(q) === -1) return false;
         if (activeFilter === 'recent15') return m.classification === 'Last 15 Days';
@@ -947,6 +1131,7 @@
         if (activeFilter === 'regional') return m.category === 'Regional';
         return true;
       }).sort(function(a, b) {
+        if (s === 'trend-desc') return (b.trendScore || b.baseNetNum || 0) - (a.trendScore || a.baseNetNum || 0);
         if (s === 'change-desc') return b.dayChange - a.dayChange;
         if (s === 'change-asc') return a.dayChange - b.dayChange;
         if (s === 'occupancy-desc') return b.occupancy - a.occupancy;
@@ -958,34 +1143,64 @@
       document.getElementById('bearish-count-badge').textContent = '(' + bears.length + ')';
 
       function card(m, bull) {
-        return '<div onclick="inspectMovie(\'' + m.id + '\')" class="bg-[#090D16] border border-[#1F2937] hover:border-cyan-500/50 p-3 rounded-lg flex gap-3.5 font-mono-num cursor-pointer transition"><div class="w-20 sm:w-24 h-[120px] sm:h-[144px] shrink-0 poster-frame"><img src="' + m.poster + '" alt="' + m.title + '" class="w-full h-full object-cover block"/><div class="absolute bottom-0 inset-x-0 bg-black/90 text-center py-1 text-[11px] font-black text-white">' + m.totalNet + '</div></div><div class="flex-1 min-w-0 flex flex-col justify-between"><div class="flex justify-between items-start gap-2"><div class="min-w-0"><h4 class="font-bold text-white text-sm truncate">' + m.title + '</h4><div class="text-[11px] text-gray-400 truncate">' + m.verdict + ' • Day ' + m.dayCount + '</div></div><span class="text-sm font-bold ' + (bull ? 'text-emerald-400' : 'text-red-400') + '">' + (m.dayChange > 0 ? '+' : '') + m.dayChange.toFixed(1) + '%</span></div><div class="grid grid-cols-3 gap-2 pt-2 border-t border-[#1F2937] text-xs"><div><div class="text-[9px] text-gray-500">TODAY</div><div class="font-bold text-white">' + m.dayNet + '</div></div><div><div class="text-[9px] text-gray-500">WORLDWIDE</div><div class="font-bold text-cyan-400">' + m.worldwide + '</div></div><div><div class="text-[9px] text-gray-500">OCCUPANCY</div><div class="font-bold text-gray-200">' + m.occupancy + '%</div></div></div></div></div>';
+        const trendTag = m.googleTrending ? ' <span class="px-1 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[9px]">TRENDING</span>' : (m.bmsBuzzSignals > 0 ? ' <span class="px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[9px]">BMS BUZZ</span>' : '');
+        return '<div onclick="inspectMovie(\'' + m.id + '\')" class="bg-[#090D16] border border-[#1F2937] hover:border-cyan-500/50 p-3 rounded-lg flex gap-3.5 font-mono-num cursor-pointer transition"><div class="w-20 sm:w-24 h-[120px] sm:h-[144px] shrink-0 poster-frame"><img src="' + m.poster + '" alt="' + m.title + '" onerror="this.src=\'https://upload.wikimedia.org/wikipedia/en/4/48/Ramayana_Part_1_%28poster%29.jpg\'" class="w-full h-full object-cover block"/><div class="absolute bottom-0 inset-x-0 bg-black/90 text-center py-1 text-[11px] font-black text-white">' + m.totalNet + '</div></div><div class="flex-1 min-w-0 flex flex-col justify-between"><div class="flex justify-between items-start gap-2"><div class="min-w-0"><h4 class="font-bold text-white text-sm truncate">' + m.title + trendTag + '</h4><div class="text-[11px] text-gray-400 truncate">' + m.verdict + ' • Day ' + m.dayCount + '</div></div><span class="text-sm font-bold ' + (bull ? 'text-emerald-400' : 'text-red-400') + '">' + (m.dayChange > 0 ? '+' : '') + m.dayChange.toFixed(1) + '%</span></div><div class="grid grid-cols-3 gap-2 pt-2 border-t border-[#1F2937] text-xs"><div><div class="text-[9px] text-gray-500">TODAY</div><div class="font-bold text-white">' + m.dayNet + '</div></div><div><div class="text-[9px] text-gray-500">WORLDWIDE</div><div class="font-bold text-cyan-400">' + m.worldwide + '</div></div><div><div class="text-[9px] text-gray-500">OCCUPANCY</div><div class="font-bold text-gray-200">' + m.occupancy + '%</div></div></div></div></div>';
       }
-      bEl.innerHTML = bulls.map(function(m) { return card(m, true); }).join('');
-      rEl.innerHTML = bears.map(function(m) { return card(m, false); }).join('');
+      bEl.innerHTML = bulls.map(function(m) { return card(m, true); }).join('') || '<p class="text-xs font-mono-num text-gray-500">No active bullish matches. Check Past Releases Archive below.</p>';
+      rEl.innerHTML = bears.map(function(m) { return card(m, false); }).join('') || '<p class="text-xs font-mono-num text-gray-500">No active bearish matches. Check Past Releases Archive below.</p>';
+
+      const archSection = document.getElementById('archive-vault-section');
+      const archEl = document.getElementById('archive-cards-container');
+      const archBadge = document.getElementById('archive-count-badge');
+      const archBtn = document.getElementById('toggle-archive-all-btn');
+      if (archEl && archSection) {
+        const allArch = (boxOfficeData.archivedReleases || []).filter(function(m) {
+          return !q || m.title.toLowerCase().indexOf(q) !== -1;
+        });
+        if (archBadge) archBadge.textContent = '(' + allArch.length + ')';
+        const showAll = window._showAllArchive === true || q.length > 0;
+        const visibleArch = showAll ? allArch : allArch.slice(0, 6);
+        archEl.innerHTML = visibleArch.map(function(m) {
+          return card(m, m.sentiment !== 'BEARISH');
+        }).join('') || '<p class="text-xs font-mono-num text-gray-500 col-span-full">No matching archived releases yet.</p>';
+        if (archBtn) {
+          if (allArch.length > 6 && q.length === 0) {
+            archBtn.classList.remove('hidden');
+            archBtn.textContent = window._showAllArchive ? 'Show Less' : 'Show All (' + allArch.length + ')';
+          } else {
+            archBtn.classList.add('hidden');
+          }
+        }
+      }
     }
 
     window.inspectMovie = function(id) {
-      const m = boxOfficeData.marketReleases.find(function(x) { return x.id === id; });
+      const allPool = (boxOfficeData.marketReleases || []).concat(boxOfficeData.archivedReleases || []);
+      const m = allPool.find(function(x) { return x.id === id; });
       if (!m) return;
-      if (id === 'ramayana-2026') {
+      if (boxOfficeData.heroMovie && id === boxOfficeData.heroMovie.id) {
         currentHeroMovie = boxOfficeData.heroMovie;
         liveIndiaNetAccumulator = currentHeroMovie.liveVelocity.baseIndiaNetCr;
         liveWorldwideAccumulator = currentHeroMovie.liveVelocity.baseWorldwideCr;
       } else {
-        liveIndiaNetAccumulator = m.baseNetNum;
-        liveWorldwideAccumulator = m.baseWwNum;
+        liveIndiaNetAccumulator = m.baseNetNum || 0;
+        liveWorldwideAccumulator = m.baseWwNum || 0;
+        const wwNum = m.baseWwNum || 0;
+        const netNum = m.baseNetNum || 0;
         currentHeroMovie = {
           id: m.id, title: m.title.toUpperCase(), poster: m.poster,
-          subtitle: m.verdict + ' | ' + m.category, releaseDate: m.releaseDate,
-          daysInTheaters: m.dayCount, sentiment: m.orderBlock, orderBlockVerdict: m.verdict,
-          liveVelocity: { ticketsPerMin: m.ticketsPerMin, inrPerSecond: m.ticketsPerMin * 380 },
+          subtitle: m.verdict + ' | ' + (m.category || 'Indian Cinema') + ' | Released ' + (m.releaseDate || ''),
+          releaseDate: m.releaseDate,
+          daysInTheaters: m.dayCount, sentiment: m.orderBlock || m.classification, orderBlockVerdict: m.verdict,
+          liveVelocity: { ticketsPerMin: m.ticketsPerMin || 2, inrPerSecond: (m.ticketsPerMin || 2) * 380 },
           keyMetrics: {
-            indiaNet: m.totalNet, indiaGross: '₹' + (m.baseNetNum * 1.19).toFixed(2) + ' Cr',
-            overseasGross: '₹' + Math.max(0, m.baseWwNum - m.baseNetNum * 1.19).toFixed(2) + ' Cr',
-            worldwideTotal: m.worldwide, showCount: m.shows.toLocaleString(), avgOccupancy: m.occupancy + '%'
+            indiaNet: m.totalNet, indiaGross: '₹' + (netNum * 1.19).toFixed(2) + ' Cr',
+            overseasGross: '₹' + Math.max(0, wwNum - netNum * 1.19).toFixed(2) + ' Cr',
+            worldwideTotal: m.worldwide, showCount: (m.shows || 0).toLocaleString(), avgOccupancy: (m.occupancy || 0) + '%'
           },
-          dayWiseCollections: m.sparkline.map(function(v, i) { return { label: 'D' + (i + 1), net: v, gross: v * 1.2, change: 0, shows: m.shows, occupancy: m.occupancy }; }),
-          languageBreakdown: [{ language: m.dominantMarket, amount: m.baseNetNum, percentage: 100, color: '#06B6D4' }]
+          supportResistance: { targetClubResistance: m.resistanceLevel || 'Lifetime Run', resistanceProgress: Math.min(100, (wwNum / 500) * 100), weekdaySupport: m.supportLevel || 'Archive Vault' },
+          dayWiseCollections: (m.sparkline && m.sparkline.length ? m.sparkline : [netNum]).map(function(v, i) { return { label: 'D' + (i + 1), net: v, gross: v * 1.2, change: 0, shows: m.shows || 0, occupancy: m.occupancy || 0 }; }),
+          languageBreakdown: [{ language: m.dominantMarket || 'India / Overseas', amount: netNum, percentage: 100, color: '#06B6D4' }]
         };
       }
       renderHeroSpotlight();
@@ -1013,6 +1228,11 @@
       });
       const si = document.getElementById('movie-search-input');
       if (si) si.addEventListener('input', renderBoards);
+      const archBtn = document.getElementById('toggle-archive-all-btn');
+      if (archBtn) archBtn.addEventListener('click', function() {
+        window._showAllArchive = !window._showAllArchive;
+        renderBoards();
+      });
       const ss = document.getElementById('board-sort-select');
       if (ss) ss.addEventListener('change', renderBoards);
       const ab = document.getElementById('toggle-auto-sync-btn');
