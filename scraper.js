@@ -58,13 +58,24 @@ const AUTHENTIC_SOURCES = [
 
 const MOVIE_SEARCH_ALIASES = {
   'ramayana-2026': ['ramayana'],
-  'scene-2026': ['scene box office', 'scene'],
+  'scene-2026': ['scene box office', 'scene day', 'scene india'],
   'mookuthi-amman-2': ['mookuthi amman 2', 'mookuthi amman'],
   'ak-47': ['aadarsha kutumbam', 'ak 47'],
   'pyre': ['pyre box office', 'pyre'],
   'jailer-2': ['jailer 2'],
   'udta-teer': ['udta teer'],
   'drishyam-3': ['drishyam 3', 'drishyam the conclusion']
+};
+
+const MOVIE_SYMBOLS = {
+  'ramayana-2026': { symbol: 'RAMAYANA', badge: 'Diwali Breakout' },
+  'scene-2026': { symbol: 'SCENE', badge: 'Heavy Drop' },
+  'mookuthi-amman-2': { symbol: 'M-AMMAN2', badge: 'Capitulation' },
+  'ak-47': { symbol: 'AK47', badge: 'Weekday Bleed' },
+  'pyre': { symbol: 'PYRE', badge: 'Screen Loss' },
+  'jailer-2': { symbol: 'JAILER2', badge: 'End of Run' },
+  'udta-teer': { symbol: 'UDTA-TEER', badge: 'Steady Tail' },
+  'drishyam-3': { symbol: 'DRISHYAM3', badge: 'Super Hit' }
 };
 
 /** Decode HTML/XML entities (named + numeric) and collapse whitespace. */
@@ -285,9 +296,10 @@ function verifyMovieFromSignals(movie, signals, actualDay) {
     if (!parsed || !byKind[parsed.kind]) continue;
 
     // Sanity bounds relative to existing verified baseline so outliers never corrupt totals
+    const maxDailyCap = Math.min(160, Math.max(2, movie.baseNetNum * 0.55));
     if (parsed.kind === 'cumulativeNet' && (parsed.value < movie.baseNetNum * 0.98 || parsed.value > movie.baseNetNum * 1.45)) continue;
     if (parsed.kind === 'worldwide' && (parsed.value < movie.baseWwNum * 0.98 || parsed.value > movie.baseWwNum * 1.45)) continue;
-    if (parsed.kind === 'daily' && (parsed.value < 0.05 || parsed.value > 160)) continue;
+    if (parsed.kind === 'daily' && (parsed.value < 0.05 || parsed.value > maxDailyCap)) continue;
 
     if (!byKind[parsed.kind].has(item.sourceId)) {
       byKind[parsed.kind].set(item.sourceId, parsed.value);
@@ -382,17 +394,20 @@ function processAndMergeData(currentData, signals, sourceStats, istClock) {
     }
   }
 
-  // Keep top tickerFeed synced with marketReleases
-  updated.tickerFeed = updated.marketReleases.map((m, idx) => ({
-    symbol: (currentData.tickerFeed[idx] && currentData.tickerFeed[idx].symbol) || m.id.toUpperCase(),
-    title: m.title,
-    day: `Day ${m.dayCount}`,
-    collection: m.totalNet,
-    change: m.dayChange,
-    status: m.sentiment,
-    type: m.id === 'jailer-2' ? 'Benchmark Net' : (m.id === 'drishyam-3' ? 'All-Time Net' : 'Net'),
-    badge: (currentData.tickerFeed[idx] && currentData.tickerFeed[idx].badge) || m.verdict
-  }));
+  // Keep top tickerFeed synced with marketReleases using stable movie ID mapping
+  updated.tickerFeed = updated.marketReleases.map(m => {
+    const meta = MOVIE_SYMBOLS[m.id] || {};
+    return {
+      symbol: meta.symbol || m.id.toUpperCase(),
+      title: m.title,
+      day: `Day ${m.dayCount}`,
+      collection: m.totalNet,
+      change: m.dayChange,
+      status: m.sentiment,
+      type: m.id === 'jailer-2' ? 'Benchmark Net' : (m.id === 'drishyam-3' ? 'All-Time Net' : 'Net'),
+      badge: meta.badge || m.verdict
+    };
+  });
 
   updated.verificationReport = {
     lastVerifiedIST: istClock.timeStr,

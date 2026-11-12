@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-12T07:41:38.248Z",
+  "lastUpdated": "2026-11-12T07:45:29.085Z",
   "marketStatus": {
     "status": "OPEN",
     "volatility": "EXTREME_BULLISH",
@@ -9,7 +9,7 @@
     "topGainer": "RAMAYANA (2026)",
     "marketDominance": "76.4% (Ramayana)",
     "autoRefreshIntervalSec": 30,
-    "lastSync": "01:11:37 pm"
+    "lastSync": "01:15:25 pm"
   },
   "tickerFeed": [
     {
@@ -43,34 +43,34 @@
       "badge": "Capitulation"
     },
     {
-      "symbol": "JAILER2",
+      "symbol": "AK47",
       "title": "Aadarsha Kutumbam (AK 47)",
       "day": "Day 14",
       "collection": "₹18.40 Cr",
       "change": -18.5,
       "status": "BEARISH",
       "type": "Net",
-      "badge": "End of Run"
+      "badge": "Weekday Bleed"
     },
     {
-      "symbol": "AK47",
+      "symbol": "PYRE",
       "title": "Pyre",
       "day": "Day 14",
       "collection": "₹9.65 Cr",
       "change": -32.1,
       "status": "BEARISH",
       "type": "Net",
-      "badge": "Weekday Bleed"
+      "badge": "Screen Loss"
     },
     {
-      "symbol": "PYRE",
+      "symbol": "JAILER2",
       "title": "Jailer 2",
       "day": "Day 29",
       "collection": "₹472.53 Cr",
       "change": -29.6,
       "status": "BEARISH",
       "type": "Benchmark Net",
-      "badge": "Screen Loss"
+      "badge": "End of Run"
     },
     {
       "symbol": "UDTA-TEER",
@@ -352,7 +352,7 @@
       "sentiment": "BEARISH",
       "orderBlock": "Screen Compression",
       "verdict": "Heavy Drop",
-      "dayNet": "₹54.00 Cr*",
+      "dayNet": "₹1.45 Cr",
       "totalNet": "₹12.85 Cr",
       "worldwide": "₹15.20 Cr",
       "baseNetNum": 12.85,
@@ -577,7 +577,7 @@
     }
   ],
   "verificationReport": {
-    "lastVerifiedIST": "2026-11-12 01:11:37 pm IST",
+    "lastVerifiedIST": "2026-11-12 01:15:25 pm IST",
     "schedule": "Twice Daily (12:00 PM IST & 09:30 PM IST)",
     "sourcesChecked": [
       {
@@ -592,31 +592,31 @@
         "domain": "bollywoodhungama.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 157
+        "headlineCount": 159
       },
       {
         "name": "Box Office India",
         "domain": "boxofficeindia.com",
-        "directStatus": 403,
+        "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 11
+        "headlineCount": 21
       },
       {
         "name": "Koimoi",
         "domain": "koimoi.com",
         "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 127
+        "headlineCount": 125
       },
       {
         "name": "Pinkvilla",
         "domain": "pinkvilla.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 126
+        "headlineCount": 127
       }
     ],
-    "totalSignalsCollected": 604,
+    "totalSignalsCollected": 615,
     "verifiedUpdates": [
       {
         "movie": "Ramayana (2026)",
@@ -624,9 +624,9 @@
         "sourcesMatched": [
           "Pinkvilla",
           "Sacnilk",
+          "Box Office India",
           "Bollywood Hungama",
-          "Koimoi",
-          "Box Office India"
+          "Koimoi"
         ],
         "consensusApplied": false,
         "sampleHeadlines": [
@@ -642,7 +642,7 @@
           "Sacnilk",
           "Koimoi"
         ],
-        "consensusApplied": true,
+        "consensusApplied": false,
         "sampleHeadlines": [
           "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1st Wednesday, to close first week at Rs 125 crore mark",
           "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1..."
@@ -721,7 +721,7 @@
         "consensusApplied": false,
         "sampleHeadlines": [
           "Koimoi: Drishyam 3 Box Office: Post-Diwali Spirit Brings Dhamakedaar 150% Jump On 6th Monday - Only 1.52 Crore Away From The Final Milestone! - Koimoi",
-          "Koimoi: Drishyam 3 Box Office: Post-Diwali Spirit Brings Dhamakedaar 150% Jump On 6th Monday - Only 1.52 Crore Away From The Final Milestone! - Koimoi"
+          "Koimoi: Drishyam 3 Day Wise Box Office Collection - Koimoi"
         ]
       }
     ]

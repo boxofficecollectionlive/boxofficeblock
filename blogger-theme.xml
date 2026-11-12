@@ -682,7 +682,21 @@
       if (REMOTE_DATA_URL) {
         try {
           const res = await fetch(REMOTE_DATA_URL + '?t=' + Date.now());
-          if (res.ok) boxOfficeData = await res.json();
+          if (res.ok) {
+            const remoteData = await res.json();
+            if (remoteData && remoteData.heroMovie) {
+              if (!/^https?:\/\//i.test(remoteData.heroMovie.poster || '')) {
+                remoteData.heroMovie.poster = FALLBACK_DATA.heroMovie.poster;
+              }
+              (remoteData.marketReleases || []).forEach(function(rm) {
+                if (!/^https?:\/\//i.test(rm.poster || '')) {
+                  const fb = FALLBACK_DATA.marketReleases.find(function(x) { return x.id === rm.id; });
+                  if (fb) rm.poster = fb.poster;
+                }
+              });
+              boxOfficeData = remoteData;
+            }
+          }
         } catch (e) {}
       }
       if (!boxOfficeData) boxOfficeData = FALLBACK_DATA;
