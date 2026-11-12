@@ -1,0 +1,729 @@
+{
+  "lastUpdated": "2026-11-12T07:22:08.689Z",
+  "marketStatus": {
+    "status": "OPEN",
+    "volatility": "EXTREME_BULLISH",
+    "activeHoliday": "Diwali Extended Holiday Trading Session",
+    "total24hVolumeNet": "₹136.42 Cr",
+    "totalActiveShows": 48210,
+    "topGainer": "RAMAYANA (2026)",
+    "marketDominance": "76.4% (Ramayana)",
+    "autoRefreshIntervalSec": 30,
+    "lastSync": "12:51:57 pm"
+  },
+  "tickerFeed": [
+    {
+      "symbol": "RAMAYANA",
+      "title": "Ramayana (2026)",
+      "day": "Day 8",
+      "collection": "₹471.95 Cr",
+      "change": 14.2,
+      "status": "BULLISH",
+      "type": "Net",
+      "badge": "Diwali Breakout"
+    },
+    {
+      "symbol": "SCENE",
+      "title": "Scene",
+      "day": "Day 7",
+      "collection": "₹12.85 Cr",
+      "change": -40,
+      "status": "BEARISH",
+      "type": "Net",
+      "badge": "Heavy Drop"
+    },
+    {
+      "symbol": "M-AMMAN2",
+      "title": "Mookuthi Amman 2",
+      "day": "Day 7",
+      "collection": "₹2.10 Cr",
+      "change": -59.2,
+      "status": "BEARISH",
+      "type": "Net",
+      "badge": "Capitulation"
+    },
+    {
+      "symbol": "JAILER2",
+      "title": "Aadarsha Kutumbam (AK 47)",
+      "day": "Day 14",
+      "collection": "₹18.40 Cr",
+      "change": -18.5,
+      "status": "BEARISH",
+      "type": "Net",
+      "badge": "End of Run"
+    },
+    {
+      "symbol": "AK47",
+      "title": "Pyre",
+      "day": "Day 14",
+      "collection": "₹9.65 Cr",
+      "change": -32.1,
+      "status": "BEARISH",
+      "type": "Net",
+      "badge": "Weekday Bleed"
+    },
+    {
+      "symbol": "PYRE",
+      "title": "Jailer 2",
+      "day": "Day 29",
+      "collection": "₹472.53 Cr",
+      "change": -29.6,
+      "status": "BEARISH",
+      "type": "Benchmark Net",
+      "badge": "Screen Loss"
+    },
+    {
+      "symbol": "UDTA-TEER",
+      "title": "Udta Teer",
+      "day": "Day 21",
+      "collection": "₹34.20 Cr",
+      "change": -22.4,
+      "status": "BEARISH",
+      "type": "Net",
+      "badge": "Steady Tail"
+    },
+    {
+      "symbol": "DRISHYAM3",
+      "title": "Drishyam 3",
+      "day": "Day 42",
+      "collection": "₹215.80 Cr",
+      "change": -15.1,
+      "status": "BEARISH",
+      "type": "All-Time Net",
+      "badge": "Super Hit"
+    }
+  ],
+  "heroMovie": {
+    "id": "ramayana-2026",
+    "title": "RAMAYANA (2026)",
+    "poster": "posters/ramayana.jpg",
+    "subtitle": "Part One: The Awakening | Epic Fantasy / Mythology",
+    "releaseDate": "2026-11-05",
+    "director": "Nitesh Tiwari",
+    "budget": "₹835 Cr",
+    "daysInTheaters": 8,
+    "tradingStatus": "STRONG BUY",
+    "sentiment": "INSTITUTIONAL ACCUMULATION",
+    "orderBlockVerdict": "MEGA BLOCKBUSTER SURGE",
+    "liveVelocity": {
+      "ticketsPerMin": 148,
+      "inrPerSecond": 68500,
+      "baseIndiaNetCr": 471.95,
+      "baseWorldwideCr": 860.51,
+      "peakShowVelocity": "Night Shows 91% Fast-Filling"
+    },
+    "keyMetrics": {
+      "indiaNet": "₹471.95 Cr",
+      "indiaGross": "₹563.51 Cr",
+      "overseasGross": "₹297.00 Cr+",
+      "worldwideTotal": "₹860.51 Cr+",
+      "showCount": "24,344",
+      "avgOccupancy": "55.3%",
+      "totalFootfalls": "2.84 Cr",
+      "atpAvgTicketPrice": "₹278.50"
+    },
+    "supportResistance": {
+      "targetClubResistance": "₹1,000.00 Cr WW",
+      "resistanceProgress": 86.05,
+      "weekdaySupport": "₹45.00 Cr/day",
+      "diwaliPeakResistance": "₹107.50 Cr/day",
+      "floorSupport": "₹28.00 Cr/day"
+    },
+    "dayWiseCollections": [
+      {
+        "day": "Day 1 (Thu, Nov 5)",
+        "label": "D1",
+        "date": "2026-11-05",
+        "net": 64.85,
+        "gross": 77.8,
+        "change": 0,
+        "shows": 22100,
+        "occupancy": 78.4,
+        "event": "Historic Opening Blast",
+        "verdict": "BULLISH"
+      },
+      {
+        "day": "Day 2 (Fri, Nov 6)",
+        "label": "D2",
+        "date": "2026-11-06",
+        "net": 48.05,
+        "gross": 57.65,
+        "change": -25.9,
+        "shows": 23400,
+        "occupancy": 58.1,
+        "event": "Pre-Diwali Working Day Dip",
+        "verdict": "PULLBACK"
+      },
+      {
+        "day": "Day 3 (Sat, Nov 7)",
+        "label": "D3",
+        "date": "2026-11-07",
+        "net": 69.8,
+        "gross": 83.75,
+        "change": 45.3,
+        "shows": 24000,
+        "occupancy": 72.8,
+        "event": "Weekend Rebound Surge",
+        "verdict": "BULLISH"
+      },
+      {
+        "day": "Day 4 (Sun, Nov 8)",
+        "label": "D4",
+        "date": "2026-11-08",
+        "net": 56.15,
+        "gross": 67.4,
+        "change": -19.6,
+        "shows": 24200,
+        "occupancy": 64.2,
+        "event": "Diwali Laxmi Puja Eve Dip",
+        "verdict": "HOLD"
+      },
+      {
+        "day": "Day 5 (Mon, Nov 9)",
+        "label": "D5",
+        "date": "2026-11-09",
+        "net": 107.5,
+        "gross": 128.9,
+        "change": 91.5,
+        "shows": 24800,
+        "occupancy": 91.2,
+        "event": "Diwali Mega Surge (All-Time Record)",
+        "verdict": "EXTREME_BULLISH"
+      },
+      {
+        "day": "Day 6 (Tue, Nov 10)",
+        "label": "D6",
+        "date": "2026-11-10",
+        "net": 94.1,
+        "gross": 112.9,
+        "change": -12.5,
+        "shows": 24600,
+        "occupancy": 84.5,
+        "event": "Historic Post-Diwali Holiday Hold",
+        "verdict": "BULLISH"
+      },
+      {
+        "day": "Day 7 (Wed, Nov 11 Live)",
+        "label": "D7 Live",
+        "date": "2026-11-11",
+        "net": 31.5,
+        "gross": 37.8,
+        "change": 14.2,
+        "shows": 24344,
+        "occupancy": 55.3,
+        "event": "Live Tracking (Est: ₹42-45 Cr Final)",
+        "verdict": "ACCUMULATION"
+      }
+    ],
+    "languageBreakdown": [
+      {
+        "language": "Hindi",
+        "amount": 336,
+        "percentage": 76.3,
+        "color": "#10B981"
+      },
+      {
+        "language": "Kannada",
+        "amount": 41.2,
+        "percentage": 9.4,
+        "color": "#06B6D4"
+      },
+      {
+        "language": "Telugu",
+        "amount": 33,
+        "percentage": 7.5,
+        "color": "#F59E0B"
+      },
+      {
+        "language": "Tamil",
+        "amount": 17.35,
+        "percentage": 3.9,
+        "color": "#8B5CF6"
+      },
+      {
+        "language": "Malayalam",
+        "amount": 12.9,
+        "percentage": 2.9,
+        "color": "#EC4899"
+      }
+    ],
+    "regionalOccupancy": [
+      {
+        "city": "Bengaluru",
+        "occupancy": 90.5,
+        "shows": 2180,
+        "trend": "HIGH_DEMAND",
+        "peakTime": "Night: 98%"
+      },
+      {
+        "city": "Hyderabad",
+        "occupancy": 74.2,
+        "shows": 2840,
+        "trend": "HIGH_DEMAND",
+        "peakTime": "Evening: 88%"
+      },
+      {
+        "city": "Ahmedabad",
+        "occupancy": 71.6,
+        "shows": 1950,
+        "trend": "HIGH_DEMAND",
+        "peakTime": "Night: 85%"
+      },
+      {
+        "city": "Chennai",
+        "occupancy": 68.1,
+        "shows": 1420,
+        "trend": "STEADY",
+        "peakTime": "Evening: 79%"
+      },
+      {
+        "city": "Mumbai",
+        "occupancy": 66.3,
+        "shows": 4120,
+        "trend": "SURGING",
+        "peakTime": "Night: 89%"
+      },
+      {
+        "city": "Pune",
+        "occupancy": 63.5,
+        "shows": 1820,
+        "trend": "STEADY",
+        "peakTime": "Night: 74%"
+      },
+      {
+        "city": "NCR (Delhi)",
+        "occupancy": 57.8,
+        "shows": 4890,
+        "trend": "STEADY",
+        "peakTime": "Evening: 76%"
+      },
+      {
+        "city": "Kolkata",
+        "occupancy": 52.4,
+        "shows": 1640,
+        "trend": "MODERATE",
+        "peakTime": "Night: 67%"
+      }
+    ]
+  },
+  "marketReleases": [
+    {
+      "id": "ramayana-2026",
+      "title": "Ramayana (2026)",
+      "poster": "posters/ramayana.jpg",
+      "releaseDate": "2026-11-05",
+      "dayCount": 8,
+      "category": "Pan-India",
+      "classification": "Last 15 Days",
+      "sentiment": "BULLISH",
+      "orderBlock": "Institutional Accumulation",
+      "verdict": "Mega Blockbuster Surge",
+      "dayNet": "₹31.50 Cr*",
+      "totalNet": "₹471.95 Cr",
+      "worldwide": "₹860.51 Cr",
+      "baseNetNum": 471.95,
+      "baseWwNum": 860.51,
+      "ticketsPerMin": 148,
+      "dayChange": 14.2,
+      "shows": 24344,
+      "occupancy": 55.3,
+      "dominantMarket": "Pan-India (Hindi Lead)",
+      "supportLevel": "₹45 Cr/day",
+      "resistanceLevel": "₹1,000 Cr WW",
+      "budgetRecovery": "98.6% (Near Breakeven)",
+      "sparkline": [
+        64.8,
+        48,
+        69.8,
+        56.1,
+        107.5,
+        94.1,
+        29.2
+      ]
+    },
+    {
+      "id": "scene-2026",
+      "title": "Scene",
+      "poster": "posters/scene.jpg",
+      "releaseDate": "2026-11-06",
+      "dayCount": 7,
+      "category": "Regional",
+      "classification": "Last 15 Days",
+      "sentiment": "BEARISH",
+      "orderBlock": "Screen Compression",
+      "verdict": "Heavy Drop",
+      "dayNet": "₹1.45 Cr",
+      "totalNet": "₹12.85 Cr",
+      "worldwide": "₹15.20 Cr",
+      "baseNetNum": 12.85,
+      "baseWwNum": 15.2,
+      "ticketsPerMin": 12,
+      "dayChange": -40,
+      "shows": 2840,
+      "occupancy": 18.2,
+      "dominantMarket": "Tamil / Malayalam",
+      "supportLevel": "₹1.2 Cr",
+      "resistanceLevel": "₹25 Cr Net",
+      "budgetRecovery": "36.7%",
+      "sparkline": [
+        4.2,
+        3.8,
+        3.1,
+        2.3,
+        1.45
+      ]
+    },
+    {
+      "id": "mookuthi-amman-2",
+      "title": "Mookuthi Amman 2",
+      "poster": "posters/mookuthi-amman-2.jpg",
+      "releaseDate": "2026-11-06",
+      "dayCount": 7,
+      "category": "Regional",
+      "classification": "Last 15 Days",
+      "sentiment": "BEARISH",
+      "orderBlock": "Order Block Breakdown / Capitulation",
+      "verdict": "Severe Capitulation",
+      "dayNet": "₹0.24 Cr",
+      "totalNet": "₹2.10 Cr",
+      "worldwide": "₹2.65 Cr",
+      "baseNetNum": 2.1,
+      "baseWwNum": 2.65,
+      "ticketsPerMin": 3,
+      "dayChange": -59.2,
+      "shows": 1150,
+      "occupancy": 9.4,
+      "dominantMarket": "Tamil",
+      "supportLevel": "₹0.20 Cr",
+      "resistanceLevel": "₹5.0 Cr Net",
+      "budgetRecovery": "12.0%",
+      "sparkline": [
+        0.85,
+        0.6,
+        0.52,
+        0.38,
+        0.24
+      ]
+    },
+    {
+      "id": "ak-47",
+      "title": "Aadarsha Kutumbam (AK 47)",
+      "poster": "posters/ak47.jpg",
+      "releaseDate": "2026-10-30",
+      "dayCount": 14,
+      "category": "Regional",
+      "classification": "Last 15 Days",
+      "sentiment": "BEARISH",
+      "orderBlock": "Distribution Plateau",
+      "verdict": "Weekday Bleed",
+      "dayNet": "₹0.62 Cr",
+      "totalNet": "₹18.40 Cr",
+      "worldwide": "₹22.10 Cr",
+      "baseNetNum": 18.4,
+      "baseWwNum": 22.1,
+      "ticketsPerMin": 8,
+      "dayChange": -18.5,
+      "shows": 1820,
+      "occupancy": 21,
+      "dominantMarket": "Telugu",
+      "supportLevel": "₹0.50 Cr",
+      "resistanceLevel": "₹25 Cr Net",
+      "budgetRecovery": "61.3%",
+      "sparkline": [
+        3.4,
+        2.9,
+        2.1,
+        1.6,
+        1.1,
+        0.8,
+        0.62
+      ]
+    },
+    {
+      "id": "pyre",
+      "title": "Pyre",
+      "poster": "posters/pyre.jpg",
+      "releaseDate": "2026-10-30",
+      "dayCount": 14,
+      "category": "Regional",
+      "classification": "Last 15 Days",
+      "sentiment": "BEARISH",
+      "orderBlock": "Screen Compression",
+      "verdict": "Screen Loss",
+      "dayNet": "₹0.31 Cr",
+      "totalNet": "₹9.65 Cr",
+      "worldwide": "₹11.80 Cr",
+      "baseNetNum": 9.65,
+      "baseWwNum": 11.8,
+      "ticketsPerMin": 4,
+      "dayChange": -32.1,
+      "shows": 940,
+      "occupancy": 14.8,
+      "dominantMarket": "Hindi Multiplex",
+      "supportLevel": "₹0.25 Cr",
+      "resistanceLevel": "₹15 Cr Net",
+      "budgetRecovery": "48.2%",
+      "sparkline": [
+        1.8,
+        1.5,
+        1.2,
+        0.9,
+        0.6,
+        0.45,
+        0.31
+      ]
+    },
+    {
+      "id": "jailer-2",
+      "title": "Jailer 2",
+      "poster": "posters/jailer2.jpg",
+      "releaseDate": "2026-10-15",
+      "dayCount": 29,
+      "category": "Pan-India",
+      "classification": "Holdover Benchmark",
+      "sentiment": "BEARISH",
+      "orderBlock": "Screen Compression",
+      "verdict": "All-Time Super Hit (End of Run)",
+      "dayNet": "₹1.15 Cr",
+      "totalNet": "₹472.53 Cr",
+      "worldwide": "₹695.40 Cr",
+      "baseNetNum": 472.53,
+      "baseWwNum": 695.4,
+      "ticketsPerMin": 14,
+      "dayChange": -29.6,
+      "shows": 2450,
+      "occupancy": 29.5,
+      "dominantMarket": "Tamil / Telugu / Overseas",
+      "supportLevel": "₹1.00 Cr",
+      "resistanceLevel": "₹700 Cr WW",
+      "budgetRecovery": "248.0%",
+      "sparkline": [
+        4.5,
+        3.8,
+        3.2,
+        2.6,
+        2.1,
+        1.6,
+        1.15
+      ]
+    },
+    {
+      "id": "udta-teer",
+      "title": "Udta Teer",
+      "poster": "posters/udta-teer.jpg",
+      "releaseDate": "2026-10-23",
+      "dayCount": 21,
+      "category": "Pan-India",
+      "classification": "Holdover Benchmark",
+      "sentiment": "BEARISH",
+      "orderBlock": "Distribution Plateau",
+      "verdict": "Steady Tail Hold",
+      "dayNet": "₹0.85 Cr",
+      "totalNet": "₹34.20 Cr",
+      "worldwide": "₹44.80 Cr",
+      "baseNetNum": 34.2,
+      "baseWwNum": 44.8,
+      "ticketsPerMin": 9,
+      "dayChange": -22.4,
+      "shows": 1380,
+      "occupancy": 23.4,
+      "dominantMarket": "Hindi North Belt",
+      "supportLevel": "₹0.70 Cr",
+      "resistanceLevel": "₹40 Cr Net",
+      "budgetRecovery": "85.5%",
+      "sparkline": [
+        2.2,
+        1.9,
+        1.6,
+        1.4,
+        1.1,
+        0.95,
+        0.85
+      ]
+    },
+    {
+      "id": "drishyam-3",
+      "title": "Drishyam 3",
+      "poster": "posters/drishyam3.jpg",
+      "releaseDate": "2026-10-02",
+      "dayCount": 42,
+      "category": "Pan-India",
+      "classification": "Holdover Benchmark",
+      "sentiment": "BEARISH",
+      "orderBlock": "Distribution Plateau",
+      "verdict": "All-Time Blockbuster",
+      "dayNet": "₹0.48 Cr",
+      "totalNet": "₹215.80 Cr",
+      "worldwide": "₹348.90 Cr",
+      "baseNetNum": 215.8,
+      "baseWwNum": 348.9,
+      "ticketsPerMin": 7,
+      "dayChange": -15.1,
+      "shows": 820,
+      "occupancy": 38.6,
+      "dominantMarket": "Hindi / Overseas",
+      "supportLevel": "₹0.40 Cr",
+      "resistanceLevel": "₹350 Cr WW",
+      "budgetRecovery": "310.0%",
+      "sparkline": [
+        1.4,
+        1.2,
+        1,
+        0.85,
+        0.7,
+        0.58,
+        0.48
+      ]
+    }
+  ],
+  "verificationReport": {
+    "lastVerifiedIST": "2026-11-12 12:51:57 pm IST",
+    "schedule": "Twice Daily (12:00 PM IST & 09:30 PM IST)",
+    "sourcesChecked": [
+      {
+        "name": "Sacnilk",
+        "domain": "sacnilk.com",
+        "directStatus": 200,
+        "rssStatus": 200,
+        "headlineCount": 185
+      },
+      {
+        "name": "Bollywood Hungama",
+        "domain": "bollywoodhungama.com",
+        "directStatus": 200,
+        "rssStatus": 200,
+        "headlineCount": 161
+      },
+      {
+        "name": "Box Office India",
+        "domain": "boxofficeindia.com",
+        "directStatus": 0,
+        "rssStatus": 200,
+        "headlineCount": 11
+      },
+      {
+        "name": "Koimoi",
+        "domain": "koimoi.com",
+        "directStatus": 403,
+        "rssStatus": 200,
+        "headlineCount": 130
+      },
+      {
+        "name": "Pinkvilla",
+        "domain": "pinkvilla.com",
+        "directStatus": 200,
+        "rssStatus": 200,
+        "headlineCount": 124
+      }
+    ],
+    "totalSignalsCollected": 611,
+    "verifiedUpdates": [
+      {
+        "movie": "Ramayana (2026)",
+        "day": 8,
+        "sourcesMatched": [
+          "Pinkvilla",
+          "Sacnilk",
+          "Bollywood Hungama",
+          "Koimoi",
+          "Box Office India"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Pinkvilla: Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer phenomenal run continues Overseas, tops Rs. 900 Cr worldwide",
+          "Pinkvilla: Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer juggernaut rolls over to Rs. 500 Cr nett on Day 7"
+        ]
+      },
+      {
+        "movie": "Scene",
+        "day": 7,
+        "sourcesMatched": [
+          "Pinkvilla",
+          "Sacnilk",
+          "Koimoi"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Pinkvilla: Scene India Box Office Collections: Suriya starrer collects Rs 13 crore on 1st Tuesday,...",
+          "Pinkvilla: Scene India Box Office Collections: Suriya's cop comedy drama collects Rs 24 crore on 1..."
+        ]
+      },
+      {
+        "movie": "Mookuthi Amman 2",
+        "day": 7,
+        "sourcesMatched": [
+          "Sacnilk",
+          "Koimoi"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 7 Updated 36 min ago · November 12, 2026 at 12:06 PM IST",
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 6 Updated 12 hrs ago · November 12, 2026 at 12:06 AM IST"
+        ]
+      },
+      {
+        "movie": "Aadarsha Kutumbam (AK 47)",
+        "day": 14,
+        "sourcesMatched": [
+          "Pinkvilla",
+          "Sacnilk",
+          "Koimoi"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Pinkvilla: Aadarsha Kutumbam House No. 47 (AK 47) India Box Office Collections: Venkatesh starrer ...",
+          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 14 Updated 36 min ago · November 12, 2026 at 12:06 PM IST"
+        ]
+      },
+      {
+        "movie": "Pyre",
+        "day": 14,
+        "sourcesMatched": [
+          "Bollywood Hungama"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Bollywood Hungama: Pyre Box Office: Vinod Kapri’s film REFUSES to slow down despite Ramayana TSUNAMI; beats Tu Hai Meri Kiran, Prem Keetanu and many other Oct releases; for the FIRST time ever, Haldwani sells more tickets than Mumbai - Bollywood Hungama",
+          "Bollywood Hungama: Pyre Box Office: Vinod Kapri’s film REFUSES to slow down despite Ramayana TSUNAMI; beats Tu Hai Meri Kiran, Prem Keetanu and many other Oct releases; for the FIRST time ever, Haldwani sells more tickets than Mumbai - Bollywood Hungama"
+        ]
+      },
+      {
+        "movie": "Jailer 2",
+        "day": 29,
+        "sourcesMatched": [
+          "Pinkvilla",
+          "Sacnilk",
+          "Koimoi"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Pinkvilla: Jailer 2 Box Office Collections: Rajinikanth starrer collects Rs 39 crore in Week 3, gr...",
+          "Sacnilk: Jailer 2 Box Office Collection Day 29 Updated 36 min ago · November 12, 2026 at 12:06 PM IST"
+        ]
+      },
+      {
+        "movie": "Udta Teer",
+        "day": 21,
+        "sourcesMatched": [
+          "Pinkvilla"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Pinkvilla: Udta Teer Final Box Office Collections: Ayushmann Khurrana and Sara Ali Khan starrer se..."
+        ]
+      },
+      {
+        "movie": "Drishyam 3",
+        "day": 42,
+        "sourcesMatched": [
+          "Koimoi"
+        ],
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Koimoi: Drishyam 3 Box Office: Post-Diwali Spirit Brings Dhamakedaar 150% Jump On 6th Monday - Only 1.52 Crore Away From The Final Milestone! - Koimoi",
+          "Koimoi: Drishyam 3 Box Office: Post-Diwali Spirit Brings Dhamakedaar 150% Jump On 6th Monday - Only 1.52 Crore Away From The Final Milestone! - Koimoi"
+        ]
+      }
+    ]
+  }
+}

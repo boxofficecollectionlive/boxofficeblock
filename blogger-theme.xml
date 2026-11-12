@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <meta content='#090D16' name='theme-color'/>
+  <meta content='z6uUB-Gc1uV9tTBbJW9DQMDo4IC8i6NsBuPgExd3sWw' name='google-site-verification'/>
+  <b:include data='blog' name='all-head-content'/>
+  <title><data:blog.pageTitle/></title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src='https://cdn.tailwindcss.com'/>
+  <script type='text/javascript'>
+  //<![CDATA[
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            terminal: { bg: '#090D16', card: '#111827', border: '#1F2937' },
+            bullish: '#10B981',
+            bearish: '#EF4444',
+            cyanAccent: '#06B6D4',
+            goldAccent: '#F59E0B',
+            purpleAccent: '#8B5CF6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    };
+  //]]>
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'/>
+
+  <!-- ================================================================== -->
+  <!-- GOOGLE ADSENSE SCRIPT LOADER                                       -->
+  <!-- Note: When you apply via Blogger -> Earnings tab, Blogger connects -->
+  <!-- AdSense automatically. Or uncomment below with your ca-pub ID:     -->
+  <!-- <script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <!-- ================================================================== -->
+
+  <b:skin><![CDATA[
+    :root {
+      --bg-terminal: #090D16;
+      --bg-card: #111827;
+      --border-terminal: #1F2937;
+      --bullish: #10B981;
+      --bearish: #EF4444;
+      --cyan-accent: #06B6D4;
+      --gold-accent: #F59E0B;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background-color: #090D16;
+      color: #F3F4F6;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .font-mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum" 1, "zero" 1;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090D16; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 3px; }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll 45s linear infinite;
+    }
+    .ticker-container:hover .ticker-track { animation-play-state: paused; }
+    .glow-emerald { box-shadow: 0 0 18px rgba(16, 185, 129, 0.2); }
+    @keyframes tick-flash-green {
+      0% { color: #34D399; text-shadow: 0 0 12px rgba(52, 211, 153, 0.85); transform: scale(1.02); }
+      100% { text-shadow: none; transform: scale(1); }
+    }
+    .flash-tick { animation: tick-flash-green 0.75s ease-out; }
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(250%); }
+    }
+    .shimmer-bar { position: relative; overflow: hidden; }
+    .shimmer-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 45%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      animation: shimmer-sweep 2.2s infinite ease-in-out;
+    }
+    @keyframes tape-slide-in {
+      0% { opacity: 0; transform: translateY(-8px); background-color: rgba(16, 185, 129, 0.25); }
+      100% { opacity: 1; transform: translateY(0); background-color: transparent; }
+    }
+    .tape-entry-new { animation: tape-slide-in 0.8s ease-out forwards; }
+    .poster-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      border: 1px solid #1F2937;
+      background: linear-gradient(145deg, #0f172a, #090d16);
+    }
+    .poster-frame img { transition: transform 0.5s ease; }
+    .poster-frame:hover img { transform: scale(1.04); }
+    .adsense-wrapper {
+      background: #0d131f;
+      border: 1px dashed #263345;
+      border-radius: 6px;
+    }
+    .badge-bullish {
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-bearish {
+      background-color: rgba(239, 68, 68, 0.08);
+      color: #EF4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .blogger-post-body p { margin-bottom: 1rem; color: #D1D5DB; line-height: 1.75; }
+    .blogger-post-body h2, .blogger-post-body h3 { color: #FFFFFF; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    .blogger-post-body a { color: #06B6D4; text-decoration: underline; }
+    .blogger-post-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #D1D5DB; }
+  ]]></b:skin>
+</head>
+
+<body class='bg-[#090D16] text-gray-200 min-h-screen flex flex-col font-sans'>
+
+  <!-- ============================================================== -->
+  <!-- 1. TOP HEADER & INSTITUTIONAL STATUS BAR                       -->
+  <!-- ============================================================== -->
+  <header class='border-b border-[#1F2937] bg-[#0c121e]/95 backdrop-blur sticky top-0 z-50'>
+    <div class='max-w-[1720px] mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-4'>
+      <div class='flex items-center gap-3'>
+        <a class='flex items-center gap-2 no-underline' expr:href='data:blog.homepageUrl'>
+          <div class='w-9 h-8 rounded bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-black text-xs tracking-wider shadow-lg'>
+            LIVE
+          </div>
+          <div>
+            <div class='flex items-center gap-2'>
+              <span class='font-extrabold text-white tracking-tight text-sm sm:text-lg'>BOXOFFICE<span class='text-emerald-400'>COLLECTION</span>LIVE</span>
+              <span class='px-1.5 py-0.5 rounded text-[10px] font-mono-num font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'>TERMINAL</span>
+            </div>
+            <p class='text-[11px] text-gray-400 hidden sm:block'>Indian Box Office Quantitative Collection &amp; Occupancy Terminal</p>
+          </div>
+        </a>
+      </div>
+
+      <div class='hidden xl:flex items-center gap-3 text-xs font-mono-num'>
+        <div class='flex items-center gap-2 bg-[#111827] px-3 py-1.5 rounded border border-[#1F2937]'>
+          <span class='w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse'/>
+          <span class='text-gray-400'>MARKET:</span>
+          <span class='text-emerald-400 font-bold'>OPEN (HIGH VOLATILITY)</span>
+        </div>
+        <div class='flex items-center gap-2 bg-[#111827] px-3 py-1.5 rounded border border-[#1F2937]'>
+          <span class='text-gray-400'>FLOW:</span>
+          <span class='text-emerald-400 font-bold' id='header-live-velocity'>148 TIX/MIN</span>
+        </div>
+        <div class='flex items-center gap-2 bg-[#111827] px-3 py-1.5 rounded border border-[#1F2937]'>
+          <span class='text-gray-400'>24H VOL:</span>
+          <span class='text-white font-bold'>&#8377;136.42 Cr</span>
+        </div>
+      </div>
+
+      <div class='flex items-center gap-2 sm:gap-3 text-xs font-mono-num'>
+        <div class='text-right hidden sm:block'>
+          <div class='text-gray-200 font-bold tracking-wider' id='live-ist-clock'>--:--:-- IST</div>
+          <div class='text-[10px] text-emerald-400' id='auto-refresh-status'>AUTO-REFRESH: <span id='auto-sync-countdown'>30s</span></div>
+        </div>
+        <button class='bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 px-2.5 py-1.5 rounded border border-emerald-500/40 text-xs font-bold transition' id='toggle-auto-sync-btn' type='button'>AUTO: ON</button>
+        <button class='bg-[#111827] hover:bg-gray-800 text-cyan-400 px-2.5 py-1.5 rounded border border-[#1F2937] text-xs font-bold transition' id='toggle-currency-btn' type='button'>&#8377; INR</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- 2. INFINITE AUTO-SCROLLING MARKET TICKER TAPE                  -->
+  <!-- ============================================================== -->
+  <div class='border-b border-[#1F2937] bg-[#080d17] overflow-hidden whitespace-nowrap ticker-container py-2 text-xs font-mono-num select-none'>
+    <div class='ticker-track' id='ticker-track-el'>
+      <div class='inline-flex items-center gap-8 px-4 text-gray-400'><span>LOADING LIVE TICKER...</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 3. BLOGGER ADSENSE TOP LEADERBOARD WIDGET SLOT                 -->
+  <!-- ============================================================== -->
+  <b:section class='max-w-[1720px] mx-auto w-full px-3 sm:px-6 pt-4' id='AdSenseTop' maxwidgets='2' showaddelement='yes'>
+    <b:widget id='HTML1' locked='false' title='Top Leaderboard Ad (728x90)' type='HTML' version='2' visible='true'>
+      <b:widget-settings>
+        <b:widget-setting name='content'/>
+      </b:widget-settings>
+      <b:includable id='main'>
+        <div class='adsense-wrapper p-2 text-center'>
+          <div class='text-[9px] text-gray-500 font-mono-num uppercase mb-1'>SPONSORED // ADVERTISEMENT (SLOT 728x90)</div>
+          <b:if cond='data:content != &quot;&quot;'>
+            <div class='text-xs text-gray-300'><data:content/></div>
+          <b:else/>
+            <div class='py-2 px-4 bg-[#111827]/70 rounded border border-[#1F2937] flex items-center justify-between text-xs'>
+              <span class='text-gray-300'><strong class='text-cyan-400'>AD SLOT #1:</strong> Paste Google AdSense Code in Blogger Layout &#8594; Top Leaderboard Gadget</span>
+              <span class='px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded font-mono-num'>728x90</span>
+            </div>
+          </b:if>
+        </div>
+      </b:includable>
+    </b:widget>
+  </b:section>
+
+  <!-- ============================================================== -->
+  <!-- 4. HOMEPAGE LIVE TERMINAL (ONLY ON HOMEPAGE)                   -->
+  <!-- ============================================================== -->
+  <b:if cond='data:view.isHomepage'>
+    <main class='max-w-[1720px] mx-auto w-full px-3 sm:px-6 py-5 space-y-6'>
+
+      <!-- HERO SPOTLIGHT: POSTER + METRICS + WAVEFORM + CHART + LANGUAGES -->
+      <section class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-6 relative overflow-hidden shadow-2xl'>
+        <div class='flex flex-col lg:flex-row gap-6 pb-6 border-b border-[#1F2937]'>
+          
+          <!-- LEFT: OFFICIAL MOVIE POSTER WITH LIVE EARNING OVERLAY -->
+          <div class='w-full sm:w-[280px] lg:w-[270px] xl:w-[290px] shrink-0 mx-auto lg:mx-0'>
+            <div class='poster-frame aspect-[2/3] h-[405px] xl:h-[435px] w-full shadow-2xl glow-emerald group'>
+              <img alt='Ramayana Official Poster' class='w-full h-full object-cover block' id='hero-movie-poster' src='https://upload.wikimedia.org/wikipedia/en/4/48/Ramayana_Part_1_%28poster%29.jpg'/>
+              <div class='absolute top-3 left-3 right-3 flex justify-between items-center font-mono-num'>
+                <span class='px-2 py-1 rounded bg-black/80 border border-emerald-500/50 text-emerald-400 text-[10px] font-bold flex items-center gap-1.5'>
+                  <span class='w-2 h-2 rounded-full bg-emerald-400 animate-ping'/> LIVE BOX OFFICE
+                </span>
+                <span class='px-2 py-1 rounded bg-black/80 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold' id='hero-poster-day-badge'>DAY 7</span>
+              </div>
+              <div class='absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/95 to-transparent pt-12 pb-3.5 px-3.5 font-mono-num'>
+                <div class='text-[10px] text-gray-400 uppercase mb-0.5'>LIVE TOTAL WORLDWIDE</div>
+                <div class='text-xl xl:text-2xl font-black text-white tracking-tight' id='hero-poster-live-ww'>&#8377;860.5100 Cr+</div>
+                <div class='text-[11px] mt-1 pt-1.5 border-t border-white/10 text-gray-300'>
+                  India Net: <strong class='text-emerald-400' id='hero-poster-live-net'>&#8377;471.9500 Cr</strong>
+                </div>
+                <div class='mt-2 bg-gray-900/90 border border-emerald-500/30 rounded p-1.5'>
+                  <div class='flex justify-between text-[9px] text-emerald-300 font-bold mb-1'>
+                    <span id='poster-velocity-tix'>&#9889; 148 TIX / MIN</span>
+                    <span id='poster-velocity-inr'>+&#8377;68,500 / SEC</span>
+                  </div>
+                  <div class='w-full bg-gray-800 h-1 rounded overflow-hidden'>
+                    <div class='bg-emerald-400 h-full w-full shimmer-bar'/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: HEADER, 6 METRIC PILLS, LIVE WAVEFORM & BOOKING TAPE -->
+          <div class='flex-1 flex flex-col justify-between space-y-5'>
+            <div class='flex flex-col xl:flex-row xl:items-start justify-between gap-4'>
+              <div>
+                <div class='flex flex-wrap items-center gap-2 mb-1.5'>
+                  <span class='px-2 py-0.5 rounded text-xs font-mono-num font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'>HERO ORDER-BLOCK</span>
+                  <span class='px-2 py-0.5 rounded text-xs font-mono-num font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' id='hero-sentiment-badge'>BULLISH ACCUMULATION #1</span>
+                  <span class='text-xs font-mono-num text-gray-400' id='hero-release-meta'>RELEASED: 5 NOV 2026 (DAY 7 LIVE)</span>
+                </div>
+                <div class='flex flex-wrap items-baseline gap-3'>
+                  <h1 class='text-2xl sm:text-4xl font-black text-white tracking-tight' id='hero-movie-title'>RAMAYANA (2026)</h1>
+                  <span class='text-xs sm:text-sm font-mono-num text-emerald-400 font-semibold' id='hero-movie-tagline'>MEGA BLOCKBUSTER SURGE</span>
+                </div>
+                <p class='text-xs text-gray-400 mt-1' id='hero-movie-subtitle'>Part One: The Awakening | Dir. Nitesh Tiwari | Budget: &#8377;835 Cr</p>
+              </div>
+
+              <div class='flex flex-wrap items-center gap-4 bg-[#090D16] p-3 rounded border border-[#1F2937] shrink-0 font-mono-num'>
+                <div>
+                  <div class='text-[10px] text-gray-400 uppercase'>TARGET RESISTANCE</div>
+                  <div class='text-xs font-bold text-amber-400' id='hero-target-res'>&#8377;1,000 Cr WW Club (86.0%)</div>
+                </div>
+                <div class='w-px h-7 bg-[#1F2937]'/>
+                <div>
+                  <div class='text-[10px] text-gray-400 uppercase'>WEEKDAY BASELINE</div>
+                  <div class='text-xs font-bold text-cyan-400' id='hero-weekday-sup'>&#8377;45.00 Cr / Day</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6 KEY METRIC PILLS -->
+            <div class='grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono-num'>
+              <div class='bg-[#090D16] border border-[#1F2937] p-3 rounded'>
+                <div class='text-gray-400 text-xs mb-1'>INDIA NET (LIVE)</div>
+                <div class='text-lg sm:text-xl font-bold text-white' id='hero-india-net'>&#8377;471.9500 Cr</div>
+              </div>
+              <div class='bg-[#090D16] border border-[#1F2937] p-3 rounded'>
+                <div class='text-gray-400 text-xs mb-1'>INDIA GROSS</div>
+                <div class='text-lg sm:text-xl font-bold text-white' id='hero-india-gross'>&#8377;563.51 Cr</div>
+              </div>
+              <div class='bg-[#090D16] border border-[#1F2937] p-3 rounded'>
+                <div class='text-gray-400 text-xs mb-1'>OVERSEAS GROSS</div>
+                <div class='text-lg sm:text-xl font-bold text-amber-400' id='hero-overseas-gross'>&#8377;297.00 Cr+</div>
+              </div>
+              <div class='bg-[#090D16] border border-emerald-500/40 p-3 rounded bg-emerald-950/20'>
+                <div class='text-emerald-300 text-xs font-semibold mb-1'>WORLDWIDE LIVE</div>
+                <div class='text-lg sm:text-xl font-bold text-emerald-400' id='hero-worldwide'>&#8377;860.5100 Cr+</div>
+              </div>
+              <div class='bg-[#090D16] border border-[#1F2937] p-3 rounded'>
+                <div class='text-gray-400 text-xs mb-1'>SHOW COUNT</div>
+                <div class='text-lg sm:text-xl font-bold text-white' id='hero-show-count'>24,344</div>
+              </div>
+              <div class='bg-[#090D16] border border-[#1F2937] p-3 rounded'>
+                <div class='text-gray-400 text-xs mb-1'>AVG OCCUPANCY</div>
+                <div class='text-lg sm:text-xl font-bold text-cyan-400' id='hero-occupancy'>55.3%</div>
+              </div>
+            </div>
+
+            <!-- LIVE WAVEFORM & BOOKING TAPE -->
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-3 bg-[#090D16] border border-[#1F2937] rounded-lg p-3'>
+              <div>
+                <div class='flex justify-between text-[11px] font-mono-num mb-1.5'>
+                  <span class='text-emerald-400 font-bold'>&#9679; LIVE REVENUE PULSE STREAM</span>
+                  <span class='text-gray-400' id='waveform-rate-label'>+&#8377;41.10 Lakhs / Min</span>
+                </div>
+                <div class='w-full h-[90px] bg-[#060911] border border-[#1F2937] rounded overflow-hidden'>
+                  <canvas class='w-full h-full block' id='liveVelocityWaveform'/>
+                </div>
+              </div>
+              <div>
+                <div class='flex justify-between text-[11px] font-mono-num mb-1.5'>
+                  <span class='text-cyan-400 font-bold'>&#9889; LIVE BOOKING ORDER TAPE</span>
+                  <span class='text-gray-500 text-[10px]'>BMS / PVR-INOX</span>
+                </div>
+                <div class='h-[90px] bg-[#060911] border border-[#1F2937] rounded p-2 overflow-hidden flex flex-col gap-1 font-mono-num text-[10px]' id='live-order-tape'/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM HERO: DAY-WISE CHART & LANGUAGE BREAKDOWN -->
+        <div class='grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6'>
+          <div class='lg:col-span-2 bg-[#090D16] border border-[#1F2937] rounded-lg p-4'>
+            <div class='flex flex-wrap items-center justify-between gap-3 mb-4'>
+              <div>
+                <div class='text-xs font-mono-num text-gray-400 uppercase'>DAY-WISE COLLECTION &amp; VOLUME SPECTRUM</div>
+                <div class='text-sm font-semibold text-white'>Day 1 to Day 7 Trajectory (Diwali Peak &#8377;107.50 Cr)</div>
+              </div>
+              <div class='flex items-center gap-1 bg-[#111827] p-1 rounded border border-[#1F2937] text-xs font-mono-num'>
+                <button class='chart-tab px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30' data-metric='net' type='button'>Net (Cr)</button>
+                <button class='chart-tab px-2.5 py-1 rounded text-gray-400 hover:text-white' data-metric='gross' type='button'>Gross</button>
+                <button class='chart-tab px-2.5 py-1 rounded text-gray-400 hover:text-white' data-metric='shows' type='button'>Shows</button>
+                <button class='chart-tab px-2.5 py-1 rounded text-gray-400 hover:text-white' data-metric='occupancy' type='button'>Occ %</button>
+              </div>
+            </div>
+            <div class='relative w-full h-[300px]'>
+              <canvas id='ramayanaChart'/>
+            </div>
+          </div>
+
+          <div class='bg-[#090D16] border border-[#1F2937] rounded-lg p-4 flex flex-col justify-between space-y-4 font-mono-num'>
+            <div>
+              <div class='flex justify-between mb-3 text-xs text-gray-400'>
+                <span>LANGUAGE LIQUIDITY</span>
+                <span id='lang-total-badge'>&#8377;471.95 Cr Net</span>
+              </div>
+              <div class='space-y-3' id='language-bars-container'/>
+            </div>
+            <div class='p-3 bg-[#111827] border border-[#1F2937] rounded'>
+              <div class='flex justify-between text-xs mb-1.5'>
+                <span class='text-amber-400 font-semibold' id='resistance-label-text'>&#8377;1,000 Cr Target</span>
+                <span class='text-emerald-400 font-bold' id='resistance-pct-text'>86.0% Unlocked</span>
+              </div>
+              <div class='w-full bg-[#090D16] h-3 rounded overflow-hidden border border-[#1F2937]'>
+                <div class='bg-gradient-to-r from-emerald-500 via-cyan-500 to-amber-500 h-full shimmer-bar' id='resistance-progress-bar' style='width: 86%'/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REGIONAL OCCUPANCY HEATMAP -->
+      <section class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-6'>
+        <div class='flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4'>
+          <div>
+            <h2 class='text-lg font-bold text-white'>REGIONAL OCCUPANCY HEATMAP (&quot;MARKET X-RAY&quot;)</h2>
+            <p class='text-xs text-gray-400'>Real-time theater seat occupancy across tier-1 hubs</p>
+          </div>
+          <div class='flex items-center gap-1 bg-[#090D16] p-1 rounded border border-[#1F2937] text-xs font-mono-num'>
+            <button class='occupancy-format-tab px-3 py-1 rounded bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30' data-format='all' type='button'>All Formats</button>
+            <button class='occupancy-format-tab px-3 py-1 rounded text-gray-400 hover:text-white' data-format='3d' type='button'>3D / IMAX</button>
+            <button class='occupancy-format-tab px-3 py-1 rounded text-gray-400 hover:text-white' data-format='2d' type='button'>2D</button>
+          </div>
+        </div>
+        <div class='grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3' id='regional-occupancy-grid'/>
+      </section>
+
+      <!-- BULLISH VS BEARISH BOARDS -->
+      <section class='space-y-4'>
+        <div class='bg-[#111827] border border-[#1F2937] p-4 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4'>
+          <div class='flex flex-wrap items-center gap-1.5 font-mono-num text-xs'>
+            <button class='board-filter-btn px-3 py-1.5 rounded font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' data-filter='all' type='button'>[All Active]</button>
+            <button class='board-filter-btn px-3 py-1.5 rounded text-gray-400 bg-[#090D16] border border-[#1F2937]' data-filter='recent15' type='button'>[Last 15 Days]</button>
+            <button class='board-filter-btn px-3 py-1.5 rounded text-gray-400 bg-[#090D16] border border-[#1F2937]' data-filter='panIndia' type='button'>[Pan-India]</button>
+            <button class='board-filter-btn px-3 py-1.5 rounded text-gray-400 bg-[#090D16] border border-[#1F2937]' data-filter='regional' type='button'>[Regional]</button>
+          </div>
+          <div class='flex items-center gap-3 font-mono-num text-xs'>
+            <input class='bg-[#090D16] border border-[#1F2937] rounded px-3 py-1.5 text-xs text-white placeholder-gray-500 w-44 sm:w-56' id='movie-search-input' placeholder='Search movie...' type='text'/>
+            <select class='bg-[#090D16] border border-[#1F2937] rounded px-3 py-1.5 text-xs text-gray-300' id='board-sort-select'>
+              <option value='net-desc'>Net Collection (High-Low)</option>
+              <option value='change-desc'>24h Trend % (Bullish)</option>
+              <option value='change-asc'>24h Trend % (Bearish)</option>
+              <option value='occupancy-desc'>Occupancy %</option>
+            </select>
+          </div>
+        </div>
+
+        <div class='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+          <div class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-5'>
+            <div class='flex items-center justify-between pb-3 border-b border-[#1F2937] mb-4'>
+              <h3 class='text-base font-bold text-white'>BULLISH ORDER-BLOCKS <span class='text-xs font-mono-num text-emerald-400' id='bullish-count-badge'>(2)</span></h3>
+              <span class='text-[11px] font-mono-num text-gray-400'>REAL POSTERS + LIVE TOTALS</span>
+            </div>
+            <div class='space-y-3' id='bullish-cards-container'/>
+          </div>
+          <div class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-5'>
+            <div class='flex items-center justify-between pb-3 border-b border-[#1F2937] mb-4'>
+              <h3 class='text-base font-bold text-white'>BEARISH &amp; LIQUIDATION BLOCKS <span class='text-xs font-mono-num text-red-400' id='bearish-count-badge'>(6)</span></h3>
+              <span class='text-[11px] font-mono-num text-gray-400'>DROP &amp; SCREEN LOSS</span>
+            </div>
+            <div class='space-y-3' id='bearish-cards-container'/>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </b:if>
+
+  <!-- ============================================================== -->
+  <!-- 5. BLOGGER ADSENSE IN-FEED WIDGET SLOT                         -->
+  <!-- ============================================================== -->
+  <b:section class='max-w-[1720px] mx-auto w-full px-3 sm:px-6 pt-2' id='AdSenseInFeed' maxwidgets='2' showaddelement='yes'>
+    <b:widget id='HTML2' locked='false' title='In-Feed Native Ad' type='HTML' version='2' visible='true'>
+      <b:widget-settings>
+        <b:widget-setting name='content'/>
+      </b:widget-settings>
+      <b:includable id='main'>
+        <div class='adsense-wrapper p-3 text-center'>
+          <div class='text-[9px] text-gray-500 font-mono-num uppercase mb-1'>SPONSORED // IN-FEED ADSENSE SLOT</div>
+          <b:if cond='data:content != &quot;&quot;'>
+            <div class='text-xs text-gray-300'><data:content/></div>
+          <b:else/>
+            <div class='py-2.5 px-4 bg-[#111827] rounded border border-[#1F2937] flex items-center justify-between text-xs'>
+              <span class='text-gray-300'><strong class='text-emerald-400'>AD SLOT #2:</strong> Paste In-Feed AdSense Code in Blogger Layout &#8594; In-Feed Ad Gadget</span>
+              <span class='px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded font-mono-num'>RESPONSIVE</span>
+            </div>
+          </b:if>
+        </div>
+      </b:includable>
+    </b:widget>
+  </b:section>
+
+  <!-- ============================================================== -->
+  <!-- 6. BLOGGER POSTS & STATIC PAGES ENGINE (FOR ADSENSE APPROVAL)  -->
+  <!-- ============================================================== -->
+  <b:section class='max-w-[1720px] mx-auto w-full px-3 sm:px-6 py-6 flex-grow' id='main' showaddelement='yes'>
+    <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
+      <b:widget-settings>
+        <b:widget-setting name='showDateHeader'>false</b:widget-setting>
+        <b:widget-setting name='showShareButtons'>true</b:widget-setting>
+        <b:widget-setting name='showCommentLink'>true</b:widget-setting>
+        <b:widget-setting name='showAuthor'>false</b:widget-setting>
+        <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+        <b:widget-setting name='timestampLabel'/>
+        <b:widget-setting name='reactionsLabel'/>
+        <b:widget-setting name='showAuthorProfile'>false</b:widget-setting>
+        <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+        <b:widget-setting name='showLabels'>true</b:widget-setting>
+        <b:widget-setting name='showLocation'>true</b:widget-setting>
+        <b:widget-setting name='postLabelsLabel'/>
+        <b:widget-setting name='showTimestamp'>true</b:widget-setting>
+        <b:widget-setting name='postsPerAd'>3</b:widget-setting>
+        <b:widget-setting name='showBacklinks'>false</b:widget-setting>
+        <b:widget-setting name='showInlineAds'>true</b:widget-setting>
+        <b:widget-setting name='showReactions'>false</b:widget-setting>
+      </b:widget-settings>
+      <b:includable id='main' var='top'>
+        <b:if cond='data:view.isMultipleItems'>
+          <div class='bg-[#111827] border border-[#1F2937] rounded-lg p-4 sm:p-6'>
+            <div class='flex items-center justify-between border-b border-[#1F2937] pb-3 mb-5'>
+              <div>
+                <h2 class='text-lg font-bold text-white tracking-tight'>BOX OFFICE TRADE REPORTS &amp; ANALYSIS</h2>
+                <p class='text-xs text-gray-400'>Daily box office verdicts, advance booking reports &amp; collection breakdowns</p>
+              </div>
+              <span class='text-xs font-mono-num text-cyan-400'>EDITORIAL DESK</span>
+            </div>
+
+            <b:if cond='data:posts.empty'>
+              <p class='text-xs font-mono-num text-gray-400'>Publish your daily Box Office review posts in Blogger Dashboard to strengthen Google AdSense approval.</p>
+            <b:else/>
+              <div class='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                <b:loop values='data:posts' var='post'>
+                  <article class='bg-[#090D16] border border-[#1F2937] hover:border-emerald-500/50 rounded-lg p-4 flex flex-col justify-between transition'>
+                    <div>
+                      <div class='text-[10px] font-mono-num text-cyan-400 mb-1'><data:post.date/></div>
+                      <h3 class='text-base font-bold text-white mb-2'>
+                        <a class='hover:text-emerald-400 transition' expr:href='data:post.url'><data:post.title/></a>
+                      </h3>
+                      <b:if cond='data:post.snippet'>
+                        <p class='text-xs text-gray-400 line-clamp-3 mb-4'><data:post.snippet/></p>
+                      </b:if>
+                    </div>
+                    <a class='text-xs font-mono-num text-emerald-400 font-bold hover:underline' expr:href='data:post.url'>Read Trade Analysis &#8594;</a>
+                  </article>
+                </b:loop>
+              </div>
+            </b:if>
+          </div>
+        <b:else/>
+          <!-- Single Post or Static Page (About / Privacy Policy / Disclaimer / Contact) -->
+          <div class='max-w-4xl mx-auto'>
+            <b:loop values='data:posts' var='post'>
+              <article class='bg-[#111827] border border-[#1F2937] rounded-lg p-6 sm:p-8 space-y-5'>
+                <div class='border-b border-[#1F2937] pb-4 flex flex-wrap justify-between items-center gap-2'>
+                  <div>
+                    <div class='text-xs font-mono-num text-cyan-400 mb-1'><data:post.date/></div>
+                    <h1 class='text-2xl sm:text-3xl font-black text-white'><data:post.title/></h1>
+                  </div>
+                  <a class='text-xs font-mono-num px-3 py-1.5 rounded bg-[#090D16] border border-[#1F2937] text-emerald-400 hover:border-emerald-500' expr:href='data:blog.homepageUrl'>&#8592; Live Terminal</a>
+                </div>
+                <div class='blogger-post-body text-sm leading-relaxed'>
+                  <data:post.body/>
+                </div>
+              </article>
+            </b:loop>
+          </div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+  </b:section>
+
+  <!-- ============================================================== -->
+  <!-- 7. FOOTER WITH MANDATORY ADSENSE PAGES                         -->
+  <!-- ============================================================== -->
+  <footer class='border-t border-[#1F2937] bg-[#0c121e] mt-10 py-6 text-xs font-mono-num text-gray-500'>
+    <div class='max-w-[1720px] mx-auto px-3 sm:px-6 flex flex-col lg:flex-row items-center justify-between gap-4'>
+      <div class='flex items-center gap-2'>
+        <span class='font-bold text-gray-300'>BoxOfficeCollectionLive</span>
+        <span>&#8226;</span>
+        <span class='text-gray-400'>boxofficecollectionlive.blogspot.com</span>
+        <span>&#8226;</span>
+        <span>Last Sync: <span class='text-cyan-400' id='footer-last-sync'>Live</span></span>
+      </div>
+      <nav class='flex flex-wrap items-center justify-center gap-4 text-[11px] text-gray-400'>
+        <a class='hover:text-white' expr:href='data:blog.homepageUrl'>Terminal Home</a>
+        <a class='hover:text-white' href='/p/about.html'>About</a>
+        <a class='hover:text-white' href='/p/privacy-policy.html'>Privacy Policy</a>
+        <a class='hover:text-white' href='/p/disclaimer.html'>Disclaimer</a>
+        <a class='hover:text-white' href='/p/contact_01310423886.html'>Contact</a>
+      </nav>
+      <div class='text-[11px] text-emerald-400'>&#9679; BOXOFFICECOLLECTIONLIVE.BLOGSPOT.COM</div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- 8. TERMINAL ENGINE SCRIPT (XML CDATA SAFE)                     -->
+  <!-- ============================================================== -->
+  <script type='text/javascript'>
+  //<![CDATA[
+    // Paste your GitHub Raw boxoffice_data.json URL below once pushed to GitHub:
+    // Example: "https://raw.githubusercontent.com/USERNAME/boxofficeblock/main/boxoffice_data.json"
+    const REMOTE_DATA_URL = "https://raw.githubusercontent.com/boxofficecollectionlive/boxofficeblock/main/boxoffice_data.json";
+
+    let boxOfficeData = null;
+    let currentHeroMovie = null;
+    let currentChart = null;
+    let activeChartMetric = 'net';
+    let activeFilter = 'all';
+    let activeOccupancyFormat = 'all';
+    let isUsdCurrency = false;
+    const USD_INR_RATE = 83.25;
+    let liveIndiaNetAccumulator = 471.9500;
+    let liveWorldwideAccumulator = 860.5100;
+    let autoSyncEnabled = true;
+    let autoSyncSecondsLeft = 30;
+    let waveformSpikeIntensity = 0;
+
+    const FALLBACK_DATA = {
+      tickerFeed: [
+        { symbol: "RAMAYANA", day: "Day 7", collection: "₹471.95 Cr", change: 14.2, badge: "Diwali Breakout" },
+        { symbol: "SCENE", day: "Day 5", collection: "₹12.85 Cr", change: -40.0, badge: "Heavy Drop" },
+        { symbol: "M-AMMAN2", day: "Day 5", collection: "₹2.10 Cr", change: -59.2, badge: "Capitulation" },
+        { symbol: "JAILER2", day: "Day 27", collection: "₹472.53 Cr", change: -29.6, badge: "End of Run" },
+        { symbol: "AK47", day: "Day 12", collection: "₹18.40 Cr", change: -18.5, badge: "Weekday Bleed" },
+        { symbol: "PYRE", day: "Day 12", collection: "₹9.65 Cr", change: -32.1, badge: "Screen Loss" },
+        { symbol: "UDTA-TEER", day: "Day 19", collection: "₹34.20 Cr", change: -22.4, badge: "Steady Tail" },
+        { symbol: "DRISHYAM3", day: "Day 40", collection: "₹215.80 Cr", change: -15.1, badge: "Super Hit" }
+      ],
+      heroMovie: {
+        id: "ramayana-2026",
+        title: "RAMAYANA (2026)",
+        poster: "https://upload.wikimedia.org/wikipedia/en/4/48/Ramayana_Part_1_%28poster%29.jpg",
+        subtitle: "Part One: The Awakening | Dir. Nitesh Tiwari | Budget: ₹835 Cr",
+        releaseDate: "2026-11-05",
+        daysInTheaters: 7,
+        sentiment: "BULLISH ACCUMULATION #1",
+        orderBlockVerdict: "MEGA BLOCKBUSTER SURGE",
+        liveVelocity: { ticketsPerMin: 148, inrPerSecond: 68500, baseIndiaNetCr: 471.9500, baseWorldwideCr: 860.5100 },
+        keyMetrics: {
+          indiaNet: "₹471.95 Cr", indiaGross: "₹563.51 Cr", overseasGross: "₹297.00 Cr+",
+          worldwideTotal: "₹860.51 Cr+", showCount: "24,344", avgOccupancy: "55.3%"
+        },
+        supportResistance: { targetClubResistance: "₹1,000.00 Cr WW", resistanceProgress: 86.05, weekdaySupport: "₹45.00 Cr/day" },
+        dayWiseCollections: [
+          { label: "D1", net: 64.85, gross: 77.80, change: 0, shows: 22100, occupancy: 78.4, event: "Opening Blast" },
+          { label: "D2", net: 48.05, gross: 57.65, change: -25.9, shows: 23400, occupancy: 58.1, event: "Pre-Diwali Dip" },
+          { label: "D3", net: 69.80, gross: 83.75, change: 45.3, shows: 24000, occupancy: 72.8, event: "Weekend Surge" },
+          { label: "D4", net: 56.15, gross: 67.40, change: -19.6, shows: 24200, occupancy: 64.2, event: "Diwali Eve" },
+          { label: "D5", net: 107.50, gross: 128.90, change: 91.5, shows: 24800, occupancy: 91.2, event: "Diwali Mega Record" },
+          { label: "D6", net: 94.10, gross: 112.90, change: -12.5, shows: 24600, occupancy: 84.5, event: "Holiday Hold" },
+          { label: "D7 Live", net: 31.50, gross: 37.80, change: 14.2, shows: 24344, occupancy: 55.3, event: "Live Accumulation" }
+        ],
+        languageBreakdown: [
+          { language: "Hindi", amount: 336.00, percentage: 76.3, color: "#10B981" },
+          { language: "Kannada", amount: 41.20, percentage: 9.4, color: "#06B6D4" },
+          { language: "Telugu", amount: 33.00, percentage: 7.5, color: "#F59E0B" },
+          { language: "Tamil", amount: 17.35, percentage: 3.9, color: "#8B5CF6" },
+          { language: "Malayalam", amount: 12.90, percentage: 2.9, color: "#EC4899" }
+        ],
+        regionalOccupancy: [
+          { city: "Bengaluru", occupancy: 90.5, shows: 2180, peakTime: "Night: 98%" },
+          { city: "Hyderabad", occupancy: 74.2, shows: 2840, peakTime: "Evening: 88%" },
+          { city: "Ahmedabad", occupancy: 71.6, shows: 1950, peakTime: "Night: 85%" },
+          { city: "Chennai", occupancy: 68.1, shows: 1420, peakTime: "Evening: 79%" },
+          { city: "Mumbai", occupancy: 66.3, shows: 4120, peakTime: "Night: 89%" },
+          { city: "Pune", occupancy: 63.5, shows: 1820, peakTime: "Night: 74%" },
+          { city: "NCR (Delhi)", occupancy: 57.8, shows: 4890, peakTime: "Evening: 76%" },
+          { city: "Kolkata", occupancy: 52.4, shows: 1640, peakTime: "Night: 67%" }
+        ]
+      },
+      marketReleases: [
+        { id: "ramayana-2026", title: "Ramayana (2026)", poster: "https://upload.wikimedia.org/wikipedia/en/4/48/Ramayana_Part_1_%28poster%29.jpg", releaseDate: "2026-11-05", dayCount: 7, category: "Pan-India", classification: "Last 15 Days", sentiment: "BULLISH", orderBlock: "Institutional Accumulation", verdict: "Mega Blockbuster Surge", dayNet: "₹31.50 Cr*", totalNet: "₹471.95 Cr", worldwide: "₹860.51 Cr", baseNetNum: 471.95, baseWwNum: 860.51, ticketsPerMin: 148, dayChange: 14.2, shows: 24344, occupancy: 55.3, dominantMarket: "Pan-India (Hindi)", supportLevel: "₹45 Cr/day", resistanceLevel: "₹1,000 Cr WW", sparkline: [64.8, 48.0, 69.8, 56.1, 107.5, 94.1, 31.5] },
+        { id: "drishyam-3", title: "Drishyam 3", poster: "https://upload.wikimedia.org/wikipedia/en/d/d9/Drishyam-_The_Conclusion_poster.jpg", releaseDate: "2026-10-02", dayCount: 40, category: "Pan-India", classification: "Holdover Benchmark", sentiment: "BULLISH", orderBlock: "Lifetime Accumulation", verdict: "All-Time Blockbuster", dayNet: "₹0.48 Cr", totalNet: "₹215.80 Cr", worldwide: "₹348.90 Cr", baseNetNum: 215.80, baseWwNum: 348.90, ticketsPerMin: 7, dayChange: -15.1, shows: 820, occupancy: 38.6, dominantMarket: "Hindi / Overseas", supportLevel: "₹0.40 Cr", resistanceLevel: "₹350 Cr WW", sparkline: [1.4, 1.2, 1.0, 0.85, 0.70, 0.58, 0.48] },
+        { id: "scene-2026", title: "Scene", poster: "https://upload.wikimedia.org/wikipedia/en/3/3b/Scene_%282026_film%29.jpg", releaseDate: "2026-11-06", dayCount: 5, category: "Regional", classification: "Last 15 Days", sentiment: "BEARISH", orderBlock: "Retail Liquidation", verdict: "Heavy Drop", dayNet: "₹1.45 Cr", totalNet: "₹12.85 Cr", worldwide: "₹15.20 Cr", baseNetNum: 12.85, baseWwNum: 15.20, ticketsPerMin: 12, dayChange: -40.0, shows: 2840, occupancy: 18.2, dominantMarket: "Tamil / Malayalam", supportLevel: "₹1.2 Cr", resistanceLevel: "₹25 Cr Net", sparkline: [4.2, 3.8, 3.1, 2.3, 1.45] },
+        { id: "mookuthi-amman-2", title: "Mookuthi Amman 2", poster: "https://upload.wikimedia.org/wikipedia/en/e/ef/Mookuthi_Amman_2_poster.jpg", releaseDate: "2026-11-06", dayCount: 5, category: "Regional", classification: "Last 15 Days", sentiment: "BEARISH", orderBlock: "Order Block Breakdown", verdict: "Severe Capitulation", dayNet: "₹0.24 Cr", totalNet: "₹2.10 Cr", worldwide: "₹2.65 Cr", baseNetNum: 2.10, baseWwNum: 2.65, ticketsPerMin: 3, dayChange: -59.2, shows: 1150, occupancy: 9.4, dominantMarket: "Tamil", supportLevel: "₹0.20 Cr", resistanceLevel: "₹5.0 Cr Net", sparkline: [0.85, 0.60, 0.52, 0.38, 0.24] },
+        { id: "ak-47", title: "Aadarsha Kutumbam (AK 47)", poster: "https://upload.wikimedia.org/wikipedia/en/0/06/Aadarsha_Kutumbam_poster.jpg", releaseDate: "2026-10-30", dayCount: 12, category: "Regional", classification: "Last 15 Days", sentiment: "BEARISH", orderBlock: "Volume Exhaustion", verdict: "Weekday Bleed", dayNet: "₹0.62 Cr", totalNet: "₹18.40 Cr", worldwide: "₹22.10 Cr", baseNetNum: 18.40, baseWwNum: 22.10, ticketsPerMin: 8, dayChange: -18.5, shows: 1820, occupancy: 21.0, dominantMarket: "Telugu", supportLevel: "₹0.50 Cr", resistanceLevel: "₹25 Cr Net", sparkline: [3.4, 2.9, 2.1, 1.6, 1.1, 0.8, 0.62] },
+        { id: "pyre", title: "Pyre", poster: "https://upload.wikimedia.org/wikipedia/en/2/28/Pyre_Film_Poster.jpg", releaseDate: "2026-10-30", dayCount: 12, category: "Regional", classification: "Last 15 Days", sentiment: "BEARISH", orderBlock: "Screen Compression", verdict: "Screen Loss", dayNet: "₹0.31 Cr", totalNet: "₹9.65 Cr", worldwide: "₹11.80 Cr", baseNetNum: 9.65, baseWwNum: 11.80, ticketsPerMin: 4, dayChange: -32.1, shows: 940, occupancy: 14.8, dominantMarket: "Hindi Multiplex", supportLevel: "₹0.25 Cr", resistanceLevel: "₹15 Cr Net", sparkline: [1.8, 1.5, 1.2, 0.9, 0.6, 0.45, 0.31] },
+        { id: "jailer-2", title: "Jailer 2", poster: "https://upload.wikimedia.org/wikipedia/en/d/dc/Jailer_2_poster.jpg", releaseDate: "2026-10-15", dayCount: 27, category: "Pan-India", classification: "Holdover Benchmark", sentiment: "BEARISH", orderBlock: "Distribution Plateau", verdict: "All-Time Super Hit", dayNet: "₹1.15 Cr", totalNet: "₹472.53 Cr", worldwide: "₹695.40 Cr", baseNetNum: 472.53, baseWwNum: 695.40, ticketsPerMin: 14, dayChange: -29.6, shows: 2450, occupancy: 29.5, dominantMarket: "Tamil / Telugu", supportLevel: "₹1.00 Cr", resistanceLevel: "₹700 Cr WW", sparkline: [4.5, 3.8, 3.2, 2.6, 2.1, 1.6, 1.15] },
+        { id: "udta-teer", title: "Udta Teer", poster: "https://upload.wikimedia.org/wikipedia/en/c/c8/Udta_Teer_film_poster.jpg", releaseDate: "2026-10-23", dayCount: 19, category: "Pan-India", classification: "Holdover Benchmark", sentiment: "BEARISH", orderBlock: "Order Absorption", verdict: "Steady Tail Hold", dayNet: "₹0.85 Cr", totalNet: "₹34.20 Cr", worldwide: "₹44.80 Cr", baseNetNum: 34.20, baseWwNum: 44.80, ticketsPerMin: 9, dayChange: -22.4, shows: 1380, occupancy: 23.4, dominantMarket: "Hindi North", supportLevel: "₹0.70 Cr", resistanceLevel: "₹40 Cr Net", sparkline: [2.2, 1.9, 1.6, 1.4, 1.1, 0.95, 0.85] }
+      ]
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initClock();
+      loadData();
+      bindEvents();
+      if (document.getElementById('liveVelocityWaveform')) {
+        initLiveWaveform();
+        startLiveOdometerEngine();
+        startLiveOrderTape();
+      }
+      initAutoSyncPolling();
+    });
+
+    function initClock() {
+      const clockEl = document.getElementById('live-ist-clock');
+      function update() {
+        if (!clockEl) return;
+        const now = new Date();
+        clockEl.textContent = new Intl.DateTimeFormat('en-IN', {
+          timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).format(now) + ' IST';
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    async function loadData(isBg) {
+      if (REMOTE_DATA_URL) {
+        try {
+          const res = await fetch(REMOTE_DATA_URL + '?t=' + Date.now());
+          if (res.ok) boxOfficeData = await res.json();
+        } catch (e) {}
+      }
+      if (!boxOfficeData) boxOfficeData = FALLBACK_DATA;
+      if (!currentHeroMovie || !isBg || currentHeroMovie.id === boxOfficeData.heroMovie.id) {
+        currentHeroMovie = boxOfficeData.heroMovie;
+        const lv = currentHeroMovie.liveVelocity || {};
+        if (typeof lv.baseIndiaNetCr === 'number' && (!isBg || lv.baseIndiaNetCr > liveIndiaNetAccumulator)) {
+          liveIndiaNetAccumulator = lv.baseIndiaNetCr;
+        }
+        if (typeof lv.baseWorldwideCr === 'number' && (!isBg || lv.baseWorldwideCr > liveWorldwideAccumulator)) {
+          liveWorldwideAccumulator = lv.baseWorldwideCr;
+        }
+      } else {
+        const updatedMatch = (boxOfficeData.marketReleases || []).find(function(m) { return m.id === currentHeroMovie.id; });
+        if (updatedMatch) {
+          currentHeroMovie.daysInTheaters = updatedMatch.dayCount;
+          currentHeroMovie.keyMetrics.indiaNet = updatedMatch.totalNet;
+          currentHeroMovie.keyMetrics.worldwideTotal = updatedMatch.worldwide;
+          if (!isBg || updatedMatch.baseNetNum > liveIndiaNetAccumulator) liveIndiaNetAccumulator = updatedMatch.baseNetNum;
+          if (!isBg || updatedMatch.baseWwNum > liveWorldwideAccumulator) liveWorldwideAccumulator = updatedMatch.baseWwNum;
+        }
+      }
+
+      const syncEl = document.getElementById('footer-last-sync');
+      if (syncEl) syncEl.textContent = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST';
+
+      try { renderTickerTape(); } catch(e) {}
+      if (document.getElementById('hero-movie-poster')) {
+        try { renderHeroSpotlight(); } catch(e) {}
+        try { renderRegionalOccupancy(); } catch(e) {}
+        try { renderBoards(); } catch(e) {}
+      }
+    }
+
+    function initAutoSyncPolling() {
+      const cdEl = document.getElementById('auto-sync-countdown');
+      setInterval(async function() {
+        if (!autoSyncEnabled) return;
+        autoSyncSecondsLeft--;
+        if (autoSyncSecondsLeft <= 0) {
+          autoSyncSecondsLeft = 30;
+          await loadData(true);
+        }
+        if (cdEl) cdEl.textContent = autoSyncSecondsLeft + 's';
+      }, 1000);
+    }
+
+    function startLiveOdometerEngine() {
+      setInterval(function() {
+        if (!currentHeroMovie) return;
+        const tix = (currentHeroMovie.liveVelocity && currentHeroMovie.liveVelocity.ticketsPerMin) ? currentHeroMovie.liveVelocity.ticketsPerMin : 15;
+        const inc = (tix / 148) * (0.0001 + Math.random() * 0.0003);
+        liveIndiaNetAccumulator += inc * 0.65;
+        liveWorldwideAccumulator += inc;
+        updateLiveNumbersDisplay(true);
+      }, 1400);
+    }
+
+    function updateLiveNumbersDisplay(flash) {
+      function fmt(v) {
+        if (isUsdCurrency) return '$' + ((v * 10) / USD_INR_RATE).toFixed(4) + 'M';
+        return '₹' + v.toFixed(4) + ' Cr';
+      }
+      const pairs = [
+        ['hero-india-net', fmt(liveIndiaNetAccumulator)],
+        ['hero-poster-live-net', fmt(liveIndiaNetAccumulator)],
+        ['hero-worldwide', fmt(liveWorldwideAccumulator) + '+'],
+        ['hero-poster-live-ww', fmt(liveWorldwideAccumulator) + '+']
+      ];
+      pairs.forEach(function(p) {
+        const el = document.getElementById(p[0]);
+        if (el) {
+          el.textContent = p[1];
+          if (flash) {
+            el.classList.remove('flash-tick');
+            void el.offsetWidth;
+            el.classList.add('flash-tick');
+          }
+        }
+      });
+    }
+
+    function initLiveWaveform() {
+      const canvas = document.getElementById('liveVelocityWaveform');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      function resize() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      const bars = new Array(40).fill(20);
+      let phase = 0;
+      function draw() {
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        phase += 0.08;
+        if (waveformSpikeIntensity > 0) {
+          bars[bars.length - 1] = Math.min(h - 10, 40 + waveformSpikeIntensity * 35);
+          waveformSpikeIntensity *= 0.85;
+        }
+        if (Math.random() > 0.72) {
+          bars.shift();
+          bars.push(18 + Math.random() * 32 + waveformSpikeIntensity * 25);
+        }
+        const bw = w / bars.length;
+        bars.forEach(function(val, i) {
+          ctx.fillStyle = i > bars.length - 4 ? 'rgba(16,185,129,0.45)' : 'rgba(6,182,212,0.18)';
+          ctx.fillRect(i * bw + 1, h - Math.min(h - 8, val), bw - 2, Math.min(h - 8, val));
+        });
+        ctx.beginPath();
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 2;
+        for (let x = 0; x < w; x += 4) {
+          const idx = Math.min(bars.length - 1, Math.floor((x / w) * bars.length));
+          const y = h * 0.52 - Math.sin(x * 0.045 - phase) * (bars[idx] * 0.4);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function startLiveOrderTape() {
+      const tapeEl = document.getElementById('live-order-tape');
+      if (!tapeEl) return;
+      const cities = [
+        { c: "MUMBAI IMAX 3D", a: "₹24,800", s: 42 },
+        { c: "BENGALURU 3D", a: "₹31,400", s: 68 },
+        { c: "HYDERABAD AMB", a: "₹28,500", s: 54 },
+        { c: "NCR DELHI", a: "₹19,200", s: 24 },
+        { c: "CHENNAI LUXE", a: "₹16,800", s: 38 }
+      ];
+      function push() {
+        const p = cities[Math.floor(Math.random() * cities.length)];
+        const t = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false });
+        const sym = currentHeroMovie ? currentHeroMovie.title.split(' ')[0] : 'RAMAYANA';
+        const row = document.createElement('div');
+        row.className = 'tape-entry-new flex justify-between px-1.5 py-0.5 border-b border-[#1F2937]/50';
+        row.innerHTML = '<span class="text-gray-400">' + t + ' • <strong class="text-gray-200">' + p.c + '</strong> (' + sym + ')</span><span class="text-emerald-400 font-bold">+' + p.a + ' (' + p.s + ' tix)</span>';
+        tapeEl.prepend(row);
+        waveformSpikeIntensity = 1.0;
+        while (tapeEl.children.length > 4) tapeEl.removeChild(tapeEl.lastChild);
+      }
+      push();
+      setInterval(push, 1800);
+    }
+
+    function renderTickerTape() {
+      const el = document.getElementById('ticker-track-el');
+      if (!el || !boxOfficeData.tickerFeed) return;
+      const items = [...boxOfficeData.tickerFeed, ...boxOfficeData.tickerFeed, ...boxOfficeData.tickerFeed];
+      el.innerHTML = items.map(function(i) {
+        const bull = i.change >= 0;
+        return '<div class="inline-flex items-center gap-3 px-4 border-r border-[#1F2937]/80"><span class="font-bold text-white">' + i.symbol + '</span><span class="text-gray-400">' + i.day + '</span><span class="font-bold text-white">' + i.collection + '</span><span class="' + (bull ? 'text-emerald-400' : 'text-red-400') + ' font-bold">' + (bull ? '▲ +' : '▼ ') + i.change.toFixed(1) + '%</span></div>';
+      }).join('');
+    }
+
+    function renderHeroSpotlight() {
+      const m = currentHeroMovie;
+      if (!m) return;
+      document.getElementById('hero-movie-poster').src = m.poster;
+      document.getElementById('hero-poster-day-badge').textContent = 'DAY ' + m.daysInTheaters;
+      const tix = m.liveVelocity ? m.liveVelocity.ticketsPerMin : 15;
+      const sec = m.liveVelocity ? m.liveVelocity.inrPerSecond : 8500;
+      document.getElementById('poster-velocity-tix').textContent = '⚡ ' + tix + ' TIX / MIN';
+      document.getElementById('poster-velocity-inr').textContent = '+₹' + sec.toLocaleString('en-IN') + ' / SEC';
+      document.getElementById('header-live-velocity').textContent = tix + ' TIX/MIN';
+      document.getElementById('hero-movie-title').textContent = m.title;
+      document.getElementById('hero-movie-subtitle').textContent = m.subtitle;
+      document.getElementById('hero-sentiment-badge').textContent = m.sentiment;
+      document.getElementById('hero-release-meta').textContent = 'RELEASED: ' + m.releaseDate + ' (DAY ' + m.daysInTheaters + ')';
+      document.getElementById('hero-movie-tagline').textContent = m.orderBlockVerdict;
+      updateLiveNumbersDisplay(false);
+      document.getElementById('hero-india-gross').textContent = m.keyMetrics.indiaGross;
+      document.getElementById('hero-overseas-gross').textContent = m.keyMetrics.overseasGross;
+      document.getElementById('hero-show-count').textContent = m.keyMetrics.showCount;
+      document.getElementById('hero-occupancy').textContent = m.keyMetrics.avgOccupancy;
+
+      const langEl = document.getElementById('language-bars-container');
+      if (langEl && m.languageBreakdown) {
+        langEl.innerHTML = m.languageBreakdown.map(function(l) {
+          return '<div class="space-y-1"><div class="flex justify-between text-xs"><span class="text-gray-300 font-semibold">' + l.language + '</span><span class="font-bold" style="color:' + l.color + '">₹' + l.amount.toFixed(2) + ' Cr (' + l.percentage + '%)</span></div><div class="w-full bg-[#111827] h-2 rounded overflow-hidden"><div class="h-full rounded" style="width:' + l.percentage + '%;background-color:' + l.color + '"></div></div></div>';
+        }).join('');
+      }
+      renderHeroChart(m.dayWiseCollections);
+    }
+
+    function renderHeroChart(dayData) {
+      const canvas = document.getElementById('ramayanaChart');
+      if (!canvas || !dayData || typeof Chart === 'undefined') return;
+      if (currentChart) currentChart.destroy();
+      const vals = dayData.map(function(d) {
+        if (activeChartMetric === 'gross') return d.gross;
+        if (activeChartMetric === 'shows') return d.shows;
+        if (activeChartMetric === 'occupancy') return d.occupancy;
+        return d.net;
+      });
+      currentChart = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: dayData.map(function(d) { return d.label; }),
+          datasets: [{
+            label: activeChartMetric.toUpperCase(),
+            data: vals,
+            backgroundColor: dayData.map(function(d) { return d.net >= 100 ? 'rgba(245,158,11,0.85)' : (d.change < 0 ? 'rgba(239,68,68,0.6)' : 'rgba(16,185,129,0.35)'); }),
+            borderColor: dayData.map(function(d) { return d.net >= 100 ? '#F59E0B' : (d.change < 0 ? '#EF4444' : '#10B981'); }),
+            borderWidth: 1.5,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#9CA3AF' }, grid: { color: 'rgba(31,41,55,0.4)' } },
+            y: { ticks: { color: '#9CA3AF' }, grid: { color: 'rgba(31,41,55,0.4)' } }
+          }
+        }
+      });
+    }
+
+    function renderRegionalOccupancy() {
+      const grid = document.getElementById('regional-occupancy-grid');
+      if (!grid || !boxOfficeData.heroMovie.regionalOccupancy) return;
+      grid.innerHTML = boxOfficeData.heroMovie.regionalOccupancy.map(function(c) {
+        let occ = c.occupancy;
+        if (activeOccupancyFormat === '3d') occ = Math.min(100, occ + 8.5);
+        if (activeOccupancyFormat === '2d') occ = Math.max(10, occ - 6.2);
+        const cls = occ >= 80 ? 'text-emerald-400 border-emerald-400 bg-emerald-950/30' : (occ < 55 ? 'text-amber-400 border-amber-500/40 bg-amber-500/10' : 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10');
+        return '<div class="bg-[#090D16] border ' + cls + ' p-3 rounded font-mono-num"><div class="flex justify-between text-xs"><strong>' + c.city + '</strong><span>' + c.shows + ' sh</span></div><div class="text-lg font-bold mt-1">' + occ.toFixed(1) + '%</div><div class="text-[9px] text-gray-400 mt-1">' + c.peakTime + '</div></div>';
+      }).join('');
+    }
+
+    function renderBoards() {
+      const bEl = document.getElementById('bullish-cards-container');
+      const rEl = document.getElementById('bearish-cards-container');
+      if (!bEl || !rEl) return;
+      const q = (document.getElementById('movie-search-input') ? document.getElementById('movie-search-input').value : '').toLowerCase();
+      const s = document.getElementById('board-sort-select') ? document.getElementById('board-sort-select').value : 'net-desc';
+      const list = boxOfficeData.marketReleases.filter(function(m) {
+        if (q && m.title.toLowerCase().indexOf(q) === -1) return false;
+        if (activeFilter === 'recent15') return m.classification === 'Last 15 Days';
+        if (activeFilter === 'panIndia') return m.category === 'Pan-India';
+        if (activeFilter === 'regional') return m.category === 'Regional';
+        return true;
+      }).sort(function(a, b) {
+        if (s === 'change-desc') return b.dayChange - a.dayChange;
+        if (s === 'change-asc') return a.dayChange - b.dayChange;
+        if (s === 'occupancy-desc') return b.occupancy - a.occupancy;
+        return b.baseNetNum - a.baseNetNum;
+      });
+      const bulls = list.filter(function(m) { return m.sentiment === 'BULLISH'; });
+      const bears = list.filter(function(m) { return m.sentiment === 'BEARISH'; });
+      document.getElementById('bullish-count-badge').textContent = '(' + bulls.length + ')';
+      document.getElementById('bearish-count-badge').textContent = '(' + bears.length + ')';
+
+      function card(m, bull) {
+        return '<div onclick="inspectMovie(\'' + m.id + '\')" class="bg-[#090D16] border border-[#1F2937] hover:border-cyan-500/50 p-3 rounded-lg flex gap-3.5 font-mono-num cursor-pointer transition"><div class="w-20 sm:w-24 h-[120px] sm:h-[144px] shrink-0 poster-frame"><img src="' + m.poster + '" alt="' + m.title + '" class="w-full h-full object-cover block"/><div class="absolute bottom-0 inset-x-0 bg-black/90 text-center py-1 text-[11px] font-black text-white">' + m.totalNet + '</div></div><div class="flex-1 min-w-0 flex flex-col justify-between"><div class="flex justify-between items-start gap-2"><div class="min-w-0"><h4 class="font-bold text-white text-sm truncate">' + m.title + '</h4><div class="text-[11px] text-gray-400 truncate">' + m.verdict + ' • Day ' + m.dayCount + '</div></div><span class="text-sm font-bold ' + (bull ? 'text-emerald-400' : 'text-red-400') + '">' + (m.dayChange > 0 ? '+' : '') + m.dayChange.toFixed(1) + '%</span></div><div class="grid grid-cols-3 gap-2 pt-2 border-t border-[#1F2937] text-xs"><div><div class="text-[9px] text-gray-500">TODAY</div><div class="font-bold text-white">' + m.dayNet + '</div></div><div><div class="text-[9px] text-gray-500">WORLDWIDE</div><div class="font-bold text-cyan-400">' + m.worldwide + '</div></div><div><div class="text-[9px] text-gray-500">OCCUPANCY</div><div class="font-bold text-gray-200">' + m.occupancy + '%</div></div></div></div></div>';
+      }
+      bEl.innerHTML = bulls.map(function(m) { return card(m, true); }).join('');
+      rEl.innerHTML = bears.map(function(m) { return card(m, false); }).join('');
+    }
+
+    window.inspectMovie = function(id) {
+      const m = boxOfficeData.marketReleases.find(function(x) { return x.id === id; });
+      if (!m) return;
+      if (id === 'ramayana-2026') {
+        currentHeroMovie = boxOfficeData.heroMovie;
+        liveIndiaNetAccumulator = currentHeroMovie.liveVelocity.baseIndiaNetCr;
+        liveWorldwideAccumulator = currentHeroMovie.liveVelocity.baseWorldwideCr;
+      } else {
+        liveIndiaNetAccumulator = m.baseNetNum;
+        liveWorldwideAccumulator = m.baseWwNum;
+        currentHeroMovie = {
+          id: m.id, title: m.title.toUpperCase(), poster: m.poster,
+          subtitle: m.verdict + ' | ' + m.category, releaseDate: m.releaseDate,
+          daysInTheaters: m.dayCount, sentiment: m.orderBlock, orderBlockVerdict: m.verdict,
+          liveVelocity: { ticketsPerMin: m.ticketsPerMin, inrPerSecond: m.ticketsPerMin * 380 },
+          keyMetrics: {
+            indiaNet: m.totalNet, indiaGross: '₹' + (m.baseNetNum * 1.19).toFixed(2) + ' Cr',
+            overseasGross: '₹' + Math.max(0, m.baseWwNum - m.baseNetNum * 1.19).toFixed(2) + ' Cr',
+            worldwideTotal: m.worldwide, showCount: m.shows.toLocaleString(), avgOccupancy: m.occupancy + '%'
+          },
+          dayWiseCollections: m.sparkline.map(function(v, i) { return { label: 'D' + (i + 1), net: v, gross: v * 1.2, change: 0, shows: m.shows, occupancy: m.occupancy }; }),
+          languageBreakdown: [{ language: m.dominantMarket, amount: m.baseNetNum, percentage: 100, color: '#06B6D4' }]
+        };
+      }
+      renderHeroSpotlight();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function bindEvents() {
+      document.querySelectorAll('.chart-tab').forEach(function(b) {
+        b.addEventListener('click', function(e) {
+          activeChartMetric = e.target.getAttribute('data-metric');
+          if (currentHeroMovie) renderHeroChart(currentHeroMovie.dayWiseCollections);
+        });
+      });
+      document.querySelectorAll('.occupancy-format-tab').forEach(function(b) {
+        b.addEventListener('click', function(e) {
+          activeOccupancyFormat = e.target.getAttribute('data-format');
+          renderRegionalOccupancy();
+        });
+      });
+      document.querySelectorAll('.board-filter-btn').forEach(function(b) {
+        b.addEventListener('click', function(e) {
+          activeFilter = e.target.getAttribute('data-filter');
+          renderBoards();
+        });
+      });
+      const si = document.getElementById('movie-search-input');
+      if (si) si.addEventListener('input', renderBoards);
+      const ss = document.getElementById('board-sort-select');
+      if (ss) ss.addEventListener('change', renderBoards);
+      const ab = document.getElementById('toggle-auto-sync-btn');
+      if (ab) ab.addEventListener('click', function() {
+        autoSyncEnabled = !autoSyncEnabled;
+        ab.textContent = autoSyncEnabled ? 'AUTO: ON' : 'AUTO: PAUSED';
+      });
+      const cb = document.getElementById('toggle-currency-btn');
+      if (cb) cb.addEventListener('click', function() {
+        isUsdCurrency = !isUsdCurrency;
+        cb.textContent = isUsdCurrency ? '$ USD' : '₹ INR';
+        updateLiveNumbersDisplay(true);
+      });
+    }
+  //]]>
+  </script>
+
+</body>
+</html>
