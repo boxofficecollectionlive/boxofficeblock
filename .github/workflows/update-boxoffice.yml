@@ -1,0 +1,40 @@
+name: Auto-Update BoxOfficeCollectionLive Data
+
+on:
+  schedule:
+    # Runs twice daily: 06:30 UTC (12:00 PM IST) and 16:00 UTC (09:30 PM IST)
+    - cron: '30 6,16 * * *'
+  workflow_dispatch: # Allows 1-click manual run from GitHub Actions tab
+
+jobs:
+  verify-and-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allows committing updated boxoffice_data.json back to repo
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run 5-Source Box Office Verifier
+        run: node scraper.js
+
+      - name: Commit and Push Verified Data
+        run: |
+          git config --global user.name "BoxOfficeCollectionLive Bot"
+          git config --global user.email "joinmfclub@gmail.com"
+          git add boxoffice_data.json
+          if git diff --staged --quiet; then
+            echo "No data changes detected. Skipping commit."
+          else
+            git commit -m "chore(data): twice-daily 5-source box office verification [skip ci]"
+            git push
+            echo "Successfully pushed updated boxoffice_data.json to repository."
+          fi
