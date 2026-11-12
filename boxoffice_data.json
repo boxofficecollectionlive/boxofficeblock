@@ -1,22 +1,22 @@
 {
-  "lastUpdated": "2026-11-12T08:45:28.008Z",
+  "lastUpdated": "2026-11-12T17:23:42.989Z",
   "marketStatus": {
     "status": "OPEN",
     "volatility": "EXTREME_BULLISH",
     "activeHoliday": "Diwali Extended Holiday Trading Session",
     "total24hVolumeNet": "₹136.42 Cr",
-    "totalActiveShows": 17954,
+    "totalActiveShows": 29937,
     "topGainer": "RAMAYANA (2026) (#1 TREND)",
     "marketDominance": "76.4% (Ramayana)",
     "autoRefreshIntervalSec": 30,
-    "lastSync": "02:15:23 pm"
+    "lastSync": "10:53:41 pm"
   },
   "tickerFeed": [
     {
       "symbol": "RAMAYANA",
       "title": "Ramayana (2026)",
       "day": "Day 8",
-      "collection": "₹527.59 Cr",
+      "collection": "₹564.60 Cr",
       "change": 14.2,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -98,23 +98,23 @@
     "liveVelocity": {
       "ticketsPerMin": 220,
       "inrPerSecond": 68500,
-      "baseIndiaNetCr": 527.59,
-      "baseWorldwideCr": 934.55,
+      "baseIndiaNetCr": 564.6,
+      "baseWorldwideCr": 1033.55,
       "peakShowVelocity": "Night Shows 91% Fast-Filling"
     },
     "keyMetrics": {
-      "indiaNet": "₹527.59 Cr",
-      "indiaGross": "₹630.51 Cr",
-      "overseasGross": "₹323.50 Cr+",
-      "worldwideTotal": "₹934.55 Cr+",
-      "showCount": "12,013",
-      "avgOccupancy": "24%",
-      "totalFootfalls": "1.97 Cr",
+      "indiaNet": "₹564.60 Cr",
+      "indiaGross": "₹675.05 Cr",
+      "overseasGross": "₹358.50 Cr+",
+      "worldwideTotal": "₹1033.55 Cr+",
+      "showCount": "23,996",
+      "avgOccupancy": "33%",
+      "totalFootfalls": "2.19 Cr",
       "atpAvgTicketPrice": "₹278.50"
     },
     "supportResistance": {
       "targetClubResistance": "₹1,000.00 Cr WW",
-      "resistanceProgress": 93.45,
+      "resistanceProgress": 100,
       "weekdaySupport": "₹45.00 Cr/day",
       "diwaliPeakResistance": "₹107.50 Cr/day",
       "floorSupport": "₹28.00 Cr/day"
@@ -194,42 +194,42 @@
         "day": "Day 8",
         "label": "D8 Live",
         "date": "2026-11-05",
-        "net": 16.49,
-        "gross": 19.46,
-        "change": -76.7,
-        "shows": 12013,
-        "occupancy": 24
+        "net": 53.5,
+        "gross": 64,
+        "change": -24.3,
+        "shows": 23996,
+        "occupancy": 33
       }
     ],
     "languageBreakdown": [
       {
         "language": "Hindi",
-        "amount": 407.87,
-        "percentage": 77.3,
+        "amount": 437,
+        "percentage": 77.4,
         "color": "#10B981"
       },
       {
         "language": "Kannada",
-        "amount": 46.77,
-        "percentage": 8.9,
+        "amount": 48.95,
+        "percentage": 8.7,
         "color": "#06B6D4"
       },
       {
         "language": "Telugu",
-        "amount": 36.55,
-        "percentage": 6.9,
+        "amount": 38.05,
+        "percentage": 6.7,
         "color": "#F59E0B"
       },
       {
         "language": "Tamil",
-        "amount": 20.75,
+        "amount": 22.15,
         "percentage": 3.9,
         "color": "#8B5CF6"
       },
       {
         "language": "Malayalam",
-        "amount": 15.65,
-        "percentage": 3,
+        "amount": 18.45,
+        "percentage": 3.3,
         "color": "#EC4899"
       }
     ],
@@ -291,7 +291,7 @@
         "peakTime": "Night: 67%"
       }
     ],
-    "advanceBooking": "Day 9 advance: ₹16.08 Cr so far",
+    "advanceBooking": "Day 9 advance: ₹20.93 Cr so far",
     "showTimingOccupancy": [
       {
         "language": "Hindi (3D)",
@@ -334,34 +334,34 @@
       },
       {
         "label": "TOTAL FOOTFALLS",
-        "value": "1.97 Cr",
+        "value": "2.19 Cr",
         "sub": "Day 8 cumulative admissions"
       },
       {
         "label": "NEXT-DAY ADVANCE",
-        "value": "Day 9 advance: ₹16.08 Cr so far",
+        "value": "Day 9 advance: ₹20.93 Cr so far",
         "sub": "Pre-sales & show velocity tracker"
       },
       {
         "label": "BMS TICKET PACE",
         "value": "16.60L Peak Day / 1.40L Hr",
-        "sub": "Active BMS Buzz Signals: 35"
+        "sub": "Active BMS Buzz Signals: 39"
       },
       {
-        "label": "Pinkvilla Verified",
-        "value": "Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer phenomenal run continues Overseas, tops Rs. 900 Cr worldwide"
+        "label": "Sacnilk Verified",
+        "value": "Ramayana Scores 3rd Biggest First Week For An Indian Film At Worldwide Box Office To Become Ranbir Kapoor's Biggest Grosser"
       },
       {
-        "label": "Pinkvilla Verified",
-        "value": "Box Office: Ramayana becomes only Indian film to record Rs 100 crore plus worldwide for..."
+        "label": "Sacnilk Verified",
+        "value": "Ramayana Creates History in Kerala as First Bollywood Film to Cross ₹20 Crore Gross, Beats Dhurandhar 2"
       },
       {
-        "label": "Pinkvilla Verified",
-        "value": "Box Office: Ramayana scripts history in Kerala, emerges biggest Hindi grosser in just 6..."
+        "label": "Sacnilk Verified",
+        "value": "Ramayana Crosses ₹400 Crore Hindi Net Mark on Day 8, Matches Pushpa 2's Pace as Dhurandhar 2 Remains Fastest"
       },
       {
-        "label": "Pinkvilla Verified",
-        "value": "Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer tops USD 30M O..."
+        "label": "Sacnilk Verified",
+        "value": "Ramayana Breaks First Wednesday BMS Record, Challenges Pushpa 2 for Extended Opening Week Top Spot"
       }
     ]
   },
@@ -378,14 +378,14 @@
       "orderBlock": "Mega Institutional Surge",
       "verdict": "Mega Blockbuster Surge",
       "dayNet": "₹16.49 Cr*",
-      "totalNet": "₹527.59 Cr",
-      "worldwide": "₹934.55 Cr",
-      "baseNetNum": 527.59,
-      "baseWwNum": 934.55,
+      "totalNet": "₹564.60 Cr",
+      "worldwide": "₹1033.55 Cr",
+      "baseNetNum": 564.6,
+      "baseWwNum": 1033.55,
       "ticketsPerMin": 220,
       "dayChange": 14.2,
-      "shows": 12013,
-      "occupancy": 24,
+      "shows": 23996,
+      "occupancy": 33,
       "dominantMarket": "Pan-India (Hindi Lead)",
       "supportLevel": "₹45 Cr/day",
       "resistanceLevel": "₹1,000 Cr WW",
@@ -399,8 +399,8 @@
         94.1,
         29.2
       ],
-      "trendScore": 489.62,
-      "bmsBuzzSignals": 35,
+      "trendScore": 542.24,
+      "bmsBuzzSignals": 39,
       "googleTrending": false
     },
     {
@@ -506,7 +506,7 @@
         0.38,
         0.24
       ],
-      "trendScore": 95.23,
+      "trendScore": 92.23,
       "bmsBuzzSignals": 0,
       "googleTrending": false
     },
@@ -543,7 +543,7 @@
         0.8,
         0.62
       ],
-      "trendScore": 86.92,
+      "trendScore": 80.92,
       "bmsBuzzSignals": 0,
       "googleTrending": false
     },
@@ -623,7 +623,7 @@
     }
   ],
   "verificationReport": {
-    "lastVerifiedIST": "2026-11-12 02:15:23 pm IST",
+    "lastVerifiedIST": "2026-11-12 10:53:41 pm IST",
     "schedule": "Twice Daily (12:00 PM IST & 09:30 PM IST)",
     "lifecyclePolicy": "Auto-Add Weekly (<15d) | Active 15d | Auto-Remove >30d | Ranked by Collection + BMS/Search Buzz",
     "autoDiscoveredNew": [],
@@ -635,55 +635,55 @@
         "domain": "sacnilk.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 186
+        "headlineCount": 181
       },
       {
         "name": "Bollywood Hungama",
         "domain": "bollywoodhungama.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 148
+        "headlineCount": 172
       },
       {
         "name": "Box Office India",
         "domain": "boxofficeindia.com",
-        "directStatus": 200,
+        "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 19
+        "headlineCount": 7
       },
       {
         "name": "Koimoi",
         "domain": "koimoi.com",
         "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 112
+        "headlineCount": 101
       },
       {
         "name": "Pinkvilla",
         "domain": "pinkvilla.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 120
+        "headlineCount": 122
       }
     ],
-    "totalSignalsCollected": 585,
+    "totalSignalsCollected": 583,
     "verifiedUpdates": [
       {
         "movie": "Ramayana (2026)",
         "day": 8,
-        "trendScore": 489.62,
+        "trendScore": 542.24,
         "sourcesMatched": [
-          "Pinkvilla",
           "Sacnilk",
-          "Box Office India",
+          "Pinkvilla",
           "Bollywood Hungama",
-          "Koimoi"
+          "Koimoi",
+          "Box Office India"
         ],
-        "bmsSignals": 35,
+        "bmsSignals": 39,
         "consensusApplied": true,
         "sampleHeadlines": [
-          "Pinkvilla: Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer phenomenal run continues Overseas, tops Rs. 900 Cr worldwide",
-          "Pinkvilla: Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer juggernaut rolls over to Rs. 500 Cr nett on Day 7"
+          "Sacnilk: Ramayana Becomes 11th Indian Film to Cross 1000 Crore Worldwide, Achieves Feat in 8 Days",
+          "Sacnilk: Ramayana Scores 3rd Biggest First Week For An Indian Film At Worldwide Box Office To Become Ranbir Kapoor's Biggest Grosser"
         ]
       },
       {
@@ -691,15 +691,15 @@
         "day": 7,
         "trendScore": 131.41,
         "sourcesMatched": [
-          "Pinkvilla",
           "Sacnilk",
+          "Pinkvilla",
           "Koimoi"
         ],
         "bmsSignals": 0,
-        "consensusApplied": true,
+        "consensusApplied": false,
         "sampleHeadlines": [
-          "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1st Wednesday, to close first week at Rs 125 crore mark",
-          "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1..."
+          "Sacnilk: Scene Box Office Collection Day 6",
+          "Sacnilk: Box Office 27 min ago 39.4K views Scene Box Office Collection | All Language | Day Wise | Worldwide"
         ]
       },
       {
@@ -707,22 +707,22 @@
         "day": 29,
         "trendScore": 113.97,
         "sourcesMatched": [
-          "Pinkvilla",
           "Sacnilk",
+          "Pinkvilla",
           "Bollywood Hungama",
           "Koimoi"
         ],
         "bmsSignals": 0,
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Pinkvilla: Jailer 2 Box Office Collections: Rajinikanth starrer collects Rs 39 crore in Week 3, gr...",
-          "Sacnilk: Jailer 2 Box Office Collection Day 29 Updated 6 min ago · November 12, 2026 at 2:03 PM IST"
+          "Sacnilk: Jailer 2 Box Office Collection Day 29 Updated 18 min ago · November 12, 2026 at 10:25 PM IST",
+          "Sacnilk: Jailer 2 Box Office Collection Day 28 Updated 22 hrs ago · November 12, 2026 at 12:06 AM IST"
         ]
       },
       {
         "movie": "Mookuthi Amman 2",
         "day": 7,
-        "trendScore": 95.23,
+        "trendScore": 92.23,
         "sourcesMatched": [
           "Sacnilk",
           "Koimoi"
@@ -730,24 +730,24 @@
         "bmsSignals": 0,
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 7 Updated 6 min ago · November 12, 2026 at 2:03 PM IST",
-          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 6 Updated 14 hrs ago · November 12, 2026 at 12:06 AM IST"
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 7 Updated 21 min ago · November 12, 2026 at 10:22 PM IST",
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 6 Updated 22 hrs ago · November 12, 2026 at 12:06 AM IST"
         ]
       },
       {
         "movie": "Aadarsha Kutumbam (AK 47)",
         "day": 14,
-        "trendScore": 86.92,
+        "trendScore": 80.92,
         "sourcesMatched": [
-          "Pinkvilla",
           "Sacnilk",
+          "Pinkvilla",
           "Koimoi"
         ],
         "bmsSignals": 0,
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Pinkvilla: Aadarsha Kutumbam House No. 47 (AK 47) India Box Office Collections: Venkatesh starrer ...",
-          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 14 Updated 6 min ago · November 12, 2026 at 2:03 PM IST"
+          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 13 Updated 16 min ago · November 12, 2026 at 10:27 PM IST",
+          "Sacnilk: Aadarsha Kutumbam House No: 47 (AK 47) Box Office Collection Day 14 Updated 16 min ago · November 12, 2026 at 10:28 PM IST"
         ]
       },
       {
