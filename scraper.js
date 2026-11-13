@@ -908,6 +908,36 @@ async function processAndMergeData(currentData, collected, istClock) {
     };
   });
 
+  // Step F: Dynamically generate high-intent search keywords and trending search queries
+  const autoKws = new Set();
+  autoKws.add('Box Office Collection Live');
+  autoKws.add('Today Box Office Collection India');
+  autoKws.add('Sacnilk Box Office Today');
+  autoKws.add('Bollywood Box Office Live Tracker');
+  autoKws.add('Indian Cinema Day-wise Earnings');
+  autoKws.add('Live Theater Occupancy India');
+  autoKws.add('BookMyShow Ticket Velocity');
+
+  activeReleases.forEach(m => {
+    const rawTitle = m.title.replace(/\([^)]*\)/g, '').trim();
+    autoKws.add(`${rawTitle} Box Office Collection`);
+    autoKws.add(`${rawTitle} Day ${m.dayCount} Collection`);
+    autoKws.add(`${rawTitle} Worldwide Collection`);
+    autoKws.add(`${rawTitle} India Net`);
+    autoKws.add(`${rawTitle} Advance Booking Today`);
+    if (m.verdict) autoKws.add(`${rawTitle} Hit or Flop`);
+  });
+
+  if (Array.isArray(googleTrends)) {
+    googleTrends.forEach(t => {
+      if (typeof t === 'string' && t.length > 2 && t.length < 50) {
+        autoKws.add(t.replace(/<[^>]+>/g, '').trim());
+      }
+    });
+  }
+
+  updated.searchKeywords = Array.from(autoKws).slice(0, 40);
+
   updated.verificationReport = {
     lastVerifiedIST: istClock.timeStr,
     schedule: 'Twice Daily (12:00 PM IST & 09:30 PM IST)',

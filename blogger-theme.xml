@@ -497,6 +497,17 @@
           <span class='text-[10px] font-mono-num text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30'>AUTO-SEO SCHEMA ACTIVE</span>
         </div>
         <div class='grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-300' id='seo-summary-cards'/>
+        <!-- AUTO SEARCH KEYWORDS & TRENDING QUERIES HUB -->
+        <div class='mt-5 pt-4 border-t border-[#1F2937]'>
+          <div class='flex flex-wrap items-center justify-between gap-2 mb-3'>
+            <h3 class='text-xs font-mono-header tracking-wider text-emerald-400 uppercase flex items-center gap-1.5'>
+              <span class='w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse'/>
+              AUTO-GENERATED SEARCH KEYWORDS &amp; LIVE QUERIES
+            </h3>
+            <span class='text-[10px] text-gray-400'>Click any query to filter terminal live</span>
+          </div>
+          <div class='flex flex-wrap gap-1.5 text-xs' id='dynamic-search-keywords'/>
+        </div>
       </section>
 
     </main>
@@ -813,6 +824,46 @@
       }
       metaDesc.content = descText;
 
+      // DYNAMIC META KEYWORDS FOR SEARCH ENGINES & GOOGLE BOTS
+      const autoKws = [];
+      autoKws.push('Box Office Collection Live', 'Today Box Office Collection India', 'Sacnilk Box Office Today', 'Bollywood Box Office Live Tracker', 'India Net Collection', 'Worldwide Box Office Gross');
+      active.forEach(function(m) {
+        autoKws.push(m.title + ' Box Office Collection');
+        autoKws.push(m.title + ' Day ' + m.dayCount + ' Collection');
+        autoKws.push(m.title + ' Worldwide');
+        autoKws.push(m.title + ' Advance Booking');
+        if (m.verdict) autoKws.push(m.title + ' Hit or Flop');
+      });
+      if (boxOfficeData.searchKeywords && Array.isArray(boxOfficeData.searchKeywords)) {
+        boxOfficeData.searchKeywords.forEach(function(k) {
+          if (autoKws.indexOf(k) === -1) autoKws.push(k);
+        });
+      }
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.name = 'keywords';
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.content = autoKws.slice(0, 35).join(', ');
+
+      // DYNAMIC CANONICAL URL ENSURING HOMEPAGE IS RANKED FIRST BY GOOGLE
+      let canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (!canonicalLink) {
+        canonicalLink = document.createElement('link');
+        canonicalLink.rel = 'canonical';
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.href = 'https://boxofficecollectionlive.blogspot.com/';
+
+      // POPULATE INTERACTIVE SEARCH KEYWORDS ON HOMEPAGE
+      const kwBox = document.getElementById('dynamic-search-keywords');
+      if (kwBox) {
+        kwBox.innerHTML = autoKws.slice(0, 24).map(function(kw) {
+          return '<button type="button" onclick="filterByKeyword(\'' + kw.replace(/'/g, "\\'") + '\')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#090D16] border border-[#1F2937] hover:border-emerald-500/50 hover:text-emerald-400 text-gray-300 text-[11px] font-mono-num transition cursor-pointer"><span>#</span><span>' + kw + '</span></button>';
+        }).join('');
+      }
+
       const seoBox = document.getElementById('seo-summary-cards');
       if (seoBox) {
         seoBox.innerHTML = active.slice(0, 6).map(function(m) {
@@ -833,6 +884,19 @@
       const schemaPayload = {
         '@context': 'https://schema.org',
         '@graph': [
+          {
+            '@type': 'WebSite',
+            '@id': 'https://boxofficecollectionlive.blogspot.com/#website',
+            name: 'BoxOfficeCollectionLive',
+            url: 'https://boxofficecollectionlive.blogspot.com/',
+            description: 'Live Bollywood and Indian Cinema Quantitative Box Office Terminal, Day-Wise Collections, Occupancy & Worldwide Gross.',
+            keywords: autoKws.slice(0, 20).join(', '),
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://boxofficecollectionlive.blogspot.com/?q={search_term_string}',
+              'query-input': 'required name=search_term_string'
+            }
+          },
           {
             '@type': 'FAQPage',
             mainEntity: faqEntities
@@ -855,6 +919,17 @@
       }
       ldEl.textContent = JSON.stringify(schemaPayload);
     }
+
+    window.filterByKeyword = function(kw) {
+      const si = document.getElementById('movie-search-input');
+      if (!si) return;
+      let clean = kw.replace(/box office collection|collection|day \d+|worldwide|advance booking|total|today|live|hit or flop/gi, '').trim();
+      if (!clean) clean = kw;
+      si.value = clean;
+      renderBoards();
+      const sec = document.getElementById('market-boards-section');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+    };
 
     function initAutoSyncPolling() {
       const cdEl = document.getElementById('auto-sync-countdown');
