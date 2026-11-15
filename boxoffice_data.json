@@ -1,22 +1,22 @@
 {
-  "lastUpdated": "2026-11-14T17:09:59.326Z",
+  "lastUpdated": "2026-11-15T07:38:09.703Z",
   "marketStatus": {
     "status": "OPEN",
     "volatility": "EXTREME_BULLISH",
     "activeHoliday": "Diwali Extended Holiday Trading Session",
     "total24hVolumeNet": "₹136.42 Cr",
-    "totalActiveShows": 30350,
+    "totalActiveShows": 17090,
     "topGainer": "RAMAYANA (2026) (#1 TREND)",
     "marketDominance": "76.4% (Ramayana)",
     "autoRefreshIntervalSec": 30,
-    "lastSync": "10:39:57 pm"
+    "lastSync": "01:08:07 pm"
   },
   "tickerFeed": [
     {
       "symbol": "RAMAYANA",
       "title": "Ramayana (2026)",
-      "day": "Day 10",
-      "collection": "₹684.20 Cr",
+      "day": "Day 11",
+      "collection": "₹713.51 Cr",
       "change": 14.2,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -25,8 +25,8 @@
     {
       "symbol": "DONGA-NAA-",
       "title": "Donga Naa Koduku",
-      "day": "Day 2",
-      "collection": "₹3.72 Cr",
+      "day": "Day 3",
+      "collection": "₹4.41 Cr",
       "change": -10,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -35,8 +35,8 @@
     {
       "symbol": "ITLLU-ARJU",
       "title": "Itllu Arjuna",
-      "day": "Day 2",
-      "collection": "₹2.08 Cr",
+      "day": "Day 3",
+      "collection": "₹2.54 Cr",
       "change": -10,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -45,8 +45,8 @@
     {
       "symbol": "SCENE",
       "title": "Scene",
-      "day": "Day 9",
-      "collection": "₹120.09 Cr",
+      "day": "Day 10",
+      "collection": "₹130.04 Cr",
       "change": -40,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -55,8 +55,8 @@
     {
       "symbol": "BOUMA",
       "title": "Bouma",
-      "day": "Day 3",
-      "collection": "₹2.68 Cr",
+      "day": "Day 4",
+      "collection": "₹3.20 Cr",
       "change": -10,
       "status": "BULLISH",
       "type": "Active 15D",
@@ -65,7 +65,7 @@
     {
       "symbol": "MELCOW-PON",
       "title": "Melcow Pondicherry",
-      "day": "Day 2",
+      "day": "Day 3",
       "collection": "₹0.45 Cr",
       "change": -10,
       "status": "BULLISH",
@@ -75,8 +75,8 @@
     {
       "symbol": "M-AMMAN2",
       "title": "Mookuthi Amman 2",
-      "day": "Day 9",
-      "collection": "₹19.00 Cr",
+      "day": "Day 10",
+      "collection": "₹19.52 Cr",
       "change": -59.2,
       "status": "BEARISH",
       "type": "Active 15D",
@@ -85,7 +85,7 @@
     {
       "symbol": "AK47",
       "title": "Aadarsha Kutumbam (AK 47)",
-      "day": "Day 16",
+      "day": "Day 17",
       "collection": "₹48.57 Cr",
       "change": -18.5,
       "status": "BEARISH",
@@ -95,7 +95,7 @@
     {
       "symbol": "UDTA-TEER",
       "title": "Udta Teer",
-      "day": "Day 23",
+      "day": "Day 24",
       "collection": "₹34.20 Cr",
       "change": -22.4,
       "status": "BEARISH",
@@ -105,7 +105,7 @@
     {
       "symbol": "PYRE",
       "title": "Pyre",
-      "day": "Day 16",
+      "day": "Day 17",
       "collection": "₹9.65 Cr",
       "change": -32.1,
       "status": "BEARISH",
@@ -121,24 +121,24 @@
     "releaseDate": "2026-11-05",
     "director": "Nitesh Tiwari",
     "budget": "₹835 Cr",
-    "daysInTheaters": 10,
+    "daysInTheaters": 11,
     "tradingStatus": "STRONG BUY",
     "sentiment": "INSTITUTIONAL ACCUMULATION",
     "orderBlockVerdict": "MEGA BLOCKBUSTER SURGE",
     "liveVelocity": {
       "ticketsPerMin": 220,
       "inrPerSecond": 68500,
-      "baseIndiaNetCr": 684.2,
+      "baseIndiaNetCr": 713.51,
       "baseWorldwideCr": 1033.55,
       "peakShowVelocity": "Night Shows 91% Fast-Filling"
     },
     "keyMetrics": {
-      "indiaNet": "₹684.20 Cr",
-      "indiaGross": "₹817.95 Cr",
+      "indiaNet": "₹713.51 Cr",
+      "indiaGross": "₹852.43 Cr",
       "overseasGross": "₹408.50 Cr+",
       "worldwideTotal": "₹1033.55 Cr+",
-      "showCount": "22,031",
-      "avgOccupancy": "44%",
+      "showCount": "10,494",
+      "avgOccupancy": "41%",
       "totalFootfalls": "2.68 Cr",
       "atpAvgTicketPrice": "₹278.50"
     },
@@ -242,44 +242,54 @@
       },
       {
         "day": "Day 10",
-        "label": "D10 Live",
+        "label": "D10",
         "date": "2026-11-05",
-        "net": 71.5,
-        "gross": 85.45,
-        "change": 48.6,
-        "shows": 22031,
-        "occupancy": 44
+        "net": 72.9,
+        "gross": 87,
+        "change": 51.6,
+        "shows": 24000,
+        "occupancy": 70
+      },
+      {
+        "day": "Day 11",
+        "label": "D11 Live",
+        "date": "2026-11-05",
+        "net": 27.91,
+        "gross": 32.93,
+        "change": -61.7,
+        "shows": 10494,
+        "occupancy": 41
       }
     ],
     "languageBreakdown": [
       {
         "language": "Hindi",
-        "amount": 526.5,
-        "percentage": 77,
+        "amount": 546.69,
+        "percentage": 76.6,
         "color": "#10B981"
       },
       {
         "language": "Kannada",
-        "amount": 56.95,
-        "percentage": 8.3,
+        "amount": 60.08,
+        "percentage": 8.4,
         "color": "#06B6D4"
       },
       {
         "language": "Telugu",
-        "amount": 44.8,
+        "amount": 46.64,
         "percentage": 6.5,
         "color": "#F59E0B"
       },
       {
         "language": "Tamil",
-        "amount": 29.65,
-        "percentage": 4.3,
+        "amount": 31.57,
+        "percentage": 4.4,
         "color": "#8B5CF6"
       },
       {
         "language": "Malayalam",
-        "amount": 26.3,
-        "percentage": 3.8,
+        "amount": 28.53,
+        "percentage": 4,
         "color": "#EC4899"
       }
     ],
@@ -341,7 +351,7 @@
         "peakTime": "Night: 67%"
       }
     ],
-    "advanceBooking": "Day 11 advance: ₹38.35 Cr so far",
+    "advanceBooking": "Day 12 advance: ₹10.24 Cr so far",
     "showTimingOccupancy": [
       {
         "language": "Hindi (3D)",
@@ -385,33 +395,33 @@
       {
         "label": "TOTAL FOOTFALLS",
         "value": "2.68 Cr",
-        "sub": "Day 10 cumulative admissions"
+        "sub": "Day 11 cumulative admissions"
       },
       {
         "label": "NEXT-DAY ADVANCE",
-        "value": "Day 11 advance: ₹38.35 Cr so far",
+        "value": "Day 12 advance: ₹10.24 Cr so far",
         "sub": "Pre-sales & show velocity tracker"
       },
       {
         "label": "BMS TICKET PACE",
         "value": "16.60L Peak Day / 1.40L Hr",
-        "sub": "Active BMS Buzz Signals: 28"
+        "sub": "Active BMS Buzz Signals: 27"
       },
       {
-        "label": "Sacnilk Verified",
-        "value": "Ramayana Scores Biggest Second Friday Collection in India, and Second Biggest in Hindi, Behind Dhurandhar 2"
+        "label": "Pinkvilla Verified",
+        "value": "Daily Box Office Collection Records in India: Ranbir Kapoor and Yash starrer Ramayana P..."
       },
       {
-        "label": "Sacnilk Verified",
-        "value": "Ramayana Creates History as First Bollywood Film to Cross ₹50 Crore Kannada Net and Second to Top ₹100 Crore Gross in Karnataka"
+        "label": "Pinkvilla Verified",
+        "value": "Box Office: Ramayana becomes only Indian film to record Rs 100 crore plus worldwide for..."
       },
       {
-        "label": "Sacnilk Verified",
-        "value": "1 Ramayana Eyes Another 150 Crore Worldwide On Day 6 as It Sets All Time Record"
+        "label": "Pinkvilla Verified",
+        "value": "Box Office: Ramayana scripts history in Kerala, emerges biggest Hindi grosser in just 6..."
       },
       {
-        "label": "Sacnilk Verified",
-        "value": "3 Ramayana Creates BookMyShow History With 1.10 Lakh Plus Tickets in an Hour, Surpasses Dhurandhar 2 and Pushpa 2"
+        "label": "Pinkvilla Verified",
+        "value": "Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer tops USD 30M O..."
       }
     ]
   },
@@ -421,21 +431,21 @@
       "title": "Ramayana (2026)",
       "poster": "posters/ramayana.jpg",
       "releaseDate": "2026-11-05",
-      "dayCount": 10,
+      "dayCount": 11,
       "category": "Pan-India",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
       "orderBlock": "Mega Institutional Surge",
       "verdict": "Mega Blockbuster Surge",
-      "dayNet": "₹18.13 Cr*",
-      "totalNet": "₹684.20 Cr",
+      "dayNet": "₹27.91 Cr*",
+      "totalNet": "₹713.51 Cr",
       "worldwide": "₹1033.55 Cr",
-      "baseNetNum": 684.2,
+      "baseNetNum": 713.51,
       "baseWwNum": 1033.55,
       "ticketsPerMin": 220,
       "dayChange": 14.2,
-      "shows": 22031,
-      "occupancy": 44,
+      "shows": 10494,
+      "occupancy": 41,
       "dominantMarket": "Pan-India (Hindi Lead)",
       "supportLevel": "₹45 Cr/day",
       "resistanceLevel": "₹1,000 Cr WW",
@@ -449,8 +459,8 @@
         94.1,
         29.2
       ],
-      "trendScore": 464.52,
-      "bmsBuzzSignals": 28,
+      "trendScore": 475.86,
+      "bmsBuzzSignals": 27,
       "googleTrending": false
     },
     {
@@ -458,20 +468,20 @@
       "title": "Donga Naa Koduku",
       "poster": "https://cdn.sacnilk.com/image/movie/2026/14565.jpg",
       "releaseDate": "2026-11-13",
-      "dayCount": 2,
+      "dayCount": 3,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
       "orderBlock": "Trending BMS Accumulation",
       "verdict": "Fresh Release",
-      "dayNet": "₹1.87 Cr*",
-      "totalNet": "₹3.72 Cr",
-      "worldwide": "₹5.01 Cr",
-      "baseNetNum": 3.72,
-      "baseWwNum": 5.01,
-      "ticketsPerMin": 51,
+      "dayNet": "₹0.56 Cr*",
+      "totalNet": "₹4.41 Cr",
+      "worldwide": "₹5.88 Cr",
+      "baseNetNum": 4.41,
+      "baseWwNum": 5.88,
+      "ticketsPerMin": 41,
       "dayChange": -10,
-      "shows": 993,
+      "shows": 462,
       "occupancy": 24,
       "dominantMarket": "Regional",
       "supportLevel": "₹0.20 Cr",
@@ -482,7 +492,7 @@
         0.15,
         0.2
       ],
-      "trendScore": 158.45,
+      "trendScore": 150.12,
       "bmsBuzzSignals": 9,
       "googleTrending": false
     },
@@ -491,20 +501,20 @@
       "title": "Itllu Arjuna",
       "poster": "https://cdn.sacnilk.com/image/movie/2026/14562.jpg",
       "releaseDate": "2026-11-13",
-      "dayCount": 2,
+      "dayCount": 3,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
       "orderBlock": "Trending BMS Accumulation",
       "verdict": "Fresh Release",
-      "dayNet": "₹1.03 Cr*",
-      "totalNet": "₹2.08 Cr",
-      "worldwide": "₹2.82 Cr",
-      "baseNetNum": 2.08,
-      "baseWwNum": 2.82,
-      "ticketsPerMin": 29,
+      "dayNet": "₹0.33 Cr*",
+      "totalNet": "₹2.54 Cr",
+      "worldwide": "₹3.45 Cr",
+      "baseNetNum": 2.54,
+      "baseWwNum": 3.45,
+      "ticketsPerMin": 31,
       "dayChange": -10,
-      "shows": 860,
+      "shows": 380,
       "occupancy": 24,
       "dominantMarket": "Regional",
       "supportLevel": "₹0.20 Cr",
@@ -515,8 +525,8 @@
         0.12,
         0.16
       ],
-      "trendScore": 136.85,
-      "bmsBuzzSignals": 5,
+      "trendScore": 145.65,
+      "bmsBuzzSignals": 7,
       "googleTrending": false
     },
     {
@@ -524,20 +534,20 @@
       "title": "Scene",
       "poster": "posters/scene.jpg",
       "releaseDate": "2026-11-06",
-      "dayCount": 9,
+      "dayCount": 10,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
       "orderBlock": "Trending BMS Accumulation",
       "verdict": "Heavy Drop",
-      "dayNet": "₹2.39 Cr*",
-      "totalNet": "₹120.09 Cr",
-      "worldwide": "₹160.45 Cr",
-      "baseNetNum": 120.09,
-      "baseWwNum": 160.45,
-      "ticketsPerMin": 20,
+      "dayNet": "₹2.84 Cr*",
+      "totalNet": "₹130.04 Cr",
+      "worldwide": "₹173.76 Cr",
+      "baseNetNum": 130.04,
+      "baseWwNum": 173.76,
+      "ticketsPerMin": 23,
       "dayChange": -40,
-      "shows": 1843,
+      "shows": 1911,
       "occupancy": 18.2,
       "dominantMarket": "Tamil / Malayalam",
       "supportLevel": "₹1.2 Cr",
@@ -550,7 +560,7 @@
         2.3,
         1.45
       ],
-      "trendScore": 127.69,
+      "trendScore": 127.61,
       "bmsBuzzSignals": 0,
       "googleTrending": false
     },
@@ -559,20 +569,20 @@
       "title": "Bouma",
       "poster": "https://cdn.sacnilk.com/image/movie/2026/14563.jpg",
       "releaseDate": "2026-11-12",
-      "dayCount": 3,
+      "dayCount": 4,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
       "orderBlock": "Trending BMS Accumulation",
       "verdict": "Fresh Release",
-      "dayNet": "₹1.28 Cr*",
-      "totalNet": "₹2.68 Cr",
-      "worldwide": "₹3.61 Cr",
-      "baseNetNum": 2.68,
-      "baseWwNum": 3.61,
-      "ticketsPerMin": 22,
+      "dayNet": "₹0.37 Cr*",
+      "totalNet": "₹3.20 Cr",
+      "worldwide": "₹4.29 Cr",
+      "baseNetNum": 3.2,
+      "baseWwNum": 4.29,
+      "ticketsPerMin": 15,
       "dayChange": -10,
-      "shows": 660,
+      "shows": 278,
       "occupancy": 24,
       "dominantMarket": "Regional",
       "supportLevel": "₹0.20 Cr",
@@ -583,7 +593,7 @@
         1.26,
         0.28
       ],
-      "trendScore": 123,
+      "trendScore": 116.83,
       "bmsBuzzSignals": 3,
       "googleTrending": false
     },
@@ -592,7 +602,7 @@
       "title": "Melcow Pondicherry",
       "poster": "https://cdn.sacnilk.com/image/movie/2026/14571.jpg",
       "releaseDate": "2026-11-13",
-      "dayCount": 2,
+      "dayCount": 3,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BULLISH",
@@ -603,7 +613,7 @@
       "worldwide": "₹0.62 Cr",
       "baseNetNum": 0.45,
       "baseWwNum": 0.62,
-      "ticketsPerMin": 15,
+      "ticketsPerMin": 11,
       "dayChange": -10,
       "shows": 439,
       "occupancy": 24,
@@ -616,8 +626,8 @@
         0.05,
         0.07
       ],
-      "trendScore": 98.78,
-      "bmsBuzzSignals": 3,
+      "trendScore": 87.28,
+      "bmsBuzzSignals": 2,
       "googleTrending": false
     },
     {
@@ -625,20 +635,20 @@
       "title": "Mookuthi Amman 2",
       "poster": "posters/mookuthi-amman-2.jpg",
       "releaseDate": "2026-11-06",
-      "dayCount": 9,
+      "dayCount": 10,
       "category": "Regional",
       "classification": "Last 15 Days",
       "sentiment": "BEARISH",
       "orderBlock": "Order Block Breakdown / Capitulation",
       "verdict": "Severe Capitulation",
-      "dayNet": "₹0.60 Cr*",
-      "totalNet": "₹19.00 Cr",
-      "worldwide": "₹25.28 Cr",
-      "baseNetNum": 19,
-      "baseWwNum": 25.28,
-      "ticketsPerMin": 6,
+      "dayNet": "₹0.27 Cr*",
+      "totalNet": "₹19.52 Cr",
+      "worldwide": "₹25.96 Cr",
+      "baseNetNum": 19.52,
+      "baseWwNum": 25.96,
+      "ticketsPerMin": 3,
       "dayChange": -59.2,
-      "shows": 769,
+      "shows": 371,
       "occupancy": 9.4,
       "dominantMarket": "Tamil",
       "supportLevel": "₹0.20 Cr",
@@ -651,7 +661,7 @@
         0.38,
         0.24
       ],
-      "trendScore": 88.87,
+      "trendScore": 85.35,
       "bmsBuzzSignals": 0,
       "googleTrending": false
     },
@@ -660,7 +670,7 @@
       "title": "Aadarsha Kutumbam (AK 47)",
       "poster": "posters/ak47.jpg",
       "releaseDate": "2026-10-30",
-      "dayCount": 16,
+      "dayCount": 17,
       "category": "Regional",
       "classification": "Holdover Benchmark",
       "sentiment": "BEARISH",
@@ -697,7 +707,7 @@
       "title": "Udta Teer",
       "poster": "posters/udta-teer.jpg",
       "releaseDate": "2026-10-23",
-      "dayCount": 23,
+      "dayCount": 24,
       "category": "Pan-India",
       "classification": "Holdover Benchmark",
       "sentiment": "BEARISH",
@@ -734,7 +744,7 @@
       "title": "Pyre",
       "poster": "posters/pyre.jpg",
       "releaseDate": "2026-10-30",
-      "dayCount": 16,
+      "dayCount": 17,
       "category": "Regional",
       "classification": "Holdover Benchmark",
       "sentiment": "BEARISH",
@@ -762,13 +772,13 @@
         0.45,
         0.31
       ],
-      "trendScore": 37.43,
+      "trendScore": 34.43,
       "bmsBuzzSignals": 0,
       "googleTrending": false
     }
   ],
   "verificationReport": {
-    "lastVerifiedIST": "2026-11-14 10:39:57 pm IST",
+    "lastVerifiedIST": "2026-11-15 01:08:07 pm IST",
     "schedule": "Twice Daily (12:00 PM IST & 09:30 PM IST)",
     "lifecyclePolicy": "Auto-Add Weekly (<15d) | Active 15d | Auto-Remove >30d | Ranked by Collection + BMS/Search Buzz",
     "autoDiscoveredNew": [],
@@ -780,137 +790,107 @@
         "domain": "sacnilk.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 209
+        "headlineCount": 225
       },
       {
         "name": "Bollywood Hungama",
         "domain": "bollywoodhungama.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 200
+        "headlineCount": 182
       },
       {
         "name": "Box Office India",
         "domain": "boxofficeindia.com",
         "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 9
+        "headlineCount": 10
       },
       {
         "name": "Koimoi",
         "domain": "koimoi.com",
         "directStatus": 403,
         "rssStatus": 200,
-        "headlineCount": 113
+        "headlineCount": 115
       },
       {
         "name": "Pinkvilla",
         "domain": "pinkvilla.com",
         "directStatus": 200,
         "rssStatus": 200,
-        "headlineCount": 126
+        "headlineCount": 119
       }
     ],
-    "totalSignalsCollected": 657,
+    "totalSignalsCollected": 651,
     "verifiedUpdates": [
       {
         "movie": "Ramayana (2026)",
-        "day": 10,
-        "trendScore": 464.52,
+        "day": 11,
+        "trendScore": 475.86,
         "sourcesMatched": [
           "Bollywood Hungama",
-          "Sacnilk",
           "Pinkvilla",
-          "Koimoi",
-          "Box Office India"
+          "Sacnilk",
+          "Box Office India",
+          "Koimoi"
         ],
-        "bmsSignals": 28,
+        "bmsSignals": 27,
         "consensusApplied": true,
         "sampleHeadlines": [
           "Bollywood Hungama: Ramayana – Part I Box Office",
-          "Sacnilk: Ramayana Scores Biggest Second Friday Collection in India, and Second Biggest in Hindi, Behind Dhurandhar 2"
-        ]
-      },
-      {
-        "movie": "Itllu Arjuna",
-        "day": 2,
-        "trendScore": 136.85,
-        "sourcesMatched": [
-          "Sacnilk",
-          "Pinkvilla",
-          "Koimoi"
-        ],
-        "bmsSignals": 5,
-        "consensusApplied": true,
-        "sampleHeadlines": [
-          "Sacnilk: Itllu Arjuna Box Office Collection Day 2 Updated 27 min ago · November 14, 2026 at 10:03 PM IST",
-          "Sacnilk: Itllu Arjuna Sacnilk Day 2 Live: ₹1.03 Cr today, Total India Net ₹2.08 Cr across 860 shows"
+          "Pinkvilla: Ramayana Part One Box Office Collections: Ranbir Kapoor and Yash starrer nets Rs. 70 Cr on 2nd Saturday"
         ]
       },
       {
         "movie": "Donga Naa Koduku",
-        "day": 2,
-        "trendScore": 158.45,
+        "day": 3,
+        "trendScore": 150.12,
         "sourcesMatched": [
           "Sacnilk"
         ],
         "bmsSignals": 9,
         "consensusApplied": true,
         "sampleHeadlines": [
-          "Sacnilk: Donga Naa Koduku Box Office Collection Day 2 Updated 27 min ago · November 14, 2026 at 10:03 PM IST",
-          "Sacnilk: Donga Naa Koduku Box Office Collection Day 1 Updated 22 hrs ago · November 14, 2026 at 12:06 AM IST"
+          "Sacnilk: Donga Naa Koduku Box Office Collection Day 3 Updated 51 min ago · November 15, 2026 at 12:06 PM IST",
+          "Sacnilk: Donga Naa Koduku Box Office Collection Day 2 Updated 12 hrs ago · November 15, 2026 at 12:06 AM IST"
         ]
       },
       {
-        "movie": "Scene",
-        "day": 9,
-        "trendScore": 127.69,
+        "movie": "Itllu Arjuna",
+        "day": 3,
+        "trendScore": 145.65,
         "sourcesMatched": [
           "Sacnilk",
           "Pinkvilla",
           "Koimoi"
         ],
-        "bmsSignals": 0,
-        "consensusApplied": false,
+        "bmsSignals": 7,
+        "consensusApplied": true,
         "sampleHeadlines": [
-          "Sacnilk: Box Office Just now 46.7K views Scene Box Office Collection | All Language | Day Wise | Worldwide",
-          "Sacnilk: Scene Box Office Collection Day 9 Updated just now · November 14, 2026 at 10:30 PM IST"
+          "Sacnilk: Itllu Arjuna Box Office Collection Day 3 Updated 51 min ago · November 15, 2026 at 12:06 PM IST",
+          "Sacnilk: Itllu Arjuna Sacnilk Day 3 Live: ₹0.33 Cr today, Total India Net ₹2.54 Cr across 380 shows"
         ]
       },
       {
-        "movie": "Mookuthi Amman 2",
-        "day": 9,
-        "trendScore": 88.87,
+        "movie": "Scene",
+        "day": 10,
+        "trendScore": 127.61,
         "sourcesMatched": [
+          "Pinkvilla",
           "Sacnilk",
           "Koimoi"
         ],
         "bmsSignals": 0,
         "consensusApplied": true,
         "sampleHeadlines": [
-          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 9 Updated 27 min ago · November 14, 2026 at 10:03 PM IST",
-          "Sacnilk: Mookuthi Amman 2 Sacnilk Day 9 Live: ₹0.6 Cr today, Total India Net ₹19 Cr across 769 shows"
-        ]
-      },
-      {
-        "movie": "Melcow Pondicherry",
-        "day": 2,
-        "trendScore": 98.78,
-        "sourcesMatched": [
-          "Sacnilk",
-          "Koimoi"
-        ],
-        "bmsSignals": 3,
-        "consensusApplied": true,
-        "sampleHeadlines": [
-          "Sacnilk: Melcow Pondicherry Box Office Collection Day 2 Updated 27 min ago · November 14, 2026 at 10:03 PM IST",
-          "Sacnilk: Melcow Pondicherry Sacnilk Day 2 Live: ₹0.2 Cr today, Total India Net ₹0.45 Cr across 439 shows"
+          "Pinkvilla: Scene Day 6 Box Office Collections: Suriya and Nazriya starrer collects Rs 8 crore on 1...",
+          "Pinkvilla: Scene India Box Office Collections: Suriya starrer collects Rs 13 crore on 1st Tuesday,..."
         ]
       },
       {
         "movie": "Bouma",
-        "day": 3,
-        "trendScore": 123,
+        "day": 4,
+        "trendScore": 116.83,
         "sourcesMatched": [
           "Sacnilk",
           "Koimoi",
@@ -919,26 +899,43 @@
         "bmsSignals": 3,
         "consensusApplied": true,
         "sampleHeadlines": [
-          "Sacnilk: Bouma Box Office Collection Day 3 Updated 27 min ago · November 14, 2026 at 10:03 PM IST",
-          "Sacnilk: Bouma Sacnilk Day 3 Live: ₹1.28 Cr today, Total India Net ₹2.68 Cr across 660 shows"
+          "Sacnilk: Bouma Box Office Collection Day 4 Updated 51 min ago · November 15, 2026 at 12:06 PM IST",
+          "Sacnilk: Bouma Sacnilk Day 4 Live: ₹0.37 Cr today, Total India Net ₹3.2 Cr across 278 shows"
         ]
       },
       {
-        "movie": "Udta Teer",
-        "day": 23,
-        "trendScore": 49.83,
+        "movie": "Melcow Pondicherry",
+        "day": 3,
+        "trendScore": 87.28,
         "sourcesMatched": [
-          "Bollywood Hungama"
+          "Sacnilk",
+          "Koimoi"
         ],
-        "bmsSignals": 0,
+        "bmsSignals": 2,
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Bollywood Hungama: Udta Teer Bollywood Hungama Table: Lifetime ₹47.5 Cr"
+          "Sacnilk: Melcow Pondicherry Box Office Collection Day 3 Updated 11 hrs ago · November 15, 2026 at 1:29 AM IST",
+          "Koimoi: Melcow Pondicherry Box Office Day 1: Arjun Ashokan Registers One Of Mollywood's Lowest Openings Of 2026 - Koimoi"
+        ]
+      },
+      {
+        "movie": "Mookuthi Amman 2",
+        "day": 10,
+        "trendScore": 85.35,
+        "sourcesMatched": [
+          "Sacnilk",
+          "Koimoi"
+        ],
+        "bmsSignals": 0,
+        "consensusApplied": true,
+        "sampleHeadlines": [
+          "Sacnilk: Mookuthi Amman 2 Box Office Collection Day 10 Updated 51 min ago · November 15, 2026 at 12:06 PM IST",
+          "Sacnilk: Mookuthi Amman 2 Sacnilk Day 10 Live: ₹0.27 Cr today, Total India Net ₹19.52 Cr across 371 shows"
         ]
       },
       {
         "movie": "Aadarsha Kutumbam (AK 47)",
-        "day": 16,
+        "day": 17,
         "trendScore": 51.42,
         "sourcesMatched": [
           "Koimoi"
@@ -951,17 +948,29 @@
         ]
       },
       {
-        "movie": "Pyre",
-        "day": 16,
-        "trendScore": 37.43,
+        "movie": "Udta Teer",
+        "day": 24,
+        "trendScore": 49.83,
         "sourcesMatched": [
           "Bollywood Hungama"
         ],
         "bmsSignals": 0,
         "consensusApplied": false,
         "sampleHeadlines": [
-          "Bollywood Hungama: Pyre Bollywood Hungama Table: Lifetime ₹2.4 Cr",
-          "Bollywood Hungama: Pyre Box Office: Vinod Kapri’s film REFUSES to slow down despite Ramayana TSUNAMI; beats Tu Hai Meri Kiran, Prem Keetanu and many other Oct releases; for the FIRST time ever, Haldwani sells more tickets than Mumbai - Bollywood Hungama"
+          "Bollywood Hungama: Udta Teer Bollywood Hungama Table: Lifetime ₹47.75 Cr"
+        ]
+      },
+      {
+        "movie": "Pyre",
+        "day": 17,
+        "trendScore": 34.43,
+        "sourcesMatched": [
+          "Bollywood Hungama"
+        ],
+        "bmsSignals": 0,
+        "consensusApplied": false,
+        "sampleHeadlines": [
+          "Bollywood Hungama: Pyre Bollywood Hungama Table: Lifetime ₹2.64 Cr"
         ]
       }
     ]
@@ -1041,37 +1050,37 @@
     "Live Theater Occupancy India",
     "BookMyShow Ticket Velocity",
     "Ramayana Box Office Collection",
-    "Ramayana Day 10 Collection",
+    "Ramayana Day 11 Collection",
     "Ramayana Worldwide Collection",
     "Ramayana India Net",
     "Ramayana Advance Booking Today",
     "Ramayana Hit or Flop",
     "Donga Naa Koduku Box Office Collection",
-    "Donga Naa Koduku Day 2 Collection",
+    "Donga Naa Koduku Day 3 Collection",
     "Donga Naa Koduku Worldwide Collection",
     "Donga Naa Koduku India Net",
     "Donga Naa Koduku Advance Booking Today",
     "Donga Naa Koduku Hit or Flop",
     "Itllu Arjuna Box Office Collection",
-    "Itllu Arjuna Day 2 Collection",
+    "Itllu Arjuna Day 3 Collection",
     "Itllu Arjuna Worldwide Collection",
     "Itllu Arjuna India Net",
     "Itllu Arjuna Advance Booking Today",
     "Itllu Arjuna Hit or Flop",
     "Scene Box Office Collection",
-    "Scene Day 9 Collection",
+    "Scene Day 10 Collection",
     "Scene Worldwide Collection",
     "Scene India Net",
     "Scene Advance Booking Today",
     "Scene Hit or Flop",
     "Bouma Box Office Collection",
-    "Bouma Day 3 Collection",
+    "Bouma Day 4 Collection",
     "Bouma Worldwide Collection",
     "Bouma India Net",
     "Bouma Advance Booking Today",
     "Bouma Hit or Flop",
     "Melcow Pondicherry Box Office Collection",
-    "Melcow Pondicherry Day 2 Collection",
+    "Melcow Pondicherry Day 3 Collection",
     "Melcow Pondicherry Worldwide Collection"
   ]
 }
