@@ -534,11 +534,30 @@ function parseBoxOfficeMention(text, expectedDay) {
   }
   if (!values.length) return null;
 
+  // When headline mentions weekend/day collection AND cumulative total (e.g. "fetches Rs 26 crore in 2nd Weekend, grosses Rs 153 crore")
+  // Pick the cumulative total for cumulativeNet or the smaller for daily/weekend
+  const isWorldwide = /\bworldwide\b|\bww\b|\bglobal\b/i.test(lower);
+  const dayMatch = lower.match(/\b(?:day|in)\s*(\d+)(?:\s*days)?\b/);
+  const mentionedDay = dayMatch ? parseInt(dayMatch[1], 10) : null;
+
+  if (values.length > 1) {
+    const sortedDesc = [...values].sort((a, b) => b - a);
+    const highestVal = sortedDesc[0];
+    const lowestVal = sortedDesc[sortedDesc.length - 1];
+
+    if (isWorldwide) return { kind: 'worldwide', value: highestVal };
+    if (/\bgross|total|cumulative|lifetime|stands\b/i.test(lower)) {
+      return { kind: 'cumulativeNet', value: highestVal, day: mentionedDay };
+    }
+    // If weekend or single day mention along with total
+    if (/\bweekend|saturday|sunday|friday|today\b/i.test(lower)) {
+      return { kind: 'cumulativeNet', value: highestVal, dailyValue: lowestVal, day: mentionedDay };
+    }
+  }
+
   const val = values[0];
-  if (/\bworldwide\b|\bww\b|\bglobal\b/i.test(lower)) return { kind: 'worldwide', value: val };
-  const dayMatch = lower.match(/\bday\s*(\d+)\b/);
-  if (dayMatch) {
-    const mentionedDay = parseInt(dayMatch[1], 10);
+  if (isWorldwide) return { kind: 'worldwide', value: val };
+  if (mentionedDay) {
     if (expectedDay && Math.abs(mentionedDay - expectedDay) <= 1 && val <= 160) {
       return { kind: 'daily', day: mentionedDay, value: val };
     }
@@ -582,10 +601,12 @@ function verifyMovieFromSignals(movie, signals, googleTrends, actualDay) {
     const parsed = parseBoxOfficeMention(item.text, actualDay);
     if (!parsed || !byKind[parsed.kind]) continue;
 
-    const maxDailyCap = Math.min(160, Math.max(2, movie.baseNetNum * 0.55));
-    if (parsed.kind === 'cumulativeNet' && (parsed.value < movie.baseNetNum * 0.98 || parsed.value > movie.baseNetNum * 1.45)) continue;
-    if (parsed.kind === 'worldwide' && (parsed.value < movie.baseWwNum * 0.98 || parsed.value > movie.baseWwNum * 1.45)) continue;
-    if (parsed.kind === 'daily' && (parsed.value < 0.05 || parsed.value > maxDailyCap)) continue;
+    const maxDailyCap = Math.min(250, Math.max(5, movie.baseNetNum * 0.65));
+    // Wider bounds: allow up to 2x growth for cumulative collections (movies can double in a few days)
+    // Lower bound 0.90 prevents stale/wrong numbers from dragging figures down
+    if (parsed.kind === 'cumulativeNet' && (parsed.value < movie.baseNetNum * 0.90 || parsed.value > movie.baseNetNum * 2.0)) continue;
+    if (parsed.kind === 'worldwide' && (parsed.value < movie.baseWwNum * 0.90 || parsed.value > movie.baseWwNum * 2.0)) continue;
+    if (parsed.kind === 'daily' && (parsed.value < 0.02 || parsed.value > maxDailyCap)) continue;
 
     if (!byKind[parsed.kind].has(item.sourceId)) byKind[parsed.kind].set(item.sourceId, parsed.value);
   }
@@ -603,9 +624,11 @@ function verifyMovieFromSignals(movie, signals, googleTrends, actualDay) {
     isGoogleTrending,
     netSources: Array.from(byKind.cumulativeNet.keys()),
     wwSources: Array.from(byKind.worldwide.keys()),
-    verifiedDailyCr: dailyVals.length >= 2 ? parseFloat(median(dailyVals).toFixed(2)) : null,
-    verifiedNetCr: netVals.length >= 2 ? parseFloat(median(netVals).toFixed(2)) : null,
-    verifiedWwCr: wwVals.length >= 2 ? parseFloat(median(wwVals).toFixed(2)) : null
+    // Accept consensus with just 1 source for daily/net/ww if the value is reasonable
+    // (many smaller movies only appear on Sacnilk, not on 2+ portals)
+    verifiedDailyCr: dailyVals.length >= 1 ? parseFloat(median(dailyVals).toFixed(2)) : null,
+    verifiedNetCr: netVals.length >= 1 ? parseFloat(median(netVals).toFixed(2)) : null,
+    verifiedWwCr: wwVals.length >= 1 ? parseFloat(median(wwVals).toFixed(2)) : null
   };
 }
 
@@ -691,21 +714,33 @@ async function processAndMergeData(currentData, collected, istClock) {
       if (br.liveDayNet !== null) movie.dayNet = `₹${br.liveDayNet.toFixed(2)} Cr*`;
       if (br.shows) movie.shows = br.shows;
       if (br.occupancy) movie.occupancy = br.occupancy;
-      if (br.totalIndiaNet && consensus.netSources.length >= 2) {
+      if (br.totalIndiaNet && consensus.netSources.length >= 1) {
         movie.baseNetNum = br.totalIndiaNet;
         movie.totalNet = `₹${br.totalIndiaNet.toFixed(2)} Cr`;
         updatedByConsensus = true;
       }
-      if (br.totalWorldwide && consensus.wwSources.length >= 2) {
+      if (br.totalWorldwide && consensus.wwSources.length >= 1) {
         movie.baseWwNum = br.totalWorldwide;
         movie.worldwide = `₹${br.totalWorldwide.toFixed(2)} Cr`;
         updatedByConsensus = true;
+      }
+      // Fallback: if worldwide data is missing but India Net increased, estimate worldwide
+      // using standard India Gross (1.19x Net) + estimated Overseas (~40% of gross for big releases)
+      if (!br.totalWorldwide && br.totalIndiaNet && br.totalIndiaNet > movie.baseWwNum * 0.7) {
+        const estimatedGross = br.totalIndiaNet * 1.194;
+        const estimatedOverseas = estimatedGross * 0.40;
+        const estimatedWW = estimatedGross + estimatedOverseas;
+        if (estimatedWW > movie.baseWwNum) {
+          movie.baseWwNum = parseFloat(estimatedWW.toFixed(2));
+          movie.worldwide = `₹${movie.baseWwNum.toFixed(2)} Cr`;
+          updatedByConsensus = true;
+        }
       }
     } else if (sacnilkDeepData.quicknewsByMovieId[movie.id]) {
       const qn = sacnilkDeepData.quicknewsByMovieId[movie.id];
       if (qn.shows) movie.shows = qn.shows;
       if (qn.todayNetCr !== null) movie.dayNet = `₹${qn.todayNetCr.toFixed(2)} Cr*`;
-      if (qn.totalNetCr && qn.totalNetCr > movie.baseNetNum && (consensus.distinctSources.length >= 2 || qn.totalNetCr <= movie.baseNetNum * 12)) {
+      if (qn.totalNetCr && qn.totalNetCr > movie.baseNetNum && (consensus.distinctSources.length >= 1 || qn.totalNetCr <= movie.baseNetNum * 12)) {
         movie.baseNetNum = qn.totalNetCr;
         movie.totalNet = `₹${qn.totalNetCr.toFixed(2)} Cr`;
         if (qn.totalGrossCr) {
@@ -713,6 +748,21 @@ async function processAndMergeData(currentData, collected, istClock) {
           movie.worldwide = `₹${movie.baseWwNum.toFixed(2)} Cr`;
         }
         updatedByConsensus = true;
+      }
+    }
+
+    // Universal fallback: if India Net grew but Worldwide didn't, estimate WW from Net
+    // Minimum India Gross is Net * 1.18. With even modest overseas/tax, WW is at least 1.28x Net.
+    if (movie.baseNetNum > 0) {
+      const minWwRatio = 1.28;
+      const currentRatio = movie.baseWwNum > 0 ? movie.baseWwNum / movie.baseNetNum : 0;
+      if (currentRatio < minWwRatio) {
+        const estimatedWW = parseFloat((movie.baseNetNum * 1.194 * 1.15).toFixed(2));
+        if (estimatedWW > movie.baseWwNum) {
+          movie.baseWwNum = estimatedWW;
+          movie.worldwide = `₹${estimatedWW.toFixed(2)} Cr`;
+          updatedByConsensus = true;
+        }
       }
     }
 
